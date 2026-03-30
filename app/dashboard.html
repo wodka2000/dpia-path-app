@@ -512,18 +512,52 @@ async function refreshData() {
   const url = CONFIG.sheetUrl || (typeof DPIA_CONFIG !== 'undefined' && DPIA_CONFIG.APPS_SCRIPT_URL) || '';
 
   if(url) {
+    // Metodo 1: fetch diretto
     try {
       const resp = await fetch(url + '?action=getAll', { redirect: 'follow' });
-      const text = await resp.text();
-      const data = JSON.parse(text);
+      if(resp.ok) {
+        const text = await resp.text();
+        const data = JSON.parse(text);
+        if(Array.isArray(data)) {
+          submissions = data;
+          saveLocal(submissions);
+          loadComments();
+          render();
+          return;
+        }
+      }
+    } catch(e) {
+      console.log('Fetch diretto fallito, provo metodo alternativo...', e);
+    }
+
+    // Metodo 2: via script tag (aggira CORS)
+    try {
+      const data = await new Promise((resolve, reject) => {
+        const cbName = '_dpiaCallback_' + Date.now();
+        const timeout = setTimeout(() => { reject('timeout'); delete window[cbName]; }, 8000);
+        window[cbName] = function(d) {
+          clearTimeout(timeout);
+          delete window[cbName];
+          resolve(d);
+        };
+        const script = document.createElement('script');
+        script.src = url + '?action=getAll&callback=' + cbName;
+        script.onerror = () => { clearTimeout(timeout); reject('script error'); };
+        document.head.appendChild(script);
+        script.onload = () => document.head.removeChild(script);
+      });
       if(Array.isArray(data)) {
         submissions = data;
         saveLocal(submissions);
+        loadComments();
+        render();
+        return;
       }
-    } catch(e) {
-      console.error('Errore nel caricamento da Google Sheets:', e);
-      submissions = loadLocal();
+    } catch(e2) {
+      console.log('Anche metodo script fallito, uso dati locali', e2);
     }
+
+    submissions = loadLocal();
   } else {
     submissions = loadLocal();
   }

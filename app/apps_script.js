@@ -81,38 +81,50 @@ function doPost(e) {
 
 function doGet(e) {
   var action = (e && e.parameter && e.parameter.action) || 'getAll';
+  var callback = (e && e.parameter && e.parameter.callback) || '';
 
   if (action === 'getAll') {
     var ss = SpreadsheetApp.getActiveSpreadsheet();
     var sheet = ss.getSheetByName('DPIA Reports') || ss.getActiveSheet();
     var lastRow = sheet.getLastRow();
-
-    if (lastRow <= 1) {
-      return ContentService
-        .createTextOutput(JSON.stringify([]))
-        .setMimeType(ContentService.MimeType.JSON);
-    }
-
-    var dataRange = sheet.getRange(2, 19, lastRow - 1, 1); // Column S = JSON Completo
-    var values = dataRange.getValues();
     var results = [];
 
-    for (var i = 0; i < values.length; i++) {
-      try {
-        if (values[i][0]) {
-          results.push(JSON.parse(values[i][0]));
+    if (lastRow > 1) {
+      var dataRange = sheet.getRange(2, 19, lastRow - 1, 1); // Column S = JSON Completo
+      var values = dataRange.getValues();
+
+      for (var i = 0; i < values.length; i++) {
+        try {
+          if (values[i][0]) {
+            results.push(JSON.parse(values[i][0]));
+          }
+        } catch (err) {
+          // skip malformed rows
         }
-      } catch (err) {
-        // skip malformed rows
       }
     }
 
+    var jsonStr = JSON.stringify(results);
+
+    // Supporta JSONP (callback) per aggirare CORS
+    if (callback) {
+      return ContentService
+        .createTextOutput(callback + '(' + jsonStr + ')')
+        .setMimeType(ContentService.MimeType.JAVASCRIPT);
+    }
+
     return ContentService
-      .createTextOutput(JSON.stringify(results))
+      .createTextOutput(jsonStr)
       .setMimeType(ContentService.MimeType.JSON);
   }
 
+  var defaultResponse = JSON.stringify({ status: 'ok', action: action });
+  if (callback) {
+    return ContentService
+      .createTextOutput(callback + '(' + defaultResponse + ')')
+      .setMimeType(ContentService.MimeType.JAVASCRIPT);
+  }
   return ContentService
-    .createTextOutput(JSON.stringify({ status: 'ok', action: action }))
+    .createTextOutput(defaultResponse)
     .setMimeType(ContentService.MimeType.JSON);
 }

@@ -512,9 +512,12 @@ body {
   #sidebar, #progress-bar-wrap, #nav-buttons { display: none !important; }
   #main { margin-left: 0; }
   #content { padding: 20px; max-width: 100%; }
-  #report-section { display: block !important; border: none; }
+  #report-section { display: block !important; border: none; box-shadow: none; }
   .section { display: none !important; }
-  .section.active { display: none !important; }
+  .section.active { display: block !important; }
+  .btn, #btn-send, .btn-print, .btn-success { display: none !important; }
+  #send-feedback { display: none !important; }
+  #studente-name { border: none; padding: 0; font-weight: 700; }
 }
 </style>
 </head>
@@ -894,7 +897,7 @@ body {
       <div style="margin-top:24px; display:flex; gap:12px; align-items:center; flex-wrap:wrap;">
         <button class="btn btn-success" onclick="generateReport()">Genera Report DPIA</button>
         <button class="btn btn-primary" onclick="sendToDocente()" id="btn-send" style="background:#6a3fbf">&#10148; Invia al docente</button>
-        <button class="btn btn-print" onclick="window.print()">Stampa / Salva PDF</button>
+        <button class="btn btn-print" onclick="generateReport(); setTimeout(()=>window.print(), 300)">Stampa / Salva PDF</button>
       </div>
       <div id="send-feedback" style="margin-top:10px; font-size:0.85rem; display:none;"></div>
 

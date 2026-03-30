@@ -1560,54 +1560,39 @@ function sendToDocente() {
 
   fb.style.display = 'block';
   fb.innerHTML = '<span style="color:var(--primary)">&#9203; Invio in corso...</span>';
-  document.getElementById('btn-send').disabled = true;
 
   // Usa un form nascosto + iframe per aggirare CORS su tutti i browser
-  const iframeName = 'dpia_submit_frame_' + Date.now();
-  const iframe = document.createElement('iframe');
-  iframe.name = iframeName;
-  iframe.style.display = 'none';
-  document.body.appendChild(iframe);
+  try {
+    const iframeName = 'dpia_submit_frame_' + Date.now();
+    const iframe = document.createElement('iframe');
+    iframe.name = iframeName;
+    iframe.style.display = 'none';
+    document.body.appendChild(iframe);
 
-  const form = document.createElement('form');
-  form.method = 'POST';
-  form.action = url;
-  form.target = iframeName;
-  form.style.display = 'none';
+    const form = document.createElement('form');
+    form.method = 'POST';
+    form.action = url;
+    form.target = iframeName;
+    form.style.display = 'none';
 
-  const input = document.createElement('input');
-  input.type = 'hidden';
-  input.name = 'payload';
-  input.value = JSON.stringify(data);
-  form.appendChild(input);
+    const input = document.createElement('input');
+    input.type = 'hidden';
+    input.name = 'payload';
+    input.value = JSON.stringify(data);
+    form.appendChild(input);
 
-  document.body.appendChild(form);
+    document.body.appendChild(form);
+    form.submit();
 
-  // Rileva completamento
-  let done = false;
-  iframe.onload = function() {
-    if(!done) {
-      done = true;
+    // Mostra conferma dopo 3 secondi (il form POST non dà feedback diretto)
+    setTimeout(() => {
       fb.innerHTML = '<span style="color:var(--green)">&#10004; <strong>Report inviato con successo!</strong> Il docente lo vedrà sulla Dashboard.</span>';
-      document.getElementById('btn-send').disabled = false;
-      // Pulizia dopo un po'
-      setTimeout(() => {
-        try { document.body.removeChild(iframe); } catch(e){}
-        try { document.body.removeChild(form); } catch(e){}
-      }, 3000);
-    }
-  };
-
-  // Timeout di sicurezza
-  setTimeout(() => {
-    if(!done) {
-      done = true;
-      fb.innerHTML = '<span style="color:var(--green)">&#10004; <strong>Report inviato!</strong> Il docente lo vedrà sulla Dashboard.</span>';
-      document.getElementById('btn-send').disabled = false;
-    }
-  }, 5000);
-
-  form.submit();
+      try { document.body.removeChild(iframe); } catch(e){}
+      try { document.body.removeChild(form); } catch(e){}
+    }, 3000);
+  } catch(e) {
+    fb.innerHTML = '<span style="color:var(--red)">Errore: ' + e.message + '. Riprova.</span>';
+  }
 }
 
 // ===== AUTOSAVE / RESTORE =====

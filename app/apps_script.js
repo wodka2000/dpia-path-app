@@ -41,7 +41,15 @@ function setup() {
 
 function doPost(e) {
   try {
-    var data = JSON.parse(e.postData.contents);
+    // Supporta sia JSON diretto che form con campo 'payload'
+    var raw = e.postData.contents;
+    var params = e.parameter || {};
+    if (params.payload) {
+      raw = params.payload;
+    } else if (raw && raw.indexOf('payload=') === 0) {
+      raw = decodeURIComponent(raw.substring(8));
+    }
+    var data = JSON.parse(raw);
     var ss = SpreadsheetApp.getActiveSpreadsheet();
     var sheet = ss.getSheetByName('DPIA Reports') || ss.getActiveSheet();
 

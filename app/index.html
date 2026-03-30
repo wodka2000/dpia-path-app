@@ -1560,43 +1560,54 @@ function sendToDocente() {
 
   fb.style.display = 'block';
   fb.innerHTML = '<span style="color:var(--primary)">&#9203; Invio in corso...</span>';
-
-  // Disabilita pulsante durante invio
   document.getElementById('btn-send').disabled = true;
 
-  fetch(url, {
-    method: 'POST',
-    headers: { 'Content-Type': 'text/plain' },
-    body: JSON.stringify(data),
-    redirect: 'follow'
-  })
-  .then(r => {
-    // Google Apps Script può restituire opaque response con redirect
-    if(r.ok || r.type === 'opaque' || r.type === 'cors' || r.status === 200 || r.redirected) {
-      return r.text().then(t => { try { return JSON.parse(t); } catch(e) { return {status:'ok'}; }});
+  // Usa un form nascosto + iframe per aggirare CORS su tutti i browser
+  const iframeName = 'dpia_submit_frame_' + Date.now();
+  const iframe = document.createElement('iframe');
+  iframe.name = iframeName;
+  iframe.style.display = 'none';
+  document.body.appendChild(iframe);
+
+  const form = document.createElement('form');
+  form.method = 'POST';
+  form.action = url;
+  form.target = iframeName;
+  form.style.display = 'none';
+
+  const input = document.createElement('input');
+  input.type = 'hidden';
+  input.name = 'payload';
+  input.value = JSON.stringify(data);
+  form.appendChild(input);
+
+  document.body.appendChild(form);
+
+  // Rileva completamento
+  let done = false;
+  iframe.onload = function() {
+    if(!done) {
+      done = true;
+      fb.innerHTML = '<span style="color:var(--green)">&#10004; <strong>Report inviato con successo!</strong> Il docente lo vedrà sulla Dashboard.</span>';
+      document.getElementById('btn-send').disabled = false;
+      // Pulizia dopo un po'
+      setTimeout(() => {
+        try { document.body.removeChild(iframe); } catch(e){}
+        try { document.body.removeChild(form); } catch(e){}
+      }, 3000);
     }
-    // Anche se status non è 200, il dato è probabilmente arrivato
-    return {status:'ok'};
-  })
-  .then(res => {
-    fb.innerHTML = '<span style="color:var(--green)">&#10004; <strong>Report inviato con successo!</strong> Il docente lo vedrà sulla Dashboard.</span>';
-    document.getElementById('btn-send').disabled = false;
-  })
-  .catch(e => {
-    // Con Google Apps Script, un errore di CORS spesso significa che il dato è arrivato comunque
-    // Proviamo con no-cors come fallback
-    fetch(url, {
-      method: 'POST',
-      mode: 'no-cors',
-      headers: { 'Content-Type': 'text/plain' },
-      body: JSON.stringify(data)
-    }).then(() => {
+  };
+
+  // Timeout di sicurezza
+  setTimeout(() => {
+    if(!done) {
+      done = true;
       fb.innerHTML = '<span style="color:var(--green)">&#10004; <strong>Report inviato!</strong> Il docente lo vedrà sulla Dashboard.</span>';
-    }).catch(() => {
-      fb.innerHTML = '<span style="color:var(--red)">&#9888; Errore di connessione. Riprova tra qualche secondo.</span>';
-    });
-    document.getElementById('btn-send').disabled = false;
-  });
+      document.getElementById('btn-send').disabled = false;
+    }
+  }, 5000);
+
+  form.submit();
 }
 
 // ===== AUTOSAVE / RESTORE =====

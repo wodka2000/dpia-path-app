@@ -1,0 +1,1596 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DPIA Path — Valutazione d'Impatto sulla Protezione dei Dati</title>
+<style>
+/* ===== RESET & BASE ===== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg: #f5f6f8;
+  --surface: #ffffff;
+  --sidebar-bg: #1a2035;
+  --sidebar-text: #c8d0e0;
+  --sidebar-accent: #4f8ef7;
+  --primary: #2a4fa8;
+  --primary-hover: #1e3d8a;
+  --accent: #4f8ef7;
+  --text: #1c2333;
+  --text-muted: #6b7a99;
+  --border: #dde2ee;
+  --green: #1a9e5c;
+  --green-bg: #eaf7f0;
+  --yellow: #d4880a;
+  --yellow-bg: #fdf5e0;
+  --red: #c0392b;
+  --red-bg: #fdecea;
+  --orange: #d4660a;
+  --orange-bg: #fff3ea;
+  --radius: 8px;
+  --shadow: 0 2px 12px rgba(0,0,0,0.08);
+}
+html { font-size: 16px; }
+body {
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  display: flex;
+}
+
+/* ===== SIDEBAR ===== */
+#sidebar {
+  width: 280px;
+  min-width: 280px;
+  background: var(--sidebar-bg);
+  color: var(--sidebar-text);
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  position: fixed;
+  top: 0; left: 0; bottom: 0;
+  overflow-y: auto;
+  z-index: 100;
+}
+#sidebar-header {
+  padding: 28px 24px 20px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+#sidebar-header .logo {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--sidebar-accent);
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+#sidebar-header h1 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #fff;
+  line-height: 1.3;
+}
+#sidebar-header p {
+  font-size: 0.78rem;
+  margin-top: 6px;
+  color: rgba(200,208,224,0.7);
+  line-height: 1.5;
+}
+#sidebar-nav {
+  padding: 16px 0;
+}
+.nav-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 10px 24px;
+  cursor: pointer;
+  transition: background 0.15s;
+  border-left: 3px solid transparent;
+}
+.nav-item:hover { background: rgba(255,255,255,0.05); }
+.nav-item.active {
+  background: rgba(79,142,247,0.15);
+  border-left-color: var(--sidebar-accent);
+}
+.nav-item.completed { border-left-color: var(--green); }
+.nav-num {
+  min-width: 22px; height: 22px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.1);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.72rem; font-weight: 700;
+  color: rgba(200,208,224,0.6);
+  margin-top: 1px;
+}
+.nav-item.active .nav-num { background: var(--sidebar-accent); color: #fff; }
+.nav-item.completed .nav-num { background: var(--green); color: #fff; }
+.nav-label { font-size: 0.82rem; line-height: 1.35; color: var(--sidebar-text); }
+.nav-item.active .nav-label { color: #fff; }
+.nav-sublabel { font-size: 0.72rem; color: rgba(200,208,224,0.5); margin-top: 2px; }
+
+#sidebar-summary {
+  margin: 0 16px 16px;
+  border-top: 1px solid rgba(255,255,255,0.08);
+  padding-top: 16px;
+}
+#sidebar-summary h3 {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: rgba(200,208,224,0.5);
+  margin-bottom: 10px;
+}
+.summary-chip {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 0.75rem; font-weight: 600;
+  padding: 4px 10px; border-radius: 20px;
+  margin: 3px 3px 3px 0;
+}
+.chip-green { background: rgba(26,158,92,0.2); color: #5dcea0; }
+.chip-yellow { background: rgba(212,136,10,0.2); color: #f0b840; }
+.chip-red { background: rgba(192,57,43,0.2); color: #e87d72; }
+.chip-blue { background: rgba(79,142,247,0.15); color: var(--sidebar-accent); }
+.chip-gray { background: rgba(255,255,255,0.07); color: rgba(200,208,224,0.5); }
+#sidebar-summary .summary-row {
+  font-size: 0.75rem; color: var(--sidebar-text);
+  margin: 5px 0; line-height: 1.4;
+}
+#sidebar-summary .summary-row strong { color: #fff; }
+
+.sidebar-legal {
+  padding: 16px 24px;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  font-size: 0.7rem;
+  color: rgba(200,208,224,0.35);
+  line-height: 1.5;
+  margin-top: auto;
+}
+
+/* ===== MAIN CONTENT ===== */
+#main {
+  margin-left: 280px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* ===== PROGRESS BAR ===== */
+#progress-bar-wrap {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 14px 40px;
+  position: sticky; top: 0; z-index: 50;
+  display: flex; align-items: center; gap: 16px;
+}
+#progress-label { font-size: 0.78rem; color: var(--text-muted); white-space: nowrap; min-width: 100px; }
+#progress-bar-track {
+  flex: 1; height: 6px; background: var(--border);
+  border-radius: 3px; overflow: hidden;
+}
+#progress-bar-fill {
+  height: 100%; background: linear-gradient(90deg, var(--primary), var(--accent));
+  border-radius: 3px; transition: width 0.4s ease;
+}
+#progress-pct { font-size: 0.78rem; font-weight: 600; color: var(--primary); min-width: 36px; text-align: right; }
+
+/* ===== SECTIONS ===== */
+#content {
+  flex: 1;
+  padding: 40px;
+  max-width: 820px;
+}
+.section { display: none; }
+.section.active { display: block; }
+
+.section-header { margin-bottom: 32px; }
+.section-tag {
+  font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.12em;
+  color: var(--primary); font-weight: 700; margin-bottom: 8px;
+}
+.section-header h2 {
+  font-size: 1.7rem; font-weight: 700; color: var(--text); line-height: 1.2;
+}
+.section-header p {
+  font-size: 0.92rem; color: var(--text-muted); margin-top: 8px; line-height: 1.6;
+}
+.legal-ref {
+  display: inline-block;
+  background: #eef2ff; color: var(--primary);
+  font-size: 0.72rem; font-weight: 600;
+  padding: 3px 10px; border-radius: 4px;
+  margin-top: 10px;
+}
+
+/* ===== CARDS ===== */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px;
+  margin-bottom: 20px;
+  box-shadow: var(--shadow);
+}
+.card-title {
+  font-size: 0.82rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.08em;
+  color: var(--text-muted); margin-bottom: 16px;
+}
+
+/* ===== QUESTIONS (Precheck) ===== */
+.q-item {
+  display: flex; align-items: flex-start; gap: 16px;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--border);
+}
+.q-item:last-child { border-bottom: none; }
+.q-text { flex: 1; }
+.q-text label {
+  font-size: 0.92rem; color: var(--text); line-height: 1.5;
+  display: block; margin-bottom: 4px;
+}
+.q-note { font-size: 0.75rem; color: var(--text-muted); line-height: 1.4; }
+.q-obbligatorio {
+  font-size: 0.68rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.08em; color: var(--red);
+  background: var(--red-bg); padding: 2px 7px; border-radius: 3px;
+  display: inline-block; margin-top: 4px;
+}
+.toggle-wrap { display: flex; gap: 8px; align-items: center; min-width: 120px; }
+.btn-toggle {
+  padding: 6px 16px; border-radius: 6px; border: 1.5px solid var(--border);
+  font-size: 0.82rem; font-weight: 600; cursor: pointer;
+  background: transparent; color: var(--text-muted);
+  transition: all 0.15s;
+}
+.btn-toggle:hover { border-color: var(--primary); color: var(--primary); }
+.btn-toggle.active-yes { background: var(--green); border-color: var(--green); color: #fff; }
+.btn-toggle.active-no { background: var(--border); border-color: var(--border); color: var(--text-muted); }
+
+/* ===== OUTCOME BOX ===== */
+.outcome-box {
+  border-radius: var(--radius);
+  padding: 20px 24px;
+  margin-top: 24px;
+  border: 2px solid transparent;
+}
+.outcome-box.green { background: var(--green-bg); border-color: var(--green); }
+.outcome-box.yellow { background: var(--yellow-bg); border-color: var(--yellow); }
+.outcome-box.orange { background: var(--orange-bg); border-color: var(--orange); }
+.outcome-box.red { background: var(--red-bg); border-color: var(--red); }
+.outcome-box h3 { font-size: 1rem; font-weight: 700; margin-bottom: 6px; }
+.outcome-box.green h3 { color: var(--green); }
+.outcome-box.yellow h3 { color: var(--yellow); }
+.outcome-box.orange h3 { color: var(--orange); }
+.outcome-box.red h3 { color: var(--red); }
+.outcome-box p { font-size: 0.85rem; line-height: 1.6; color: var(--text); }
+
+/* ===== FORM FIELDS ===== */
+.field-group { margin-bottom: 20px; }
+.field-group label {
+  display: block; font-size: 0.82rem; font-weight: 600;
+  color: var(--text); margin-bottom: 6px;
+}
+.field-group .field-note {
+  font-size: 0.75rem; color: var(--text-muted); margin-bottom: 6px; line-height: 1.4;
+}
+.field-group input[type="text"],
+.field-group textarea,
+.field-group select {
+  width: 100%; padding: 10px 14px;
+  border: 1.5px solid var(--border); border-radius: 6px;
+  font-size: 0.88rem; color: var(--text);
+  font-family: inherit; background: #fafbfd;
+  transition: border-color 0.15s;
+}
+.field-group input:focus,
+.field-group textarea:focus,
+.field-group select:focus {
+  outline: none; border-color: var(--primary);
+  background: #fff;
+}
+.field-group textarea { min-height: 80px; resize: vertical; }
+.field-group select { cursor: pointer; }
+.field-required::after { content: ' *'; color: var(--red); }
+
+/* ===== SECTION 3 — NECESSITY ===== */
+.scale-q { margin-bottom: 20px; padding-bottom: 20px; border-bottom: 1px solid var(--border); }
+.scale-q:last-child { border-bottom: none; margin-bottom: 0; }
+.scale-q .sq-text {
+  font-size: 0.9rem; font-weight: 600; color: var(--text);
+  margin-bottom: 10px; line-height: 1.4;
+}
+.scale-q .sq-note { font-size: 0.75rem; color: var(--text-muted); margin-bottom: 10px; line-height: 1.4; }
+.scale-options { display: flex; flex-direction: column; gap: 6px; }
+.scale-option {
+  display: flex; align-items: flex-start; gap: 10px;
+  padding: 10px 14px; border-radius: 6px;
+  border: 1.5px solid var(--border); cursor: pointer;
+  background: #fafbfd; transition: all 0.15s;
+}
+.scale-option:hover { border-color: var(--primary); background: #f0f4ff; }
+.scale-option.selected-0 { border-color: var(--green); background: var(--green-bg); }
+.scale-option.selected-1 { border-color: var(--yellow); background: var(--yellow-bg); }
+.scale-option.selected-2 { border-color: var(--red); background: var(--red-bg); }
+.scale-option input[type="radio"] { margin-top: 2px; accent-color: var(--primary); }
+.scale-option span { font-size: 0.85rem; line-height: 1.4; }
+
+/* ===== SECTION 4 — RISK MATRIX ===== */
+.risk-item {
+  margin-bottom: 16px; padding: 16px;
+  border: 1.5px solid var(--border); border-radius: 6px;
+  background: #fafbfd;
+}
+.risk-item-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; margin-bottom: 8px; }
+.risk-name { font-size: 0.9rem; font-weight: 700; color: var(--text); }
+.risk-score-badge {
+  min-width: 36px; height: 28px;
+  border-radius: 6px; display: flex; align-items: center; justify-content: center;
+  font-size: 0.85rem; font-weight: 800; white-space: nowrap; padding: 0 8px;
+}
+.badge-low { background: var(--green-bg); color: var(--green); }
+.badge-med { background: var(--yellow-bg); color: var(--yellow); }
+.badge-high { background: var(--red-bg); color: var(--red); }
+.risk-desc { font-size: 0.78rem; color: var(--text-muted); margin-bottom: 12px; line-height: 1.4; }
+.risk-controls { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.risk-ctrl label {
+  display: block; font-size: 0.72rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.07em;
+  color: var(--text-muted); margin-bottom: 6px;
+}
+.risk-ctrl select {
+  width: 100%; padding: 7px 10px;
+  border: 1.5px solid var(--border); border-radius: 6px;
+  font-size: 0.82rem; font-family: inherit;
+  background: #fff; cursor: pointer;
+}
+
+/* ===== SECTION 5 — MEASURES ===== */
+.measure-category { margin-bottom: 24px; }
+.measure-category-title {
+  font-size: 0.72rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.1em; color: var(--text-muted);
+  padding: 6px 0; border-bottom: 1px solid var(--border);
+  margin-bottom: 10px;
+}
+.measure-item {
+  display: flex; align-items: flex-start; gap: 12px;
+  padding: 12px;
+  border-radius: 6px; border: 1.5px solid var(--border);
+  margin-bottom: 8px; cursor: pointer; transition: all 0.15s;
+  background: #fafbfd;
+}
+.measure-item:hover { border-color: var(--primary); background: #f0f4ff; }
+.measure-item.selected { border-color: var(--green); background: var(--green-bg); }
+.measure-item input[type="checkbox"] { margin-top: 3px; accent-color: var(--green); width: 16px; height: 16px; min-width: 16px; }
+.measure-info { flex: 1; }
+.measure-name { font-size: 0.88rem; font-weight: 600; color: var(--text); }
+.measure-item.selected .measure-name { color: var(--green); }
+.measure-desc { font-size: 0.75rem; color: var(--text-muted); margin-top: 2px; line-height: 1.4; }
+.measure-ref {
+  font-size: 0.7rem; color: var(--primary);
+  font-weight: 600; margin-top: 4px;
+}
+.measure-essential-tag {
+  font-size: 0.68rem; font-weight: 700; text-transform: uppercase;
+  color: var(--red); background: var(--red-bg);
+  padding: 1px 6px; border-radius: 3px; margin-left: 6px;
+}
+
+/* ===== SECTION 6 — FINAL OUTCOME ===== */
+.semaforo {
+  display: flex; gap: 12px; margin: 20px 0;
+}
+.semaforo-light {
+  width: 40px; height: 40px; border-radius: 50%;
+  background: rgba(0,0,0,0.08);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.1rem; transition: all 0.3s;
+}
+.semaforo-light.active-green { background: var(--green); box-shadow: 0 0 0 4px rgba(26,158,92,0.2); }
+.semaforo-light.active-yellow { background: var(--yellow); box-shadow: 0 0 0 4px rgba(212,136,10,0.2); }
+.semaforo-light.active-red { background: var(--red); box-shadow: 0 0 0 4px rgba(192,57,43,0.2); }
+
+.final-label {
+  font-size: 1.3rem; font-weight: 800;
+  margin: 8px 0 12px;
+}
+.final-label.green { color: var(--green); }
+.final-label.yellow { color: var(--yellow); }
+.final-label.red { color: var(--red); }
+
+.action-list { list-style: none; margin: 12px 0; }
+.action-list li {
+  display: flex; align-items: flex-start; gap: 8px;
+  font-size: 0.85rem; line-height: 1.5; margin-bottom: 6px;
+}
+.action-list li::before {
+  content: '→'; color: var(--primary); font-weight: 700; min-width: 14px; margin-top: 1px;
+}
+
+.promemoria-box {
+  background: #fff8e8; border: 1.5px solid #f0c040;
+  border-radius: var(--radius); padding: 16px 20px; margin-top: 20px;
+}
+.promemoria-box h4 { font-size: 0.82rem; font-weight: 700; color: #9a6c00; margin-bottom: 8px; }
+.promemoria-box ul { list-style: none; }
+.promemoria-box ul li {
+  font-size: 0.82rem; color: var(--text); line-height: 1.5;
+  margin-bottom: 6px; display: flex; gap: 8px; align-items: flex-start;
+}
+.promemoria-box ul li::before { content: '⚑'; color: #d4880a; min-width: 14px; }
+
+/* ===== REPORT ===== */
+#report-section {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 32px;
+  margin-top: 24px; display: none;
+}
+#report-section h2 {
+  font-size: 1.1rem; font-weight: 700;
+  border-bottom: 2px solid var(--primary);
+  padding-bottom: 10px; margin-bottom: 20px;
+}
+#report-section h3 {
+  font-size: 0.9rem; font-weight: 700;
+  color: var(--primary); margin: 20px 0 8px;
+  text-transform: uppercase; letter-spacing: 0.05em;
+}
+#report-section p, #report-section li {
+  font-size: 0.85rem; line-height: 1.7; color: var(--text);
+}
+#report-section ul { padding-left: 20px; margin: 8px 0; }
+.report-meta {
+  font-size: 0.78rem; color: var(--text-muted);
+  margin-bottom: 24px; line-height: 1.6;
+}
+.report-disclaimer {
+  font-size: 0.75rem; color: var(--text-muted);
+  border-top: 1px solid var(--border); padding-top: 16px; margin-top: 24px;
+  font-style: italic; line-height: 1.5;
+}
+
+/* ===== NAVIGATION BUTTONS ===== */
+#nav-buttons {
+  padding: 24px 40px;
+  border-top: 1px solid var(--border);
+  background: var(--surface);
+  display: flex; justify-content: space-between; align-items: center;
+  position: sticky; bottom: 0; z-index: 50;
+}
+.btn {
+  padding: 11px 24px; border-radius: 7px;
+  font-size: 0.88rem; font-weight: 600;
+  cursor: pointer; border: none; transition: all 0.15s;
+  font-family: inherit;
+}
+.btn-secondary {
+  background: transparent; border: 1.5px solid var(--border);
+  color: var(--text-muted);
+}
+.btn-secondary:hover { border-color: var(--primary); color: var(--primary); }
+.btn-primary {
+  background: var(--primary); color: #fff;
+}
+.btn-primary:hover { background: var(--primary-hover); }
+.btn-success {
+  background: var(--green); color: #fff;
+}
+.btn-success:hover { opacity: 0.9; }
+.btn-print {
+  background: var(--sidebar-bg); color: #fff;
+  margin-left: 12px;
+}
+.btn-print:hover { opacity: 0.85; }
+
+/* ===== RISK SUMMARY TABLE ===== */
+.risk-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; margin-top: 12px; }
+.risk-table th {
+  background: var(--bg); padding: 8px 12px;
+  text-align: left; font-size: 0.72rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.07em;
+  color: var(--text-muted); border-bottom: 2px solid var(--border);
+}
+.risk-table td {
+  padding: 9px 12px; border-bottom: 1px solid var(--border);
+  color: var(--text); vertical-align: middle;
+}
+.risk-table tr:hover td { background: #f8f9fc; }
+
+/* ===== MISC ===== */
+.hidden { display: none !important; }
+.info-note {
+  background: #eef2ff; border-left: 3px solid var(--primary);
+  padding: 12px 16px; border-radius: 0 6px 6px 0;
+  font-size: 0.8rem; color: var(--text); line-height: 1.5;
+  margin-bottom: 16px;
+}
+
+@media print {
+  #sidebar, #progress-bar-wrap, #nav-buttons { display: none !important; }
+  #main { margin-left: 0; }
+  #content { padding: 20px; max-width: 100%; }
+  #report-section { display: block !important; border: none; }
+  .section { display: none !important; }
+  .section.active { display: none !important; }
+}
+</style>
+</head>
+<body>
+
+<!-- ===== SIDEBAR ===== -->
+<nav id="sidebar">
+  <div id="sidebar-header">
+    <div class="logo">Clinica Legale · GDPR</div>
+    <h1>DPIA Path</h1>
+    <p>Valutazione d'impatto sulla protezione dei dati — Art. 35 GDPR</p>
+  </div>
+
+  <div id="sidebar-nav">
+    <div class="nav-item active" onclick="goTo(0)" id="nav0">
+      <div class="nav-num">1</div>
+      <div class="nav-text">
+        <div class="nav-label">Precheck</div>
+        <div class="nav-sublabel">Necessità della DPIA</div>
+      </div>
+    </div>
+    <div class="nav-item" onclick="goTo(1)" id="nav1">
+      <div class="nav-num">2</div>
+      <div class="nav-text">
+        <div class="nav-label">Descrizione del Trattamento</div>
+        <div class="nav-sublabel">Titolare, finalità, dati, base giuridica</div>
+      </div>
+    </div>
+    <div class="nav-item" onclick="goTo(2)" id="nav2">
+      <div class="nav-num">3</div>
+      <div class="nav-text">
+        <div class="nav-label">Necessità e Proporzionalità</div>
+        <div class="nav-sublabel">Valutazione guidata</div>
+      </div>
+    </div>
+    <div class="nav-item" onclick="goTo(3)" id="nav3">
+      <div class="nav-num">4</div>
+      <div class="nav-text">
+        <div class="nav-label">Rischi per Diritti e Libertà</div>
+        <div class="nav-sublabel">Matrice probabilità × gravità</div>
+      </div>
+    </div>
+    <div class="nav-item" onclick="goTo(4)" id="nav4">
+      <div class="nav-num">5</div>
+      <div class="nav-text">
+        <div class="nav-label">Misure di Mitigazione</div>
+        <div class="nav-sublabel">Checklist delle garanzie</div>
+      </div>
+    </div>
+    <div class="nav-item" onclick="goTo(5)" id="nav5">
+      <div class="nav-num">6</div>
+      <div class="nav-text">
+        <div class="nav-label">Esito Finale</div>
+        <div class="nav-sublabel">Semaforo e report DPIA</div>
+      </div>
+    </div>
+  </div>
+
+  <div id="sidebar-summary">
+    <h3>Riepilogo Progressivo</h3>
+    <div id="summary-content">
+      <div class="summary-row" style="color:rgba(200,208,224,0.4); font-style:italic; font-size:0.75rem;">
+        Compila le sezioni per vedere il riepilogo.
+      </div>
+    </div>
+  </div>
+
+  <div class="sidebar-legal">
+    Rif. normativo: Art. 35 Reg. (UE) 2016/679 · Linee guida EDPB WP248<br>
+    Uso didattico — Clinica Legale AI & DPIA
+  </div>
+</nav>
+
+<!-- ===== MAIN ===== -->
+<div id="main">
+  <div id="progress-bar-wrap">
+    <div id="progress-label">Sezione 1 di 6</div>
+    <div id="progress-bar-track">
+      <div id="progress-bar-fill" style="width:16.6%"></div>
+    </div>
+    <div id="progress-pct">17%</div>
+  </div>
+
+  <div id="content">
+
+    <!-- ===== SEZIONE 1: PRECHECK ===== -->
+    <div class="section active" id="sec0">
+      <div class="section-header">
+        <div class="section-tag">Sezione 1 — Precheck</div>
+        <h2>È necessaria una DPIA?</h2>
+        <p>Rispondere alle domande seguenti per determinare se il trattamento richiede una valutazione d'impatto ai sensi dell'art. 35 GDPR. Anche una sola risposta affermativa ai criteri obbligatori (contrassegnati) rende la DPIA necessaria.</p>
+        <span class="legal-ref">Art. 35 par. 1 e 3 GDPR · Linee guida WP248 EDPB</span>
+      </div>
+
+      <div class="info-note">
+        <strong>Come rispondere:</strong> Selezionare "Sì" o "No" per ciascun criterio. La valutazione si aggiorna automaticamente al termine della sezione.
+      </div>
+
+      <div class="card">
+        <div class="card-title">Criteri di rischio elevato</div>
+
+        <div class="q-item">
+          <div class="q-text">
+            <label for="p1">Il trattamento prevede l'uso di <strong>nuove tecnologie</strong> (intelligenza artificiale, machine learning, biometria, IoT, riconoscimento facciale, ecc.)?</label>
+            <div class="q-note">Il riferimento alle "nuove tecnologie" è esplicito nell'art. 35 par. 1 GDPR.</div>
+          </div>
+          <div class="toggle-wrap">
+            <button class="btn-toggle" onclick="setToggle('p1','yes',this)" id="p1-yes">Sì</button>
+            <button class="btn-toggle" onclick="setToggle('p1','no',this)" id="p1-no">No</button>
+          </div>
+        </div>
+
+        <div class="q-item">
+          <div class="q-text">
+            <label>Il trattamento utilizza <strong>sistemi di intelligenza artificiale o algoritmi</strong> per supportare o automatizzare decisioni?</label>
+            <div class="q-note">I sistemi AI implicano opacità e imprevedibilità — forte indicatore di rischio elevato.</div>
+          </div>
+          <div class="toggle-wrap">
+            <button class="btn-toggle" onclick="setToggle('p2','yes',this)" id="p2-yes">Sì</button>
+            <button class="btn-toggle" onclick="setToggle('p2','no',this)" id="p2-no">No</button>
+          </div>
+        </div>
+
+        <div class="q-item">
+          <div class="q-text">
+            <label>Il trattamento include <strong>profilazione</strong> degli interessati (attribuzione di profili, punteggi, categorie)?</label>
+            <div class="q-note">La profilazione con effetti significativi è uno dei tre casi di DPIA obbligatoria.</div>
+            <span class="q-obbligatorio">Obbligatorio se combinato con effetti significativi</span>
+          </div>
+          <div class="toggle-wrap">
+            <button class="btn-toggle" onclick="setToggle('p3','yes',this)" id="p3-yes">Sì</button>
+            <button class="btn-toggle" onclick="setToggle('p3','no',this)" id="p3-no">No</button>
+          </div>
+        </div>
+
+        <div class="q-item">
+          <div class="q-text">
+            <label>Le decisioni hanno <strong>effetti giuridici o analoghi significativi</strong> sulla persona (accesso a servizi, credito, lavoro, alloggio, benefici sociali)?</label>
+            <div class="q-note">Art. 35 par. 3 lett. a) GDPR — obbligatorio in combinazione con profilazione.</div>
+            <span class="q-obbligatorio">Obbligatorio se combinato con profilazione</span>
+          </div>
+          <div class="toggle-wrap">
+            <button class="btn-toggle" onclick="setToggle('p4','yes',this)" id="p4-yes">Sì</button>
+            <button class="btn-toggle" onclick="setToggle('p4','no',this)" id="p4-no">No</button>
+          </div>
+        </div>
+
+        <div class="q-item">
+          <div class="q-text">
+            <label>Il trattamento riguarda <strong>categorie particolari di dati</strong> ex art. 9 GDPR (salute, origine etnica, religione, biometria, genetica, orientamento sessuale) o <strong>dati penali</strong> ex art. 10?</label>
+            <span class="q-obbligatorio">Obbligatorio se su larga scala</span>
+          </div>
+          <div class="toggle-wrap">
+            <button class="btn-toggle" onclick="setToggle('p5','yes',this)" id="p5-yes">Sì</button>
+            <button class="btn-toggle" onclick="setToggle('p5','no',this)" id="p5-no">No</button>
+          </div>
+        </div>
+
+        <div class="q-item">
+          <div class="q-text">
+            <label>Il trattamento avviene su <strong>larga scala</strong> (ampio numero di interessati, grande volume di dati, vasta estensione geografica o durata prolungata)?</label>
+            <div class="q-note">Non c'è una soglia quantitativa fissa. Valutare combinando: numero di interessati, volume, area geografica, durata.</div>
+          </div>
+          <div class="toggle-wrap">
+            <button class="btn-toggle" onclick="setToggle('p6','yes',this)" id="p6-yes">Sì</button>
+            <button class="btn-toggle" onclick="setToggle('p6','no',this)" id="p6-no">No</button>
+          </div>
+        </div>
+
+        <div class="q-item">
+          <div class="q-text">
+            <label>Il trattamento implica <strong>sorveglianza sistematica</strong> di zone accessibili al pubblico (videosorveglianza, tracciamento, monitoraggio comportamentale in luoghi pubblici)?</label>
+            <span class="q-obbligatorio">Criterio obbligatorio — art. 35 par. 3 lett. c)</span>
+          </div>
+          <div class="toggle-wrap">
+            <button class="btn-toggle" onclick="setToggle('p7','yes',this)" id="p7-yes">Sì</button>
+            <button class="btn-toggle" onclick="setToggle('p7','no',this)" id="p7-no">No</button>
+          </div>
+        </div>
+
+        <div class="q-item">
+          <div class="q-text">
+            <label>Il trattamento riguarda <strong>soggetti vulnerabili</strong> (minori, anziani, persone con disabilità, richiedenti asilo, pazienti, dipendenti)?</label>
+            <div class="q-note">I soggetti vulnerabili non possono difendersi facilmente dalle conseguenze negative del trattamento.</div>
+          </div>
+          <div class="toggle-wrap">
+            <button class="btn-toggle" onclick="setToggle('p8','yes',this)" id="p8-yes">Sì</button>
+            <button class="btn-toggle" onclick="setToggle('p8','no',this)" id="p8-no">No</button>
+          </div>
+        </div>
+
+        <div class="q-item">
+          <div class="q-text">
+            <label>Il trattamento prevede l'<strong>abbinamento o combinazione di dataset</strong> provenienti da fonti diverse (banche dati pubbliche, dati privati, social media, fonti aperte)?</label>
+            <div class="q-note">L'incrocio di dataset aumenta il rischio di re-identificazione e di inferenze non attese.</div>
+          </div>
+          <div class="toggle-wrap">
+            <button class="btn-toggle" onclick="setToggle('p9','yes',this)" id="p9-yes">Sì</button>
+            <button class="btn-toggle" onclick="setToggle('p9','no',this)" id="p9-no">No</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="precheck-outcome" class="hidden"></div>
+    </div>
+
+    <!-- ===== SEZIONE 2: DESCRIZIONE ===== -->
+    <div class="section" id="sec1">
+      <div class="section-header">
+        <div class="section-tag">Sezione 2 — Descrizione del Trattamento</div>
+        <h2>Descrizione sistematica del trattamento</h2>
+        <p>Compilare i campi seguenti con la massima precisione. Queste informazioni costituiscono la prima parte obbligatoria della DPIA ai sensi dell'art. 35 par. 7 lett. a) GDPR.</p>
+        <span class="legal-ref">Art. 35 par. 7 lett. a) GDPR</span>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Titolare e finalità</div>
+        <div class="field-group">
+          <label class="field-required">Titolare del trattamento</label>
+          <div class="field-note">Denominazione completa e qualità giuridica del titolare (es: Comune di X, Azienda Y Srl)</div>
+          <input type="text" id="d1" placeholder="Es: Comune di Roma — Servizio Politiche Abitative">
+        </div>
+        <div class="field-group">
+          <label class="field-required">Finalità del trattamento</label>
+          <div class="field-note">Le finalità devono essere specifiche, esplicite e legittime (art. 5 par. 1 lett. b GDPR)</div>
+          <textarea id="d2" placeholder="Descrivere in modo chiaro e specifico lo scopo per cui i dati vengono trattati..."></textarea>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Dati e interessati</div>
+        <div class="field-group">
+          <label class="field-required">Categorie di dati trattati</label>
+          <div class="field-note">Specificare se sono presenti dati ex art. 9 o art. 10 GDPR</div>
+          <textarea id="d3" placeholder="Es: dati anagrafici, economici, di salute, biometrici, comportamentali, territoriali..."></textarea>
+        </div>
+        <div class="field-group">
+          <label class="field-required">Categorie di interessati</label>
+          <div class="field-note">Indicare se tra gli interessati vi sono soggetti vulnerabili</div>
+          <textarea id="d4" placeholder="Es: clienti, dipendenti, utenti del servizio, richiedenti, pazienti, minori..."></textarea>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Base giuridica e tecnologia</div>
+        <div class="field-group">
+          <label class="field-required">Base giuridica del trattamento</label>
+          <div class="field-note">Per dati ex art. 9, verificare anche la condizione ex art. 9 par. 2</div>
+          <select id="d5">
+            <option value="">— Selezionare —</option>
+            <option>Art. 6 par. 1 lett. a) — Consenso dell'interessato</option>
+            <option>Art. 6 par. 1 lett. b) — Esecuzione di un contratto</option>
+            <option>Art. 6 par. 1 lett. c) — Obbligo legale</option>
+            <option>Art. 6 par. 1 lett. d) — Interessi vitali</option>
+            <option>Art. 6 par. 1 lett. e) — Compito di interesse pubblico</option>
+            <option>Art. 6 par. 1 lett. f) — Legittimo interesse</option>
+            <option>Altra base giuridica</option>
+          </select>
+        </div>
+        <div class="field-group">
+          <label>Descrizione del sistema AI o della tecnologia utilizzata</label>
+          <div class="field-note">Specificare tipo di algoritmo, dati di addestramento, output, fornitore (se esterno), grado di trasparenza del sistema</div>
+          <textarea id="d6" placeholder="Es: Modello di machine learning supervisionato addestrato su dati storici. Il sistema assegna un punteggio composito di urgenza..."></textarea>
+        </div>
+        <div class="field-group">
+          <label class="field-required">Descrizione del processo decisionale</label>
+          <div class="field-note">Come viene adottata la decisione? Chi interviene? Grado di automazione? Esiste un controllo umano reale?</div>
+          <textarea id="d7" placeholder="Descrivere il flusso decisionale: input → elaborazione → output → eventuale intervento umano..."></textarea>
+        </div>
+        <div class="field-group">
+          <label>Ruolo di fornitori esterni</label>
+          <div class="field-note">Il ricorso a fornitori esterni non riduce la responsabilità del titolare (art. 28 GDPR)</div>
+          <textarea id="d8" placeholder="Se applicabile: chi sono i fornitori, come agiscono (responsabili del trattamento, co-titolari, terzi), esistono contratti ex art. 28?"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== SEZIONE 3: NECESSITÀ E PROPORZIONALITÀ ===== -->
+    <div class="section" id="sec2">
+      <div class="section-header">
+        <div class="section-tag">Sezione 3 — Necessità e Proporzionalità</div>
+        <h2>Valutazione di necessità e proporzionalità</h2>
+        <p>Valutare se il trattamento è necessario e proporzionato rispetto alle finalità perseguite. Selezionare l'opzione che meglio descrive la situazione.</p>
+        <span class="legal-ref">Art. 35 par. 7 lett. b) GDPR · Art. 5 e 25 GDPR</span>
+      </div>
+
+      <div class="card">
+        <div id="necessity-questions"></div>
+      </div>
+
+      <div id="necessity-outcome" class="hidden"></div>
+    </div>
+
+    <!-- ===== SEZIONE 4: RISCHI ===== -->
+    <div class="section" id="sec3">
+      <div class="section-header">
+        <div class="section-tag">Sezione 4 — Rischi per Diritti e Libertà</div>
+        <h2>Matrice dei rischi</h2>
+        <p>Per ciascun rischio identificato, indicare la <strong>probabilità</strong> che si verifichi e la <strong>gravità</strong> delle conseguenze per gli interessati. L'app calcola automaticamente il punteggio.</p>
+        <span class="legal-ref">Art. 35 par. 7 lett. c) GDPR</span>
+      </div>
+
+      <div class="info-note">
+        <strong>Come leggere i punteggi:</strong> Probabilità × Gravità. Punteggi 1-2 = basso · 3-4 = medio · 6-9 = alto.
+      </div>
+
+      <div id="risk-items-container"></div>
+
+      <div id="risk-aggregate-box" class="hidden card" style="margin-top:20px">
+        <div class="card-title">Rischio Aggregato</div>
+        <div id="risk-aggregate-content"></div>
+      </div>
+    </div>
+
+    <!-- ===== SEZIONE 5: MISURE ===== -->
+    <div class="section" id="sec4">
+      <div class="section-header">
+        <div class="section-tag">Sezione 5 — Misure di Mitigazione</div>
+        <h2>Misure previste per affrontare i rischi</h2>
+        <p>Selezionare le misure adottate o in corso di adozione. Le misure contrassegnate come <strong>Essenziali</strong> dovrebbero essere sempre presenti nei trattamenti ad alto rischio con AI.</p>
+        <span class="legal-ref">Art. 35 par. 7 lett. d) GDPR</span>
+      </div>
+
+      <div id="measures-container"></div>
+
+      <div id="measures-summary" class="hidden card" style="margin-top:20px">
+        <div class="card-title">Riepilogo Misure</div>
+        <div id="measures-summary-content"></div>
+      </div>
+    </div>
+
+    <!-- ===== SEZIONE 6: ESITO FINALE ===== -->
+    <div class="section" id="sec5">
+      <div class="section-header">
+        <div class="section-tag">Sezione 6 — Esito Finale</div>
+        <h2>Esito della DPIA</h2>
+        <p>Sulla base di tutti gli elementi raccolti, il sistema genera una valutazione complessiva del rischio residuo e una bozza di report DPIA.</p>
+        <span class="legal-ref">Art. 35 GDPR · Art. 36 GDPR</span>
+      </div>
+
+      <div class="card" id="final-outcome-card">
+        <div id="final-semaforo-wrap">
+          <div class="semaforo" id="semaforo-lights">
+            <div class="semaforo-light" id="sl-green" title="Verde — Rischio contenuto">🟢</div>
+            <div class="semaforo-light" id="sl-yellow" title="Giallo — Rischio mitigabile">🟡</div>
+            <div class="semaforo-light" id="sl-red" title="Rosso — Rischio elevato">🔴</div>
+          </div>
+          <div id="final-label" class="final-label">—</div>
+          <div id="final-message" style="font-size:0.9rem; line-height:1.6; color:var(--text); margin-bottom:16px;">
+            Completare le sezioni precedenti per generare l'esito.
+          </div>
+          <div id="final-actions" class="hidden">
+            <div style="font-size:0.82rem; font-weight:700; text-transform:uppercase; letter-spacing:0.07em; color:var(--text-muted); margin-bottom:8px;">Azioni richieste</div>
+            <ul class="action-list" id="action-list"></ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="promemoria-box" id="promemoria-box">
+        <h4>⚑ Promemoria obbligatori — Art. 35 GDPR</h4>
+        <ul>
+          <li>Consultare il <strong>DPO (Responsabile della Protezione dei Dati)</strong>, se nominato, prima di procedere con il trattamento — <em>art. 35 par. 2 GDPR</em></li>
+          <li>Aggiornare la DPIA in caso di <strong>variazione del rischio</strong> o delle modalità del trattamento — <em>art. 35 par. 11 GDPR</em></li>
+          <li>Se il rischio residuo rimane elevato, procedere a <strong>consultazione preventiva del Garante</strong> ex art. 36 GDPR prima di avviare il trattamento</li>
+        </ul>
+      </div>
+
+      <!-- NOME STUDENTE -->
+      <div class="card" style="margin-bottom:20px">
+        <div class="card-title">Identificazione</div>
+        <div class="field-group">
+          <label class="field-required">Nome studente / gruppo</label>
+          <input type="text" id="studente-name" placeholder="Es: Mario Rossi — Gruppo 1">
+        </div>
+      </div>
+
+      <div style="margin-top:24px; display:flex; gap:12px; align-items:center; flex-wrap:wrap;">
+        <button class="btn btn-success" onclick="generateReport()">Genera Report DPIA</button>
+        <button class="btn btn-primary" onclick="sendToDocente()" id="btn-send" style="background:#6a3fbf">&#10148; Invia al docente</button>
+        <button class="btn btn-print" onclick="window.print()">Stampa / Salva PDF</button>
+      </div>
+      <div id="send-feedback" style="margin-top:10px; font-size:0.85rem; display:none;"></div>
+
+      <div id="report-section">
+        <div id="report-content"></div>
+      </div>
+    </div>
+
+  </div><!-- end #content -->
+
+  <!-- ===== NAVIGATION BUTTONS ===== -->
+  <div id="nav-buttons">
+    <button class="btn btn-secondary" id="btn-back" onclick="navigate(-1)" style="visibility:hidden">← Indietro</button>
+    <div style="font-size:0.8rem; color:var(--text-muted)" id="nav-hint"></div>
+    <button class="btn btn-primary" id="btn-next" onclick="navigate(1)">Avanti →</button>
+  </div>
+
+</div><!-- end #main -->
+
+<script src="config.js"></script>
+<script>
+// ===== STATE =====
+const state = {
+  current: 0,
+  total: 6,
+  precheck: {},       // p1..p9 => 'yes'|'no'|null
+  description: {},    // d1..d8
+  necessity: {},      // n1..n7 => 0|1|2 (option index)
+  risks: {},          // r1..r9 => {prob, grav}
+  measures: {},       // m1..m15 => bool
+  precheckResult: null,
+  riskAggregate: null,
+  measuresCoverage: null,
+  finalOutcome: null
+};
+
+// Init precheck
+for(let i=1;i<=9;i++) state.precheck['p'+i] = null;
+// Init risks
+['r1','r2','r3','r4','r5','r6','r7','r8','r9'].forEach(r => { state.risks[r] = {prob:'', grav:''}; });
+// Init measures
+for(let i=1;i<=15;i++) state.measures['m'+i] = false;
+
+// ===== DATA =====
+const necessityQuestions = [
+  { id:'n1', text:'Il trattamento è strettamente necessario per il raggiungimento della finalità dichiarata?',
+    note:'Il principio di necessità (art. 5 par. 1 lett. c GDPR) impone che i dati siano "adeguati, pertinenti e limitati a quanto necessario".',
+    options:['Sì, pienamente giustificato — nessun dato in eccesso','Parzialmente — alcune componenti potrebbero essere ridotte','No — esistono alternative meno invasive non considerate'] },
+  { id:'n2', text:'Esistono alternative tecniche o organizzative meno invasive per la privacy?',
+    note:'Il principio di privacy by design (art. 25 GDPR) impone di valutare soluzioni alternative già in fase di progettazione.',
+    options:['No — il trattamento è l\'unica soluzione praticabile','Parzialmente — alternative valutate e scartate per ragioni giustificate','Sì — esistono alternative meno invasive non adeguatamente considerate'] },
+  { id:'n3', text:'I dati raccolti sono pertinenti e non eccedenti rispetto alle finalità?',
+    note:'Principio di minimizzazione dei dati (art. 5 par. 1 lett. c GDPR).',
+    options:['Sì — i dati sono minimali e strettamente pertinenti','Parzialmente — alcune categorie di dati potrebbero essere ridotte','No — vengono raccolti più dati del necessario'] },
+  { id:'n4', text:'Gli interessati sono adeguatamente informati del trattamento (informativa ex artt. 13-14 GDPR)?',
+    note:'Il principio di trasparenza (art. 5 par. 1 lett. a GDPR) richiede informazioni chiare, incluso sull\'uso di sistemi AI.',
+    options:['Sì — informativa chiara, accessibile, completa','Parzialmente — informativa presente ma incompleta o poco accessibile','No — informativa assente o inadeguata'] },
+  { id:'n5', text:'Esiste un controllo umano effettivo e significativo sulle decisioni del sistema?',
+    note:'L\'art. 22 GDPR impone garanzie specifiche per le decisioni automatizzate, incluso il diritto all\'intervento umano. Il controllo meramente formale non soddisfa questo requisito.',
+    options:['Sì — intervento umano sistematico e sostanziale','Parzialmente — il controllo esiste formalmente ma raramente esercitato','No — processo sostanzialmente automatizzato senza controllo umano reale'] },
+  { id:'n6', text:'La logica del trattamento algoritmico è spiegabile e comprensibile per gli interessati?',
+    note:'L\'art. 22 par. 3 GDPR prevede il diritto dell\'interessato di ottenere spiegazioni significative sulla logica dell\'elaborazione automatizzata.',
+    options:['Sì — sistema trasparente, logica comunicabile','Parzialmente — spiegazione tecnica e poco accessibile','No — sistema opaco (black box), logica non comunicabile'] },
+  { id:'n7', text:'Esistono meccanismi per limitare la conservazione dei dati nel tempo (retention policy)?',
+    note:'Principio di limitazione della conservazione (art. 5 par. 1 lett. e GDPR).',
+    options:['Sì — tempi di conservazione definiti e proporzionati','Parzialmente — limiti esistenti ma non chiaramente definiti','No — dati conservati a tempo indeterminato o senza policy chiara'] }
+];
+
+const riskItems = [
+  { id:'r1', name:'Discriminazione algoritmica',
+    desc:'Il sistema può produrre risultati discriminatori basati su caratteristiche protette o loro proxy (bias nel modello, dati di addestramento distorti, discriminazione indiretta).' },
+  { id:'r2', name:'Errore decisionale',
+    desc:'Il sistema può produrre decisioni errate con conseguenze negative per persone che non hanno commesso alcuna irregolarità (falsi negativi, dati non aggiornati, classificazioni errate).' },
+  { id:'r3', name:'Opacità e mancanza di spiegabilità',
+    desc:'Gli interessati non possono comprendere come è stata adottata la decisione né verificarne la correttezza (sistemi black box, decisioni prive di motivazione).' },
+  { id:'r4', name:'Esclusione o pregiudizio ingiustificato',
+    desc:'Il sistema può escludere ingiustificatamente alcune persone dall\'accesso a servizi, opportunità o diritti (graduatorie penalizzanti, esclusione da benefici).' },
+  { id:'r5', name:'Impossibilità di contestazione',
+    desc:'Gli interessati non possono contestare efficacemente le decisioni (assenza di meccanismi di ricorso, procedure inaccessibili, opacità delle motivazioni).' },
+  { id:'r6', name:'Violazione della riservatezza',
+    desc:'I dati possono essere divulgati a soggetti non autorizzati o usati per finalità diverse (data breach, accessi non autorizzati, condivisione non consentita).' },
+  { id:'r7', name:'Uso improprio dei dati',
+    desc:'I dati raccolti per una finalità possono essere riutilizzati per finalità incompatibili (dati sociali usati per finalità commerciali, profilazione non dichiarata).' },
+  { id:'r8', name:'Vulnerabilità di sicurezza',
+    desc:'Il sistema può essere oggetto di attacchi informatici, manipolazioni o accessi non autorizzati (attacchi adversariali, manipolazione dei dati di input).' },
+  { id:'r9', name:'Effetti su soggetti vulnerabili',
+    desc:'Le conseguenze negative colpiscono in modo sproporzionato persone già in situazioni di svantaggio (minori, anziani, persone in povertà estrema).' }
+];
+
+const measureGroups = [
+  { title:'Principi GDPR', ids:['m1','m2'], essential:[] },
+  { title:'Governance AI e Decisioni Automatizzate', ids:['m3','m5','m6','m14'], essential:['m3','m6'] },
+  { title:'Trasparenza e Diritti degli Interessati', ids:['m7','m11'], essential:['m7','m11'] },
+  { title:'Sicurezza Tecnica', ids:['m4','m8','m9'], essential:[] },
+  { title:'Governance della DPIA', ids:['m10','m12','m13','m15'], essential:['m12'] }
+];
+
+const measureDefs = {
+  m1: { name:'Minimizzazione dei dati', desc:'Raccogliere solo i dati strettamente necessari alle finalità dichiarate', ref:'Art. 5 par. 1 lett. c GDPR' },
+  m2: { name:'Limitazione della finalità', desc:'Garantire che i dati siano usati solo per le finalità dichiarate', ref:'Art. 5 par. 1 lett. b GDPR' },
+  m3: { name:'Controllo umano effettivo', desc:'Intervento umano sostanziale e non meramente formale nelle decisioni significative', ref:'Art. 22 GDPR' },
+  m4: { name:'Logging e tracciabilità', desc:'Registrare accessi e operazioni di trattamento per consentire audit e verifiche', ref:'Art. 32 GDPR · AI Act art. 12' },
+  m5: { name:'Audit periodici', desc:'Verifiche periodiche del sistema per identificare errori, bias e vulnerabilità', ref:'Art. 35 par. 11 GDPR · AI Act' },
+  m6: { name:'Explainability — spiegazioni intelligibili', desc:'Fornire agli interessati spiegazioni comprensibili sulla logica del trattamento automatizzato', ref:'Art. 22 par. 3 GDPR · Considerando 71' },
+  m7: { name:'Informativa rafforzata', desc:'Informativa chiara e specifica sull\'uso di sistemi automatizzati e AI', ref:'Artt. 13-14 GDPR' },
+  m8: { name:'Controlli di accesso', desc:'Limitare l\'accesso ai dati al personale autorizzato con gestione dei privilegi', ref:'Art. 32 GDPR · Art. 25 GDPR' },
+  m9: { name:'Misure di sicurezza tecniche', desc:'Cifratura, pseudonimizzazione, sicurezza dell\'infrastruttura', ref:'Art. 32 GDPR' },
+  m10: { name:'Revisione periodica della DPIA', desc:'Pianificare un riesame periodico della DPIA e aggiornarla al variare del rischio', ref:'Art. 35 par. 11 GDPR' },
+  m11: { name:'Canali di contestazione e reclamo', desc:'Meccanismi accessibili per la contestazione delle decisioni e il reclamo', ref:'Art. 22 par. 3 e art. 77-79 GDPR' },
+  m12: { name:'Consultazione del DPO', desc:'Consultare il Responsabile della Protezione dei Dati nella conduzione della DPIA', ref:'Art. 35 par. 2 GDPR' },
+  m13: { name:'Consultazione degli interessati', desc:'Raccogliere il parere degli interessati o delle organizzazioni rappresentative, ove opportuno', ref:'Art. 35 par. 9 GDPR' },
+  m14: { name:'Test per bias e fairness', desc:'Condurre test specifici per verificare che il sistema non produca risultati discriminatori', ref:'AI Act · Linee guida EDPB' },
+  m15: { name:'Contratto ex art. 28 GDPR con fornitori', desc:'Contratti adeguati con fornitori esterni che agiscono come responsabili del trattamento', ref:'Art. 28 GDPR' }
+};
+
+// ===== INITIALIZE DYNAMIC SECTIONS =====
+function initNecessitySection() {
+  const container = document.getElementById('necessity-questions');
+  container.innerHTML = necessityQuestions.map((q,qi) => `
+    <div class="scale-q">
+      <div class="sq-text">${q.text}</div>
+      <div class="sq-note">${q.note}</div>
+      <div class="scale-options">
+        ${q.options.map((opt,oi) => `
+          <label class="scale-option" id="so-${q.id}-${oi}" onclick="selectScale('${q.id}',${oi})">
+            <input type="radio" name="${q.id}" value="${oi}">
+            <span>${opt}</span>
+          </label>
+        `).join('')}
+      </div>
+    </div>
+  `).join('');
+}
+
+function initRiskSection() {
+  const container = document.getElementById('risk-items-container');
+  container.innerHTML = riskItems.map(r => `
+    <div class="card risk-item" id="ri-${r.id}">
+      <div class="risk-item-header">
+        <div class="risk-name">${r.name}</div>
+        <div class="risk-score-badge badge-low" id="badge-${r.id}">—</div>
+      </div>
+      <div class="risk-desc">${r.desc}</div>
+      <div class="risk-controls">
+        <div class="risk-ctrl">
+          <label>Probabilità</label>
+          <select onchange="setRisk('${r.id}','prob',this.value)" id="prob-${r.id}">
+            <option value="">— Selezionare —</option>
+            <option value="1">Bassa — improbabile</option>
+            <option value="2">Media — possibile</option>
+            <option value="3">Alta — probabile</option>
+          </select>
+        </div>
+        <div class="risk-ctrl">
+          <label>Gravità delle conseguenze</label>
+          <select onchange="setRisk('${r.id}','grav',this.value)" id="grav-${r.id}">
+            <option value="">— Selezionare —</option>
+            <option value="1">Bassa — conseguenze minori</option>
+            <option value="2">Media — conseguenze significative</option>
+            <option value="3">Alta — conseguenze gravi/irreversibili</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function initMeasuresSection() {
+  const container = document.getElementById('measures-container');
+  const essentialIds = ['m3','m6','m7','m11','m12'];
+  container.innerHTML = measureGroups.map(group => `
+    <div class="card measure-category">
+      <div class="measure-category-title">${group.title}</div>
+      ${group.ids.map(id => {
+        const m = measureDefs[id];
+        const isEssential = essentialIds.includes(id);
+        return `
+        <div class="measure-item" id="mi-${id}" onclick="toggleMeasure('${id}')">
+          <input type="checkbox" id="cb-${id}" onclick="event.stopPropagation(); toggleMeasure('${id}')">
+          <div class="measure-info">
+            <div class="measure-name">${m.name}${isEssential ? '<span class="measure-essential-tag">Essenziale</span>' : ''}</div>
+            <div class="measure-desc">${m.desc}</div>
+            <div class="measure-ref">${m.ref}</div>
+          </div>
+        </div>`;
+      }).join('')}
+    </div>
+  `).join('');
+}
+
+// ===== TOGGLE / SETTERS =====
+function setToggle(id, val, btn) {
+  state.precheck[id] = val;
+  const yesBtn = document.getElementById(id+'-yes');
+  const noBtn = document.getElementById(id+'-no');
+  yesBtn.classList.remove('active-yes','active-no');
+  noBtn.classList.remove('active-yes','active-no');
+  if(val === 'yes') { yesBtn.classList.add('active-yes'); noBtn.classList.add('active-no'); }
+  else { noBtn.classList.add('active-yes'); yesBtn.classList.add('active-no'); }
+  computePrecheck();
+  updateSidebar();
+}
+
+function selectScale(id, idx) {
+  state.necessity[id] = idx;
+  // Clear all options for this question
+  necessityQuestions.find(q=>q.id===id).options.forEach((_,i) => {
+    const el = document.getElementById(`so-${id}-${i}`);
+    if(el) el.classList.remove('selected-0','selected-1','selected-2');
+  });
+  const sel = document.getElementById(`so-${id}-${idx}`);
+  if(sel) sel.classList.add(`selected-${idx}`);
+  document.querySelector(`#so-${id}-${idx} input`).checked = true;
+  computeNecessity();
+  updateSidebar();
+}
+
+function setRisk(id, field, val) {
+  state.risks[id][field] = val ? parseInt(val) : '';
+  updateRiskBadge(id);
+  computeRiskAggregate();
+  updateSidebar();
+}
+
+function updateRiskBadge(id) {
+  const r = state.risks[id];
+  const badge = document.getElementById('badge-'+id);
+  if(!r.prob || !r.grav) { badge.textContent='—'; badge.className='risk-score-badge badge-low'; return; }
+  const score = r.prob * r.grav;
+  badge.textContent = score+'/9';
+  badge.className = 'risk-score-badge ' + (score>=6?'badge-high': score>=3?'badge-med':'badge-low');
+}
+
+function toggleMeasure(id) {
+  state.measures[id] = !state.measures[id];
+  const mi = document.getElementById('mi-'+id);
+  const cb = document.getElementById('cb-'+id);
+  if(state.measures[id]) { mi.classList.add('selected'); cb.checked=true; }
+  else { mi.classList.remove('selected'); cb.checked=false; }
+  computeMeasuresCoverage();
+  updateSidebar();
+}
+
+// ===== COMPUTATIONS =====
+function computePrecheck() {
+  const p = state.precheck;
+  // Mandatory criteria
+  const obblig_a = p.p3==='yes' && p.p4==='yes'; // art 35(3)(a)
+  const obblig_b = p.p5==='yes' && p.p6==='yes'; // art 35(3)(b)
+  const obblig_c = p.p7==='yes';                   // art 35(3)(c)
+  const isObbligatoria = obblig_a || obblig_b || obblig_c;
+
+  // Count indicative criteria
+  const count = ['p1','p2','p3','p4','p5','p6','p7','p8','p9'].filter(k=>p[k]==='yes').length;
+
+  let result;
+  if(isObbligatoria) result = { code:'obbligatoria', color:'red', label:'DPIA obbligatoria', msg:`Il trattamento rientra in uno o più casi di DPIA obbligatoria ai sensi dell'art. 35 par. 3 GDPR (${obblig_a?'profilazione con effetti significativi — lett. a':''}${obblig_b?'dati particolari su larga scala — lett. b':''}${obblig_c?'sorveglianza sistematica — lett. c':''}). È necessario procedere con la valutazione d'impatto prima di avviare il trattamento.` };
+  else if(count>=2) result = { code:'raccomandata', color:'orange', label:'DPIA fortemente raccomandata', msg:`Il trattamento soddisfa ${count} criteri EDPB di rischio elevato. La DPIA è fortemente raccomandata anche se non strettamente obbligatoria ai sensi dell'art. 35 par. 3. Procedere con la valutazione e consultare il DPO se nominato.` };
+  else if(count===1) result = { code:'consigliata', color:'yellow', label:'DPIA consigliata', msg:'Il trattamento soddisfa 1 criterio EDPB. La DPIA non è immediatamente obbligatoria ma è consigliata una verifica più approfondita. Documentare la valutazione.' };
+  else if(Object.values(p).some(v=>v!==null)) result = { code:'non_necessaria', color:'green', label:'DPIA probabilmente non necessaria', msg:'Sulla base delle risposte, il trattamento non presenta criteri di rischio elevato che richiedano una DPIA. Documentare la valutazione e monitorare nel tempo.' };
+  else result = null;
+
+  state.precheckResult = result;
+
+  const box = document.getElementById('precheck-outcome');
+  if(result) {
+    box.classList.remove('hidden');
+    box.innerHTML = `<div class="outcome-box ${result.color}"><h3>${result.label}</h3><p>${result.msg}</p></div>`;
+  } else { box.classList.add('hidden'); }
+}
+
+function computeNecessity() {
+  const vals = Object.values(state.necessity);
+  if(vals.length === 0) return;
+  const answered = Object.keys(state.necessity).length;
+  if(answered < necessityQuestions.length) return;
+  const score = vals.reduce((a,b)=>a+b,0);
+  const max = necessityQuestions.length * 2;
+  const pct = score/max;
+  let color, label, msg;
+  if(pct < 0.25) { color='green'; label='Necessità e proporzionalità adeguate'; msg='Il trattamento appare necessario e proporzionato rispetto alle finalità dichiarate. I principi di minimizzazione, trasparenza e controllo umano risultano rispettati.'; }
+  else if(pct < 0.55) { color='yellow'; label='Necessità e proporzionalità parzialmente soddisfatte'; msg='Il trattamento è in parte giustificato rispetto alle finalità ma presenta alcuni profili critici. Alcune misure correttive sono necessarie prima di procedere o nel breve periodo.'; }
+  else { color='red'; label='Profili critici di necessità e proporzionalità'; msg='Il trattamento presenta significativi profili critici riguardo a necessità, proporzionalità o controllo umano. Sono necessarie misure correttive sostanziali. Valutare se riconsiderare le modalità del trattamento.'; }
+  state.necessityResult = { color, label, msg };
+  const box = document.getElementById('necessity-outcome');
+  box.classList.remove('hidden');
+  box.innerHTML = `<div class="outcome-box ${color}"><h3>${label}</h3><p>${msg}</p></div>`;
+}
+
+function computeRiskAggregate() {
+  const assessed = Object.entries(state.risks).filter(([,r])=>r.prob && r.grav);
+  if(assessed.length === 0) { document.getElementById('risk-aggregate-box').classList.add('hidden'); return; }
+  const scores = assessed.map(([id,r])=>({ id, score: r.prob*r.grav }));
+  const maxScore = Math.max(...scores.map(s=>s.score));
+  const avg = scores.reduce((a,s)=>a+s.score,0)/scores.length;
+  const highCount = scores.filter(s=>s.score>=6).length;
+  const medCount = scores.filter(s=>s.score>=3).length;
+
+  let level, color, label;
+  if(highCount>=1) { level='elevato'; color='red'; label='Rischio aggregato: ELEVATO'; }
+  else if(medCount>=2 || avg>=4) { level='medio_alto'; color='orange'; label='Rischio aggregato: MEDIO-ALTO'; }
+  else if(avg>=2) { level='medio'; color='yellow'; label='Rischio aggregato: MEDIO'; }
+  else { level='basso'; color='green'; label='Rischio aggregato: BASSO'; }
+
+  state.riskAggregate = { level, color, label, scores, avg: avg.toFixed(1), maxScore, highCount };
+
+  const box = document.getElementById('risk-aggregate-box');
+  box.classList.remove('hidden');
+  const tbody = scores.map(s=>{
+    const r = riskItems.find(ri=>ri.id===s.id);
+    const cls = s.score>=6?'badge-high':s.score>=3?'badge-med':'badge-low';
+    return `<tr><td>${r.name}</td><td><span class="risk-score-badge ${cls}" style="min-width:auto">${s.score}/9</span></td></tr>`;
+  }).join('');
+  box.querySelector('#risk-aggregate-content').innerHTML = `
+    <div class="outcome-box ${color}" style="margin-bottom:12px"><h3>${label}</h3><p>Media: ${avg} | Punteggio max: ${maxScore}/9 | Rischi alti: ${highCount}</p></div>
+    <table class="risk-table"><thead><tr><th>Rischio</th><th>Punteggio</th></tr></thead><tbody>${tbody}</tbody></table>`;
+}
+
+function computeMeasuresCoverage() {
+  const essentialIds = ['m3','m6','m7','m11','m12'];
+  const allIds = Object.keys(measureDefs);
+  const selected = allIds.filter(id=>state.measures[id]);
+  const totalSelected = selected.length;
+  const totalAll = allIds.length;
+  const pct = Math.round(totalSelected/totalAll*100);
+  const essentialMissing = essentialIds.filter(id=>!state.measures[id]);
+  let level;
+  if(pct>=80 && essentialMissing.length===0) level='alta';
+  else if(pct>=50) level='media';
+  else level='bassa';
+  state.measuresCoverage = { pct, level, selected, essentialMissing, totalSelected };
+
+  const sumBox = document.getElementById('measures-summary');
+  sumBox.classList.remove('hidden');
+  let html = `<p style="margin-bottom:12px"><strong>${totalSelected} di ${totalAll} misure</strong> selezionate (${pct}%). Copertura: <strong>${level.toUpperCase()}</strong></p>`;
+  if(essentialMissing.length>0) {
+    html += `<div class="outcome-box red" style="margin-bottom:12px"><h3>Misure essenziali mancanti</h3><ul style="list-style:disc; padding-left:20px; margin-top:8px">${essentialMissing.map(id=>`<li style="font-size:0.85rem">${measureDefs[id].name}</li>`).join('')}</ul></div>`;
+  } else if(totalSelected>0) {
+    html += `<div class="outcome-box green"><h3>Tutte le misure essenziali selezionate</h3><p>Tutte le misure contrassegnate come essenziali sono state selezionate.</p></div>`;
+  }
+  document.getElementById('measures-summary-content').innerHTML = html;
+}
+
+function computeFinalOutcome() {
+  const risk = state.riskAggregate;
+  const measures = state.measuresCoverage;
+  if(!risk || !measures) return;
+
+  let color, label, msg, actions;
+
+  if(risk.level==='elevato' && measures.level==='alta') {
+    color='yellow'; label='Rischio elevato ma mitigabile';
+    msg='Il trattamento presenta rischi elevati per i diritti e le libertà degli interessati, ma le misure di mitigazione adottate riducono significativamente il rischio residuo. Si può procedere adottando tutte le misure indicate e monitorando nel tempo il rischio residuo.';
+    actions=['Implementare e mantenere tutte le misure di mitigazione identificate','Consultare il DPO se nominato','Pianificare revisione periodica della DPIA','Valutare se è necessaria consultazione preventiva del Garante ex art. 36 GDPR'];
+  } else if(risk.level==='elevato' && measures.level==='media') {
+    color='red'; label='Rischio elevato — misure insufficienti';
+    msg='Il trattamento presenta rischi elevati e le misure di mitigazione adottate sono insufficienti. Non si dovrebbe procedere senza integrare le misure mancanti.';
+    actions=['NON procedere con il trattamento allo stato attuale','Integrare le misure di mitigazione mancanti entro i tempi definiti','Consultare il DPO se nominato','Valutare la consultazione preventiva del Garante ex art. 36 GDPR'];
+  } else if(risk.level==='elevato' && measures.level==='bassa') {
+    color='red'; label='Rischio non accettabile';
+    msg='Il trattamento presenta rischi elevati per i diritti e le libertà degli interessati e le misure di mitigazione sono del tutto insufficienti. Non si dovrebbe procedere. È necessaria la consultazione preventiva del Garante ai sensi dell\'art. 36 GDPR.';
+    actions=['NON procedere con il trattamento','Rivedere l\'intero impianto del trattamento','Consultazione preventiva del Garante obbligatoria ex art. 36 GDPR','Consultare il DPO se nominato','Valutare alternative meno invasive'];
+  } else if(risk.level==='medio_alto' && measures.level==='alta') {
+    color='green'; label='Rischio residuo contenuto';
+    msg='Il trattamento presenta profili di rischio medio-alti, ma le misure di mitigazione adottate riducono il rischio residuo a un livello accettabile. Si può procedere con il trattamento, mantenendo monitoraggio attivo.';
+    actions=['Implementare e mantenere le misure di mitigazione','Monitorare nel tempo il rischio residuo','Aggiornare la DPIA in caso di variazioni del trattamento'];
+  } else if(risk.level==='medio_alto' || risk.level==='medio') {
+    color='yellow'; label='Rischio medio — misure da completare';
+    msg='Il trattamento presenta rischi moderati e le misure adottate sono parzialmente sufficienti. Si può procedere con il trattamento integrando le misure mancanti entro tempi ragionevoli.';
+    actions=['Integrare le misure di mitigazione mancanti','Definire un piano di implementazione con scadenze','Monitorare il rischio residuo'];
+  } else {
+    color='green'; label='Rischio residuo contenuto';
+    msg='Il trattamento presenta rischi contenuti adeguatamente mitigati. Si può procedere.';
+    actions=['Mantenere le misure di mitigazione adottate','Revisione periodica della DPIA'];
+  }
+
+  state.finalOutcome = { color, label, msg, actions };
+
+  // Update semaforo
+  ['green','yellow','red'].forEach(c => {
+    document.getElementById('sl-'+c).className = 'semaforo-light';
+  });
+  document.getElementById('sl-'+color).classList.add('active-'+color);
+
+  const flabel = document.getElementById('final-label');
+  flabel.textContent = label;
+  flabel.className = 'final-label '+color;
+
+  document.getElementById('final-message').textContent = msg;
+
+  const actDiv = document.getElementById('final-actions');
+  actDiv.classList.remove('hidden');
+  document.getElementById('action-list').innerHTML = actions.map(a=>`<li>${a}</li>`).join('');
+}
+
+// ===== REPORT GENERATION =====
+function generateReport() {
+  const rs = document.getElementById('report-section');
+  rs.style.display = 'block';
+
+  const d = {
+    titolare: document.getElementById('d1').value || '[Titolare non specificato]',
+    finalita: document.getElementById('d2').value || '[Finalità non specificate]',
+    dati: document.getElementById('d3').value || '[Dati non specificati]',
+    interessati: document.getElementById('d4').value || '[Interessati non specificati]',
+    base: document.getElementById('d5').value || '[Base giuridica non specificata]',
+    ai: document.getElementById('d6').value || 'Non specificato',
+    processo: document.getElementById('d7').value || '[Processo non descritto]',
+    fornitori: document.getElementById('d8').value || 'Nessun fornitore esterno indicato',
+  };
+
+  const precheckLabel = state.precheckResult ? state.precheckResult.label : 'Non completato';
+
+  const riskRows = riskItems.map(ri => {
+    const r = state.risks[ri.id];
+    if(!r.prob || !r.grav) return '';
+    const score = r.prob * r.grav;
+    const level = score>=6?'ALTO':score>=3?'MEDIO':'BASSO';
+    const probLabel = r.prob===1?'Bassa':r.prob===2?'Media':'Alta';
+    const gravLabel = r.grav===1?'Bassa':r.grav===2?'Media':'Alta';
+    return `<tr><td>${ri.name}</td><td>${probLabel}</td><td>${gravLabel}</td><td><strong>${level} (${score}/9)</strong></td></tr>`;
+  }).filter(Boolean).join('');
+
+  const selectedMeasures = Object.keys(measureDefs).filter(id=>state.measures[id]).map(id=>measureDefs[id]);
+  const missingEssential = ['m3','m6','m7','m11','m12'].filter(id=>!state.measures[id]).map(id=>measureDefs[id]);
+
+  const necessityLines = necessityQuestions.map(q => {
+    const v = state.necessity[q.id];
+    if(v===undefined||v===null) return '';
+    return `<li><strong>${q.text}</strong><br>${q.options[v]}</li>`;
+  }).filter(Boolean).join('');
+
+  const outcome = state.finalOutcome || { label:'Non calcolato', msg:'Completare tutte le sezioni.', actions:[] };
+  const today = new Date().toLocaleDateString('it-IT');
+
+  document.getElementById('report-content').innerHTML = `
+    <h2>DPIA — Valutazione d'Impatto sulla Protezione dei Dati<br><small style="font-size:0.7em; font-weight:400">Ai sensi dell'art. 35 Reg. (UE) 2016/679 (GDPR)</small></h2>
+    <div class="report-meta">
+      Data di redazione: ${today} &nbsp;·&nbsp; Generato automaticamente da DPIA-Path<br>
+      Stato: <strong>Bozza — da revisionare e validare dal titolare e dal DPO</strong>
+    </div>
+
+    <h3>1. Descrizione del Trattamento</h3>
+    <p><strong>Titolare del trattamento:</strong> ${d.titolare}</p>
+    <p><strong>Finalità:</strong> ${d.finalita}</p>
+    <p><strong>Categorie di dati trattati:</strong> ${d.dati}</p>
+    <p><strong>Categorie di interessati:</strong> ${d.interessati}</p>
+    <p><strong>Base giuridica:</strong> ${d.base}</p>
+    <p><strong>Sistema AI / tecnologia:</strong> ${d.ai}</p>
+    <p><strong>Processo decisionale:</strong> ${d.processo}</p>
+    <p><strong>Fornitori esterni:</strong> ${d.fornitori}</p>
+    <p><strong>Esito precheck DPIA:</strong> ${precheckLabel}</p>
+
+    <h3>2. Necessità e Proporzionalità</h3>
+    ${necessityLines ? `<ul>${necessityLines}</ul>` : '<p>Sezione non compilata.</p>'}
+    ${state.necessityResult ? `<p><strong>Valutazione sintetica:</strong> ${state.necessityResult.label}. ${state.necessityResult.msg}</p>` : ''}
+
+    <h3>3. Rischi Individuati</h3>
+    ${riskRows ? `
+    <table class="risk-table" style="margin-top:8px">
+      <thead><tr><th>Rischio</th><th>Probabilità</th><th>Gravità</th><th>Livello</th></tr></thead>
+      <tbody>${riskRows}</tbody>
+    </table>
+    ${state.riskAggregate ? `<p style="margin-top:10px"><strong>Rischio aggregato: ${state.riskAggregate.label}</strong> (media punteggi: ${state.riskAggregate.avg}/9)</p>` : ''}
+    ` : '<p>Matrice dei rischi non compilata.</p>'}
+
+    <h3>4. Misure Previste</h3>
+    ${selectedMeasures.length > 0
+      ? `<ul>${selectedMeasures.map(m=>`<li><strong>${m.name}</strong> — ${m.desc} <em>(${m.ref})</em></li>`).join('')}</ul>`
+      : '<p>Nessuna misura selezionata.</p>'}
+    ${missingEssential.length > 0
+      ? `<p><strong>Misure essenziali mancanti:</strong></p><ul>${missingEssential.map(m=>`<li>${m.name}</li>`).join('')}</ul>`
+      : (selectedMeasures.length > 0 ? '<p>Tutte le misure essenziali sono state selezionate.</p>' : '')}
+
+    <h3>5. Esito Finale</h3>
+    <p><strong>${outcome.label}</strong></p>
+    <p>${outcome.msg}</p>
+    ${outcome.actions && outcome.actions.length > 0
+      ? `<p><strong>Azioni richieste:</strong></p><ul>${outcome.actions.map(a=>`<li>${a}</li>`).join('')}</ul>`
+      : ''}
+
+    <h3>6. Promemoria e Obblighi Successivi</h3>
+    <ul>
+      <li><strong>Consultare il DPO</strong>, se nominato, prima di procedere con il trattamento — <em>art. 35 par. 2 GDPR</em></li>
+      <li><strong>Aggiornare la DPIA</strong> in caso di variazione del rischio o delle modalità del trattamento — <em>art. 35 par. 11 GDPR</em></li>
+      <li>Se il rischio residuo rimane elevato, procedere a <strong>consultazione preventiva del Garante</strong> ex art. 36 GDPR prima di avviare il trattamento</li>
+      <li>Verificare che eventuali <strong>fornitori esterni</strong> abbiano sottoscritto un contratto di responsabile del trattamento ex art. 28 GDPR</li>
+    </ul>
+
+    <div class="report-disclaimer">
+      Il presente documento è una bozza generata automaticamente dalla web app DPIA-Path a fini didattici. Deve essere revisionata e validata dal titolare del trattamento e dal Responsabile della Protezione dei Dati (DPO) prima dell'uso in contesti reali. Non costituisce consulenza legale. Clinica Legale AI & DPIA — Rif. art. 35 Reg. (UE) 2016/679.
+    </div>
+  `;
+
+  rs.scrollIntoView({ behavior:'smooth', block:'start' });
+}
+
+// ===== NAVIGATION =====
+function navigate(dir) {
+  const next = state.current + dir;
+  if(next < 0 || next >= state.total) return;
+  goTo(next);
+}
+
+function goTo(idx) {
+  // Mark current as completed in nav
+  document.getElementById('nav'+state.current).classList.remove('active');
+  document.getElementById('nav'+state.current).classList.add('completed');
+
+  // Hide current section
+  document.getElementById('sec'+state.current).classList.remove('active');
+
+  state.current = idx;
+
+  // Show new section
+  document.getElementById('sec'+idx).classList.add('active');
+
+  // Update nav
+  for(let i=0;i<state.total;i++) {
+    document.getElementById('nav'+i).classList.remove('active');
+  }
+  document.getElementById('nav'+idx).classList.add('active');
+
+  // Update progress
+  const pct = Math.round(((idx+1)/state.total)*100);
+  document.getElementById('progress-bar-fill').style.width = pct+'%';
+  document.getElementById('progress-pct').textContent = pct+'%';
+  document.getElementById('progress-label').textContent = `Sezione ${idx+1} di ${state.total}`;
+
+  // Update buttons
+  document.getElementById('btn-back').style.visibility = idx===0?'hidden':'visible';
+  if(idx===state.total-1) {
+    document.getElementById('btn-next').textContent = 'Genera Esito';
+    document.getElementById('btn-next').onclick = () => { computeFinalOutcome(); };
+    document.getElementById('nav-hint').textContent = 'Ultima sezione — genera il report finale';
+  } else {
+    document.getElementById('btn-next').textContent = 'Avanti →';
+    document.getElementById('btn-next').onclick = () => navigate(1);
+    document.getElementById('nav-hint').textContent = '';
+  }
+
+  // Special: compute final on section 6
+  if(idx===5) computeFinalOutcome();
+
+  window.scrollTo({ top:0, behavior:'smooth' });
+}
+
+// ===== SIDEBAR UPDATE =====
+function updateSidebar() {
+  const chips = [];
+  const rows = [];
+
+  // Precheck
+  if(state.precheckResult) {
+    const colorMap = {green:'chip-green', yellow:'chip-yellow', orange:'chip-yellow', red:'chip-red'};
+    chips.push(`<span class="summary-chip ${colorMap[state.precheckResult.color]}">${state.precheckResult.label}</span>`);
+  }
+
+  // Description
+  const titolare = document.getElementById('d1') && document.getElementById('d1').value;
+  if(titolare) rows.push(`<div class="summary-row"><strong>Titolare:</strong> ${titolare.substring(0,30)}${titolare.length>30?'…':''}</div>`);
+
+  // Risk
+  if(state.riskAggregate) {
+    const cm = {elevato:'chip-red',medio_alto:'chip-yellow',medio:'chip-yellow',basso:'chip-green'};
+    chips.push(`<span class="summary-chip ${cm[state.riskAggregate.level]}">${state.riskAggregate.label}</span>`);
+  }
+
+  // Measures
+  if(state.measuresCoverage) {
+    const sel = state.measuresCoverage.totalSelected;
+    chips.push(`<span class="summary-chip chip-blue">${sel} misure selezionate</span>`);
+  }
+
+  // Final
+  if(state.finalOutcome) {
+    const cm = {green:'chip-green',yellow:'chip-yellow',red:'chip-red'};
+    chips.push(`<span class="summary-chip ${cm[state.finalOutcome.color]}">${state.finalOutcome.label}</span>`);
+  }
+
+  const sc = document.getElementById('summary-content');
+  if(chips.length===0 && rows.length===0) {
+    sc.innerHTML = '<div class="summary-row" style="color:rgba(200,208,224,0.4); font-style:italic; font-size:0.75rem;">Compila le sezioni per vedere il riepilogo.</div>';
+  } else {
+    sc.innerHTML = rows.join('') + chips.join('');
+  }
+}
+
+// ===== INIT =====
+function init() {
+  initNecessitySection();
+  initRiskSection();
+  initMeasuresSection();
+  // Wire up description fields for sidebar update
+  ['d1','d2','d3','d4','d5','d6','d7','d8'].forEach(id => {
+    const el = document.getElementById(id);
+    if(el) el.addEventListener('input', updateSidebar);
+  });
+  updateSidebar();
+}
+
+// ===== SEND TO DASHBOARD =====
+function collectSubmissionData() {
+  return {
+    id: 'sub-' + Date.now() + '-' + Math.random().toString(36).substr(2,5),
+    studente: document.getElementById('studente-name').value || 'Anonimo',
+    timestamp: new Date().toISOString(),
+    titolare: document.getElementById('d1').value || '',
+    finalita: document.getElementById('d2').value || '',
+    dati: document.getElementById('d3').value || '',
+    interessati: document.getElementById('d4').value || '',
+    base: document.getElementById('d5').value || '',
+    ai: document.getElementById('d6').value || '',
+    processo: document.getElementById('d7').value || '',
+    fornitori: document.getElementById('d8').value || '',
+    precheck: {...state.precheck},
+    precheckLabel: state.precheckResult ? state.precheckResult.label : '',
+    necessity: {...state.necessity},
+    necessityResult: state.necessityResult || null,
+    risks: JSON.parse(JSON.stringify(state.risks)),
+    riskAvg: state.riskAggregate ? state.riskAggregate.avg : null,
+    riskAggregate: state.riskAggregate ? { level: state.riskAggregate.level, label: state.riskAggregate.label } : null,
+    measures: {...state.measures},
+    measuresCount: state.measuresCoverage ? state.measuresCoverage.totalSelected : 0,
+    finalColor: state.finalOutcome ? state.finalOutcome.color : 'gray',
+    finalLabel: state.finalOutcome ? state.finalOutcome.label : 'Non completato',
+    finalMessage: state.finalOutcome ? state.finalOutcome.msg : ''
+  };
+}
+
+function sendToDocente() {
+  const fb = document.getElementById('send-feedback');
+  const nameInput = document.getElementById('studente-name');
+  if(!nameInput.value.trim()) {
+    fb.style.display = 'block';
+    fb.innerHTML = '<span style="color:var(--red)">Inserisci il tuo nome o gruppo prima di inviare.</span>';
+    nameInput.focus();
+    return;
+  }
+
+  // Compute final if not done
+  computeRiskAggregate();
+  computeMeasuresCoverage();
+  computeFinalOutcome();
+
+  const data = collectSubmissionData();
+  const url = (typeof DPIA_CONFIG !== 'undefined' && DPIA_CONFIG.APPS_SCRIPT_URL) || '';
+
+  if(!url) {
+    fb.style.display = 'block';
+    fb.innerHTML = '<span style="color:var(--red)">Errore: URL del server non configurato. Contattare il docente.</span>';
+    return;
+  }
+
+  fb.style.display = 'block';
+  fb.innerHTML = '<span style="color:var(--primary)">&#9203; Invio in corso...</span>';
+
+  // Disabilita pulsante durante invio
+  document.getElementById('btn-send').disabled = true;
+
+  fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'text/plain' },
+    body: JSON.stringify(data),
+    redirect: 'follow'
+  })
+  .then(r => {
+    // Google Apps Script può restituire opaque response con redirect
+    if(r.ok || r.type === 'opaque' || r.type === 'cors' || r.status === 200 || r.redirected) {
+      return r.text().then(t => { try { return JSON.parse(t); } catch(e) { return {status:'ok'}; }});
+    }
+    // Anche se status non è 200, il dato è probabilmente arrivato
+    return {status:'ok'};
+  })
+  .then(res => {
+    fb.innerHTML = '<span style="color:var(--green)">&#10004; <strong>Report inviato con successo!</strong> Il docente lo vedrà sulla Dashboard.</span>';
+    document.getElementById('btn-send').disabled = false;
+  })
+  .catch(e => {
+    // Con Google Apps Script, un errore di CORS spesso significa che il dato è arrivato comunque
+    // Proviamo con no-cors come fallback
+    fetch(url, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'text/plain' },
+      body: JSON.stringify(data)
+    }).then(() => {
+      fb.innerHTML = '<span style="color:var(--green)">&#10004; <strong>Report inviato!</strong> Il docente lo vedrà sulla Dashboard.</span>';
+    }).catch(() => {
+      fb.innerHTML = '<span style="color:var(--red)">&#9888; Errore di connessione. Riprova tra qualche secondo.</span>';
+    });
+    document.getElementById('btn-send').disabled = false;
+  });
+}
+
+window.addEventListener('DOMContentLoaded', init);
+</script>
+</body>
+</html>

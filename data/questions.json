@@ -1,0 +1,441 @@
+{
+  "metadata": {
+    "version": "1.0",
+    "riferimento_normativo": "Art. 35 GDPR (Reg. UE 2016/679)",
+    "lingua": "it",
+    "descrizione": "Domande per la conduzione guidata di una DPIA ai sensi dell'art. 35 GDPR"
+  },
+
+  "sezione1_precheck": {
+    "titolo": "Precheck — Necessità della DPIA",
+    "sottotitolo": "Verifica se il trattamento richiede una valutazione d'impatto",
+    "riferimento": "Art. 35 par. 1 e 3 GDPR; Linee guida WP248 EDPB",
+    "istruzioni": "Rispondere sì o no a ciascuna domanda. Anche una sola risposta affermativa ai criteri obbligatori rende la DPIA necessaria.",
+    "domande": [
+      {
+        "id": "p1",
+        "testo": "Il trattamento prevede l'uso di nuove tecnologie (es. intelligenza artificiale, machine learning, biometria, IoT, blockchain)?",
+        "tipo": "booleano",
+        "peso_rischio": 1,
+        "obbligatorio_se_positivo": false,
+        "nota_giuridica": "Il riferimento alle 'nuove tecnologie' è esplicito nell'art. 35 par. 1 GDPR. La novità tecnologica aumenta l'incertezza sui rischi e rafforza la necessità di DPIA.",
+        "criterio_edpb": "uso innovativo o applicazione di nuove soluzioni tecnologiche"
+      },
+      {
+        "id": "p2",
+        "testo": "Il trattamento utilizza sistemi di intelligenza artificiale o algoritmi per supportare o automatizzare decisioni?",
+        "tipo": "booleano",
+        "peso_rischio": 2,
+        "obbligatorio_se_positivo": false,
+        "nota_giuridica": "I sistemi AI implicano opacità e imprevedibilità. L'uso di AI è un forte indicatore di rischio elevato ai sensi dell'art. 35 GDPR e rilevante anche per l'AI Act.",
+        "criterio_edpb": "decisione automatizzata con effetti significativi"
+      },
+      {
+        "id": "p3",
+        "testo": "Il trattamento include profilazione degli interessati (attribuzione di profili, punteggi, categorie)?",
+        "tipo": "booleano",
+        "peso_rischio": 2,
+        "obbligatorio_se_positivo": true,
+        "trigger_obbligo": "art35_par3_a",
+        "nota_giuridica": "La profilazione con effetti significativi è uno dei tre casi di DPIA obbligatoria ex art. 35 par. 3 lett. a) GDPR.",
+        "criterio_edpb": "valutazione/scoring"
+      },
+      {
+        "id": "p4",
+        "testo": "Le decisioni adottate sulla base del trattamento hanno effetti giuridici o effetti analoghi significativi sulla persona (es. accesso a servizi, credito, lavoro, alloggio, benefici sociali)?",
+        "tipo": "booleano",
+        "peso_rischio": 2,
+        "obbligatorio_se_positivo": true,
+        "trigger_obbligo": "art35_par3_a",
+        "nota_giuridica": "Gli 'effetti analoghi significativi' includono qualsiasi decisione che incide in modo rilevante sulla condizione della persona fisica, anche senza effetto formalmente giuridico.",
+        "criterio_edpb": "decisione automatizzata con effetti significativi"
+      },
+      {
+        "id": "p5",
+        "testo": "Il trattamento riguarda categorie particolari di dati ex art. 9 GDPR (salute, origine etnica, religione, orientamento sessuale, biometria, genetica, opinioni politiche, sindacato) o dati penali ex art. 10?",
+        "tipo": "booleano",
+        "peso_rischio": 2,
+        "obbligatorio_se_positivo": true,
+        "trigger_obbligo": "art35_par3_b",
+        "nota_giuridica": "Il trattamento su larga scala di dati particolari ex art. 9 o dati penali ex art. 10 è caso di DPIA obbligatoria (art. 35 par. 3 lett. b).",
+        "criterio_edpb": "dati sensibili o di natura altamente personale"
+      },
+      {
+        "id": "p6",
+        "testo": "Il trattamento avviene su larga scala (ampio numero di interessati, grande volume di dati, vasta estensione geografica o durata prolungata)?",
+        "tipo": "booleano",
+        "peso_rischio": 1,
+        "obbligatorio_se_positivo": false,
+        "nota_giuridica": "La 'larga scala' va valutata combinando: numero di interessati, volume di dati, area geografica, durata del trattamento. Non c'è soglia quantitativa fissa.",
+        "criterio_edpb": "dati trattati su larga scala"
+      },
+      {
+        "id": "p7",
+        "testo": "Il trattamento implica sorveglianza sistematica di zone accessibili al pubblico (videosorveglianza, tracciamento geolocalizzato, monitoraggio di comportamenti in luoghi pubblici)?",
+        "tipo": "booleano",
+        "peso_rischio": 2,
+        "obbligatorio_se_positivo": true,
+        "trigger_obbligo": "art35_par3_c",
+        "nota_giuridica": "La sorveglianza sistematica su larga scala di zone pubbliche è il terzo caso di DPIA obbligatoria ex art. 35 par. 3 lett. c).",
+        "criterio_edpb": "monitoraggio sistematico"
+      },
+      {
+        "id": "p8",
+        "testo": "Il trattamento riguarda soggetti vulnerabili (minori, anziani, persone con disabilità, richiedenti asilo, pazienti, dipendenti)?",
+        "tipo": "booleano",
+        "peso_rischio": 1,
+        "obbligatorio_se_positivo": false,
+        "nota_giuridica": "I soggetti vulnerabili non possono difendersi facilmente dalle conseguenze negative del trattamento. La loro presenza è un criterio di rischio elevato.",
+        "criterio_edpb": "dati relativi a soggetti vulnerabili"
+      },
+      {
+        "id": "p9",
+        "testo": "Il trattamento prevede l'abbinamento o la combinazione di dati provenienti da fonti diverse (es. banche dati pubbliche, dati privati, social media, fonti aperte)?",
+        "tipo": "booleano",
+        "peso_rischio": 1,
+        "obbligatorio_se_positivo": false,
+        "nota_giuridica": "L'incrocio di dataset aumenta significativamente il rischio di re-identificazione e di produzione di inferenze non attese.",
+        "criterio_edpb": "abbinamento o combinazione di dataset"
+      }
+    ]
+  },
+
+  "sezione2_descrizione": {
+    "titolo": "Descrizione del Trattamento",
+    "sottotitolo": "Descrizione sistematica ai sensi dell'art. 35 par. 7 lett. a) GDPR",
+    "istruzioni": "Compilare tutti i campi con la massima precisione. Queste informazioni costituiscono la base della DPIA.",
+    "campi": [
+      {
+        "id": "d1",
+        "etichetta": "Titolare del trattamento",
+        "tipo": "testo_breve",
+        "placeholder": "Es: Comune di X, Azienda Y Srl, Università Z",
+        "obbligatorio": true,
+        "nota": "Indicare la denominazione completa e la qualità giuridica del titolare"
+      },
+      {
+        "id": "d2",
+        "etichetta": "Finalità del trattamento",
+        "tipo": "testo_lungo",
+        "placeholder": "Descrivere in modo chiaro e specifico lo scopo per cui i dati vengono trattati",
+        "obbligatorio": true,
+        "nota": "Le finalità devono essere specifiche, esplicite e legittime (art. 5 par. 1 lett. b GDPR)"
+      },
+      {
+        "id": "d3",
+        "etichetta": "Categorie di dati trattati",
+        "tipo": "testo_lungo",
+        "placeholder": "Es: dati anagrafici, economici, di salute, biometrici, comportamentali...",
+        "obbligatorio": true,
+        "nota": "Specificare se sono presenti dati ex art. 9 o art. 10 GDPR"
+      },
+      {
+        "id": "d4",
+        "etichetta": "Categorie di interessati",
+        "tipo": "testo_lungo",
+        "placeholder": "Es: clienti, dipendenti, utenti del servizio, richiedenti, pazienti...",
+        "obbligatorio": true,
+        "nota": "Indicare se tra gli interessati vi sono soggetti vulnerabili"
+      },
+      {
+        "id": "d5",
+        "etichetta": "Base giuridica del trattamento",
+        "tipo": "selezione",
+        "opzioni": [
+          "Art. 6 par. 1 lett. a) — Consenso dell'interessato",
+          "Art. 6 par. 1 lett. b) — Esecuzione di un contratto",
+          "Art. 6 par. 1 lett. c) — Obbligo legale",
+          "Art. 6 par. 1 lett. d) — Interessi vitali",
+          "Art. 6 par. 1 lett. e) — Compito di interesse pubblico",
+          "Art. 6 par. 1 lett. f) — Legittimo interesse",
+          "Altra base giuridica (specificare)"
+        ],
+        "obbligatorio": true,
+        "nota": "Per dati ex art. 9, verificare che ricorra anche una delle condizioni di cui all'art. 9 par. 2"
+      },
+      {
+        "id": "d6",
+        "etichetta": "Descrizione del sistema AI o della tecnologia utilizzata",
+        "tipo": "testo_lungo",
+        "placeholder": "Descrivere il sistema tecnico: tipo di algoritmo, dati di addestramento, output prodotto, fornitore (se esterno)...",
+        "obbligatorio": false,
+        "nota": "Rilevante per la valutazione del rischio. Specificare se il sistema è trasparente o opaco (black box)"
+      },
+      {
+        "id": "d7",
+        "etichetta": "Descrizione del processo decisionale",
+        "tipo": "testo_lungo",
+        "placeholder": "Come viene adottata la decisione? Chi interviene? Qual è il grado di automazione? Esiste controllo umano?",
+        "obbligatorio": true,
+        "nota": "Fondamentale per la valutazione ai sensi dell'art. 22 GDPR"
+      },
+      {
+        "id": "d8",
+        "etichetta": "Ruolo di fornitori esterni",
+        "tipo": "testo_lungo",
+        "placeholder": "Se applicabile: chi sono i fornitori esterni? Come agiscono (responsabili, co-titolari, terzi)? Esistono contratti ex art. 28?",
+        "obbligatorio": false,
+        "nota": "Il ricorso a fornitori esterni non riduce la responsabilità del titolare"
+      },
+      {
+        "id": "d9",
+        "etichetta": "Trasferimenti verso paesi terzi o organizzazioni internazionali",
+        "tipo": "testo_breve",
+        "placeholder": "Sì / No — se sì, specificare il paese e il meccanismo di garanzia",
+        "obbligatorio": false,
+        "nota": "I trasferimenti verso paesi terzi senza adeguata protezione aumentano il rischio"
+      }
+    ]
+  },
+
+  "sezione3_necessita": {
+    "titolo": "Necessità e Proporzionalità",
+    "sottotitolo": "Valutazione ai sensi dell'art. 35 par. 7 lett. b) GDPR",
+    "istruzioni": "Valutare se il trattamento è necessario e proporzionato rispetto alle finalità perseguite.",
+    "domande": [
+      {
+        "id": "n1",
+        "testo": "Il trattamento è strettamente necessario per il raggiungimento della finalità dichiarata?",
+        "tipo": "scala",
+        "opzioni": ["Sì, pienamente giustificato", "Parzialmente — alcune componenti potrebbero essere ridotte", "No — esistono alternative meno invasive non considerate"],
+        "nota_giuridica": "Il principio di necessità (art. 5 par. 1 lett. c) impone che i dati siano 'adeguati, pertinenti e limitati a quanto necessario rispetto alle finalità'."
+      },
+      {
+        "id": "n2",
+        "testo": "Esistono alternative tecniche o organizzative meno invasive per la privacy che consentirebbero di raggiungere la medesima finalità?",
+        "tipo": "scala",
+        "opzioni": ["No — il trattamento è l'unica soluzione praticabile", "Parzialmente — alcune alternative sono state valutate ma scartate per ragioni giustificate", "Sì — esistono alternative meno invasive non adeguatamente considerate"],
+        "nota_giuridica": "Il principio di privacy by design (art. 25 GDPR) impone di valutare soluzioni alternative meno invasive già in fase di progettazione."
+      },
+      {
+        "id": "n3",
+        "testo": "I dati raccolti sono pertinenti e non eccedenti rispetto alle finalità?",
+        "tipo": "scala",
+        "opzioni": ["Sì — i dati sono minimali e strettamente pertinenti", "Parzialmente — alcune categorie di dati potrebbero essere ridotte", "No — vengono raccolti più dati del necessario"],
+        "nota_giuridica": "Principio di minimizzazione dei dati (art. 5 par. 1 lett. c GDPR)."
+      },
+      {
+        "id": "n4",
+        "testo": "Gli interessati sono adeguatamente informati del trattamento (informativa ex artt. 13-14 GDPR)?",
+        "tipo": "scala",
+        "opzioni": ["Sì — informativa chiara, accessibile, completa", "Parzialmente — l'informativa è presente ma incompleta o poco accessibile", "No — informativa assente o inadeguata"],
+        "nota_giuridica": "Il principio di trasparenza (art. 5 par. 1 lett. a GDPR) richiede che gli interessati siano informati in modo chiaro, incluso quando si usano sistemi AI."
+      },
+      {
+        "id": "n5",
+        "testo": "Esiste un controllo umano effettivo e significativo sulle decisioni adottate dal sistema?",
+        "tipo": "scala",
+        "opzioni": ["Sì — intervento umano sistematico e sostanziale", "Parzialmente — il controllo esiste formalmente ma è raramente esercitato", "No — il processo è sostanzialmente automatizzato senza controllo umano reale"],
+        "nota_giuridica": "L'art. 22 GDPR impone garanzie specifiche per le decisioni automatizzate, incluso il diritto all'intervento umano. Il controllo meramente formale non soddisfa questo requisito."
+      },
+      {
+        "id": "n6",
+        "testo": "La logica del trattamento algoritmico è spiegabile e comprensibile per gli interessati?",
+        "tipo": "scala",
+        "opzioni": ["Sì — il sistema è trasparente e la logica è comunicabile", "Parzialmente — la spiegazione è disponibile ma tecnica e poco accessibile", "No — il sistema è opaco (black box) e la logica non è comunicabile"],
+        "nota_giuridica": "L'art. 22 par. 3 GDPR prevede il diritto dell'interessato di ottenere spiegazioni significative sulla logica dell'elaborazione automatizzata."
+      },
+      {
+        "id": "n7",
+        "testo": "Esistono meccanismi per limitare la conservazione dei dati nel tempo (retention policy)?",
+        "tipo": "scala",
+        "opzioni": ["Sì — i tempi di conservazione sono definiti e proporzionati", "Parzialmente — esistono limiti ma non chiaramente definiti o applicati", "No — i dati vengono conservati a tempo indeterminato o senza policy chiara"],
+        "nota_giuridica": "Principio di limitazione della conservazione (art. 5 par. 1 lett. e GDPR)."
+      }
+    ]
+  },
+
+  "sezione4_rischi": {
+    "titolo": "Valutazione dei Rischi per i Diritti e le Libertà",
+    "sottotitolo": "Matrice dei rischi ai sensi dell'art. 35 par. 7 lett. c) GDPR",
+    "istruzioni": "Per ciascun rischio identificato, indicare la probabilità che si verifichi e la gravità delle conseguenze per gli interessati.",
+    "scala_probabilita": {
+      "bassa": { "valore": 1, "descrizione": "Il rischio è improbabile nella pratica" },
+      "media": { "valore": 2, "descrizione": "Il rischio può verificarsi in alcune circostanze" },
+      "alta": { "valore": 3, "descrizione": "Il rischio è probabile o frequente" }
+    },
+    "scala_gravita": {
+      "bassa": { "valore": 1, "descrizione": "Conseguenze minori o reversibili per gli interessati" },
+      "media": { "valore": 2, "descrizione": "Conseguenze significative ma rimediabili" },
+      "alta": { "valore": 3, "descrizione": "Conseguenze gravi, irreversibili o che ledono diritti fondamentali" }
+    },
+    "rischi": [
+      {
+        "id": "r1",
+        "nome": "Discriminazione algoritmica",
+        "descrizione": "Il sistema può produrre risultati discriminatori basati su caratteristiche protette (origine, genere, disabilità, orientamento sessuale, ecc.) o loro proxy",
+        "esempi": "Assegnazione di punteggi più bassi a determinate comunità; bias nei dati di addestramento; discriminazione indiretta attraverso variabili proxy",
+        "riferimento_normativo": "Art. 21 Carta dei diritti fondamentali UE; art. 22 GDPR; AI Act art. 10"
+      },
+      {
+        "id": "r2",
+        "nome": "Errore decisionale",
+        "descrizione": "Il sistema può produrre decisioni errate con conseguenze negative per gli interessati che non hanno commesso alcuna irregolarità",
+        "esempi": "Falsi negativi in sistemi di scoring; classificazioni errate; dati di input incorretti o non aggiornati",
+        "riferimento_normativo": "Art. 16 e 17 GDPR (diritto di rettifica e cancellazione); art. 22 GDPR"
+      },
+      {
+        "id": "r3",
+        "nome": "Opacità e mancanza di spiegabilità",
+        "descrizione": "Gli interessati non possono comprendere come è stata adottata la decisione che li riguarda, né verificarne la correttezza",
+        "esempi": "Sistemi black box; decisioni prive di motivazione; algoritmi proprietari non auditabili",
+        "riferimento_normativo": "Art. 22 par. 3 GDPR; art. 5 par. 1 lett. a GDPR (trasparenza)"
+      },
+      {
+        "id": "r4",
+        "nome": "Esclusione o pregiudizio ingiustificato",
+        "descrizione": "Il sistema può escludere ingiustificatamente alcune persone dall'accesso a servizi, opportunità o diritti",
+        "esempi": "Esclusione da servizi sociali; mancato accesso a benefici; graduatorie penalizzanti",
+        "riferimento_normativo": "Art. 47 Carta dei diritti fondamentali; principio di non discriminazione"
+      },
+      {
+        "id": "r5",
+        "nome": "Impossibilità di contestazione",
+        "descrizione": "Gli interessati non possono contestare efficacemente le decisioni che li riguardano",
+        "esempi": "Assenza di meccanismi di ricorso; procedure di contestazione complesse o inaccessibili; mancanza di trasparenza sulle motivazioni",
+        "riferimento_normativo": "Art. 22 par. 3 GDPR; art. 77-79 GDPR (diritti di ricorso)"
+      },
+      {
+        "id": "r6",
+        "nome": "Violazione della riservatezza",
+        "descrizione": "I dati personali possono essere divulgati a soggetti non autorizzati o usati per finalità diverse da quelle dichiarate",
+        "esempi": "Data breach; accessi non autorizzati; condivisione non consentita con terzi",
+        "riferimento_normativo": "Art. 32 GDPR (sicurezza); art. 33-34 GDPR (notifica data breach)"
+      },
+      {
+        "id": "r7",
+        "nome": "Uso improprio dei dati",
+        "descrizione": "I dati raccolti per una finalità possono essere riutilizzati per finalità incompatibili",
+        "esempi": "Dati sociali riutilizzati per finalità commerciali; dati di salute usati per assicurazioni; profilazione per finalità non dichiarate",
+        "riferimento_normativo": "Art. 5 par. 1 lett. b GDPR (limitazione della finalità)"
+      },
+      {
+        "id": "r8",
+        "nome": "Vulnerabilità di sicurezza",
+        "descrizione": "Il sistema può essere oggetto di attacchi informatici, manipolazioni o accessi non autorizzati",
+        "esempi": "Attacchi adversariali agli algoritmi AI; manipolazione dei dati di input; vulnerabilità del sistema informatico",
+        "riferimento_normativo": "Art. 32 GDPR; AI Act (requisiti di robustezza)"
+      },
+      {
+        "id": "r9",
+        "nome": "Effetti su soggetti vulnerabili",
+        "descrizione": "Le conseguenze negative del trattamento colpiscono in modo sproporzionato persone già in situazioni di svantaggio",
+        "esempi": "Minori non in grado di comprendere le conseguenze; anziani non in grado di esercitare i propri diritti; persone in condizioni di vulnerabilità economica o sociale",
+        "riferimento_normativo": "Considerando 75 e 83 GDPR; art. 8 GDPR (minori)"
+      }
+    ]
+  },
+
+  "sezione5_misure": {
+    "titolo": "Misure di Mitigazione",
+    "sottotitolo": "Misure previste ai sensi dell'art. 35 par. 7 lett. d) GDPR",
+    "istruzioni": "Selezionare le misure di mitigazione adottate o previste. Per ciascuna misura non selezionata, valutare se la sua assenza è giustificata.",
+    "misure": [
+      {
+        "id": "m1",
+        "nome": "Minimizzazione dei dati",
+        "descrizione": "Raccogliere e trattare solo i dati strettamente necessari alle finalità dichiarate",
+        "riferimento": "Art. 5 par. 1 lett. c GDPR",
+        "categoria": "principi_gdpr"
+      },
+      {
+        "id": "m2",
+        "nome": "Limitazione della finalità",
+        "descrizione": "Garantire che i dati siano usati solo per le finalità per cui sono stati raccolti",
+        "riferimento": "Art. 5 par. 1 lett. b GDPR",
+        "categoria": "principi_gdpr"
+      },
+      {
+        "id": "m3",
+        "nome": "Controllo umano effettivo",
+        "descrizione": "Prevedere un intervento umano sostanziale e non meramente formale nelle decisioni significative",
+        "riferimento": "Art. 22 GDPR",
+        "categoria": "governance_ai"
+      },
+      {
+        "id": "m4",
+        "nome": "Logging e tracciabilità",
+        "descrizione": "Registrare gli accessi ai dati e le operazioni di trattamento per consentire audit e verifiche",
+        "riferimento": "Art. 32 GDPR; AI Act (art. 12)",
+        "categoria": "sicurezza_tecnica"
+      },
+      {
+        "id": "m5",
+        "nome": "Audit periodici",
+        "descrizione": "Condurre verifiche periodiche del sistema per identificare errori, bias e vulnerabilità",
+        "riferimento": "Art. 35 par. 11 GDPR; AI Act",
+        "categoria": "governance_ai"
+      },
+      {
+        "id": "m6",
+        "nome": "Explainability — spiegazioni intelligibili",
+        "descrizione": "Fornire agli interessati spiegazioni comprensibili sulla logica del trattamento automatizzato",
+        "riferimento": "Art. 22 par. 3 GDPR; Considerando 71 GDPR",
+        "categoria": "governance_ai"
+      },
+      {
+        "id": "m7",
+        "nome": "Informativa rafforzata",
+        "descrizione": "Fornire un'informativa chiara, accessibile e specifica sull'uso di sistemi automatizzati e AI",
+        "riferimento": "Artt. 13-14 GDPR",
+        "categoria": "trasparenza"
+      },
+      {
+        "id": "m8",
+        "nome": "Controlli di accesso",
+        "descrizione": "Limitare l'accesso ai dati al personale autorizzato, con gestione dei privilegi basata sul principio del minimo",
+        "riferimento": "Art. 32 GDPR; Art. 25 GDPR (privacy by default)",
+        "categoria": "sicurezza_tecnica"
+      },
+      {
+        "id": "m9",
+        "nome": "Misure di sicurezza tecniche",
+        "descrizione": "Adottare misure tecniche adeguate: cifratura, pseudonimizzazione, sicurezza dell'infrastruttura",
+        "riferimento": "Art. 32 GDPR",
+        "categoria": "sicurezza_tecnica"
+      },
+      {
+        "id": "m10",
+        "nome": "Revisione periodica della DPIA",
+        "descrizione": "Pianificare un riesame periodico della DPIA e aggiornarla al variare del rischio",
+        "riferimento": "Art. 35 par. 11 GDPR",
+        "categoria": "governance_dpia"
+      },
+      {
+        "id": "m11",
+        "nome": "Canali di contestazione e reclamo",
+        "descrizione": "Predisporre meccanismi accessibili per la contestazione delle decisioni e il reclamo degli interessati",
+        "riferimento": "Art. 22 par. 3 e art. 77-79 GDPR",
+        "categoria": "diritti_interessati"
+      },
+      {
+        "id": "m12",
+        "nome": "Consultazione del DPO",
+        "descrizione": "Consultare il Responsabile della Protezione dei Dati nella conduzione della DPIA",
+        "riferimento": "Art. 35 par. 2 GDPR",
+        "categoria": "governance_dpia"
+      },
+      {
+        "id": "m13",
+        "nome": "Consultazione degli interessati o loro rappresentanti",
+        "descrizione": "Raccogliere il parere degli interessati o delle organizzazioni che li rappresentano, ove opportuno",
+        "riferimento": "Art. 35 par. 9 GDPR",
+        "categoria": "governance_dpia"
+      },
+      {
+        "id": "m14",
+        "nome": "Test per bias e fairness",
+        "descrizione": "Condurre test specifici per verificare che il sistema non produca risultati discriminatori",
+        "riferimento": "AI Act; Linee guida EDPB su AI",
+        "categoria": "governance_ai"
+      },
+      {
+        "id": "m15",
+        "nome": "Contratto ex art. 28 GDPR con fornitori esterni",
+        "descrizione": "Stipulare contratti adeguati con i fornitori esterni che agiscono come responsabili del trattamento",
+        "riferimento": "Art. 28 GDPR",
+        "categoria": "governance_dpia"
+      }
+    ]
+  }
+}

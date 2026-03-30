@@ -1,0 +1,288 @@
+{
+  "metadata": {
+    "version": "1.0",
+    "descrizione": "Logica di scoring per la valutazione del rischio DPIA",
+    "riferimento": "Linee guida WP248 EDPB; Art. 35 GDPR",
+    "nota": "Il punteggio è uno strumento di supporto. La valutazione finale spetta al titolare del trattamento, preferibilmente con il supporto del DPO."
+  },
+
+  "precheck_scoring": {
+    "descrizione": "Calcolo della necessità della DPIA sulla base del precheck iniziale",
+    "logica": {
+      "criteri_obbligatori": {
+        "descrizione": "Se almeno uno di questi criteri è soddisfatto, la DPIA è obbligatoria ai sensi dell'art. 35 par. 3",
+        "soglia": 1,
+        "criteri": [
+          {
+            "id": "p3_p4",
+            "condizione": "p3 AND p4",
+            "norma": "Art. 35 par. 3 lett. a",
+            "descrizione": "Profilazione con effetti giuridici o analoghi significativi"
+          },
+          {
+            "id": "p5_p6",
+            "condizione": "p5 AND p6",
+            "norma": "Art. 35 par. 3 lett. b",
+            "descrizione": "Dati particolari su larga scala"
+          },
+          {
+            "id": "p7",
+            "condizione": "p7",
+            "norma": "Art. 35 par. 3 lett. c",
+            "descrizione": "Sorveglianza sistematica di zone pubbliche su larga scala"
+          }
+        ]
+      },
+      "criteri_indicativi": {
+        "descrizione": "Criteri EDPB — se almeno 2 sono soddisfatti, la DPIA è fortemente raccomandata",
+        "soglia_raccomandazione_forte": 2,
+        "soglia_raccomandazione_base": 1,
+        "criteri": [
+          { "id": "p1", "peso": 1, "criterio_edpb": "Uso di nuove tecnologie" },
+          { "id": "p2", "peso": 1, "criterio_edpb": "Uso di AI o sistemi automatizzati" },
+          { "id": "p3", "peso": 1, "criterio_edpb": "Profilazione" },
+          { "id": "p4", "peso": 1, "criterio_edpb": "Decisioni con effetti significativi" },
+          { "id": "p5", "peso": 1, "criterio_edpb": "Dati particolari" },
+          { "id": "p6", "peso": 1, "criterio_edpb": "Larga scala" },
+          { "id": "p7", "peso": 1, "criterio_edpb": "Sorveglianza sistematica" },
+          { "id": "p8", "peso": 1, "criterio_edpb": "Soggetti vulnerabili" },
+          { "id": "p9", "peso": 1, "criterio_edpb": "Abbinamento di dataset" }
+        ]
+      }
+    },
+    "esiti": {
+      "obbligatoria": {
+        "codice": "DPIA_OBBLIGATORIA",
+        "label": "DPIA obbligatoria",
+        "colore": "rosso",
+        "messaggio": "Il trattamento rientra in uno dei casi di DPIA obbligatoria ex art. 35 par. 3 GDPR. È necessario procedere con la valutazione d'impatto prima di avviare il trattamento.",
+        "azione": "Procedere con la DPIA — consultare il DPO se nominato"
+      },
+      "fortemente_raccomandata": {
+        "codice": "DPIA_RACCOMANDATA",
+        "label": "DPIA fortemente raccomandata",
+        "colore": "arancione",
+        "messaggio": "Il trattamento soddisfa 2 o più criteri EDPB di rischio elevato. La DPIA è fortemente raccomandata anche se non obbligatoria ai sensi dell'art. 35 par. 3.",
+        "azione": "Procedere con la DPIA — valutare con il DPO se nominato"
+      },
+      "consigliata": {
+        "codice": "DPIA_CONSIGLIATA",
+        "label": "DPIA consigliata",
+        "colore": "giallo",
+        "messaggio": "Il trattamento soddisfa almeno 1 criterio EDPB. La DPIA non è immediatamente obbligatoria ma è consigliata una verifica più approfondita.",
+        "azione": "Valutare con il DPO — documentare la decisione di non procedere con DPIA"
+      },
+      "non_necessaria": {
+        "codice": "DPIA_NON_NECESSARIA",
+        "label": "DPIA probabilmente non necessaria",
+        "colore": "verde",
+        "messaggio": "Sulla base delle risposte fornite, il trattamento non sembra presentare i criteri di rischio elevato che richiedono una DPIA. Tuttavia, il titolare deve documentare la propria valutazione.",
+        "azione": "Documentare la valutazione — monitorare il trattamento nel tempo"
+      }
+    }
+  },
+
+  "risk_matrix": {
+    "descrizione": "Calcolo del punteggio di rischio per ciascun rischio identificato e aggregato",
+    "formula_rischio_individuale": "probabilita * gravita",
+    "scala_punteggio": {
+      "min": 1,
+      "max": 9
+    },
+    "soglie_rischio_individuale": {
+      "basso": { "min": 1, "max": 2, "colore": "verde", "label": "Rischio basso" },
+      "medio": { "min": 3, "max": 4, "colore": "giallo", "label": "Rischio medio" },
+      "alto": { "min": 6, "max": 9, "colore": "rosso", "label": "Rischio alto" }
+    },
+    "calcolo_rischio_aggregato": {
+      "metodo": "media_pesata_con_massimo",
+      "descrizione": "Il rischio aggregato considera sia la media dei punteggi sia il punteggio massimo. Un singolo rischio alto porta il livello aggregato almeno a medio-alto.",
+      "regole": [
+        {
+          "condizione": "almeno 1 rischio con punteggio >= 6",
+          "risultato": "rischio_aggregato_elevato"
+        },
+        {
+          "condizione": "almeno 2 rischi con punteggio >= 4 OPPURE media >= 4",
+          "risultato": "rischio_aggregato_medio_alto"
+        },
+        {
+          "condizione": "media >= 2 E nessun rischio con punteggio >= 6",
+          "risultato": "rischio_aggregato_medio"
+        },
+        {
+          "condizione": "media < 2",
+          "risultato": "rischio_aggregato_basso"
+        }
+      ]
+    }
+  },
+
+  "misure_scoring": {
+    "descrizione": "Valutazione dell'adeguatezza delle misure di mitigazione",
+    "misure_essenziali": {
+      "descrizione": "Misure che dovrebbero essere sempre presenti nei trattamenti con AI ad alto rischio",
+      "ids": ["m3", "m6", "m7", "m11"],
+      "peso_mancanza": 3
+    },
+    "misure_importanti": {
+      "descrizione": "Misure importanti ma non sempre obbligatorie",
+      "ids": ["m1", "m2", "m4", "m5", "m8", "m9"],
+      "peso_mancanza": 2
+    },
+    "misure_consigliate": {
+      "descrizione": "Misure consigliate in contesti ad alto rischio",
+      "ids": ["m10", "m12", "m13", "m14", "m15"],
+      "peso_mancanza": 1
+    },
+    "calcolo_copertura": {
+      "descrizione": "La copertura delle misure influenza il rischio residuo",
+      "soglie": {
+        "alta_copertura": { "min_percentuale": 80, "riduzione_rischio": "significativa" },
+        "media_copertura": { "min_percentuale": 50, "riduzione_rischio": "parziale" },
+        "bassa_copertura": { "min_percentuale": 0, "riduzione_rischio": "minima" }
+      }
+    }
+  },
+
+  "esito_finale": {
+    "descrizione": "Calcolo dell'esito finale della DPIA combinando rischio aggregato e copertura delle misure",
+    "matrice_esito": [
+      {
+        "rischio_aggregato": "elevato",
+        "copertura_misure": "alta",
+        "esito": "rischio_elevato_mitigabile",
+        "semaforo": "giallo",
+        "label": "Rischio elevato ma mitigabile",
+        "messaggio": "Il trattamento presenta rischi elevati per i diritti e le libertà degli interessati, ma le misure di mitigazione adottate riducono significativamente il rischio residuo. Si può procedere con il trattamento adottando tutte le misure indicate e monitorando nel tempo il rischio residuo.",
+        "azioni_richieste": [
+          "Implementare tutte le misure di mitigazione identificate",
+          "Consultare il DPO se nominato",
+          "Pianificare revisione periodica della DPIA",
+          "Valutare se è necessaria consultazione preventiva del Garante"
+        ]
+      },
+      {
+        "rischio_aggregato": "elevato",
+        "copertura_misure": "media",
+        "esito": "rischio_elevato_misure_insufficienti",
+        "semaforo": "rosso",
+        "label": "Rischio elevato — misure insufficienti",
+        "messaggio": "Il trattamento presenta rischi elevati e le misure di mitigazione adottate sono insufficienti. Non si dovrebbe procedere senza integrare le misure mancanti. Valutare la consultazione preventiva del Garante ex art. 36 GDPR.",
+        "azioni_richieste": [
+          "NON procedere con il trattamento allo stato attuale",
+          "Integrare le misure di mitigazione mancanti",
+          "Consultare il DPO se nominato",
+          "Valutare la consultazione preventiva del Garante ex art. 36 GDPR",
+          "Rivalutare la necessità del trattamento"
+        ]
+      },
+      {
+        "rischio_aggregato": "elevato",
+        "copertura_misure": "bassa",
+        "esito": "rischio_non_accettabile",
+        "semaforo": "rosso",
+        "label": "Rischio non accettabile",
+        "messaggio": "Il trattamento presenta rischi elevati per i diritti e le libertà degli interessati e le misure di mitigazione sono del tutto insufficienti. Non si dovrebbe procedere. È obbligatoria la consultazione preventiva del Garante ai sensi dell'art. 36 GDPR.",
+        "azioni_richieste": [
+          "NON procedere con il trattamento",
+          "Rivedere l'intero impianto del trattamento",
+          "Consultazione preventiva del Garante obbligatoria ex art. 36 GDPR",
+          "Consultare il DPO se nominato",
+          "Valutare alternative meno invasive"
+        ]
+      },
+      {
+        "rischio_aggregato": "medio_alto",
+        "copertura_misure": "alta",
+        "esito": "rischio_contenuto_con_misure",
+        "semaforo": "verde",
+        "label": "Rischio residuo contenuto",
+        "messaggio": "Il trattamento presenta profili di rischio medio-alti, ma le misure di mitigazione adottate riducono il rischio residuo a un livello accettabile. Si può procedere con il trattamento, mantenendo monitoraggio attivo.",
+        "azioni_richieste": [
+          "Implementare e mantenere le misure di mitigazione",
+          "Monitorare nel tempo il rischio residuo",
+          "Aggiornare la DPIA in caso di variazioni del trattamento",
+          "Consultare il DPO se nominato"
+        ]
+      },
+      {
+        "rischio_aggregato": "medio_alto",
+        "copertura_misure": "media",
+        "esito": "rischio_medio_misure_parziali",
+        "semaforo": "giallo",
+        "label": "Rischio medio — misure da integrare",
+        "messaggio": "Il trattamento presenta rischi medio-alti e le misure adottate sono parzialmente sufficienti. Si può procedere con il trattamento integrando le misure mancanti entro tempi ragionevoli.",
+        "azioni_richieste": [
+          "Integrare le misure di mitigazione mancanti",
+          "Definire un piano di implementazione con scadenze",
+          "Monitorare il rischio residuo"
+        ]
+      },
+      {
+        "rischio_aggregato": "medio",
+        "copertura_misure": "alta",
+        "esito": "rischio_basso_residuo",
+        "semaforo": "verde",
+        "label": "Rischio residuo basso",
+        "messaggio": "Il trattamento presenta rischi moderati adeguatamente mitigati. Si può procedere con il trattamento.",
+        "azioni_richieste": [
+          "Mantenere le misure di mitigazione adottate",
+          "Revisione periodica della DPIA"
+        ]
+      },
+      {
+        "rischio_aggregato": "medio",
+        "copertura_misure": "media",
+        "esito": "rischio_accettabile_con_attenzione",
+        "semaforo": "giallo",
+        "label": "Rischio accettabile con attenzione",
+        "messaggio": "Il trattamento presenta rischi moderati con copertura parziale delle misure. Si può procedere adottando le misure mancanti.",
+        "azioni_richieste": [
+          "Adottare le misure di mitigazione mancanti",
+          "Revisione periodica della DPIA"
+        ]
+      },
+      {
+        "rischio_aggregato": "basso",
+        "copertura_misure": "qualsiasi",
+        "esito": "rischio_contenuto",
+        "semaforo": "verde",
+        "label": "Rischio residuo contenuto",
+        "messaggio": "Il trattamento presenta rischi limitati. Si può procedere mantenendo le misure adottate e monitorando nel tempo.",
+        "azioni_richieste": [
+          "Mantenere le misure adottate",
+          "Revisione periodica della DPIA"
+        ]
+      }
+    ],
+    "promemoria_obbligatori": [
+      {
+        "id": "pr1",
+        "testo": "Consultare il DPO (Responsabile della Protezione dei Dati), se nominato, prima di procedere con il trattamento",
+        "norma": "Art. 35 par. 2 GDPR",
+        "sempre_presente": true
+      },
+      {
+        "id": "pr2",
+        "testo": "Aggiornare la DPIA in caso di variazione del rischio o delle modalità del trattamento",
+        "norma": "Art. 35 par. 11 GDPR",
+        "sempre_presente": true
+      },
+      {
+        "id": "pr3",
+        "testo": "Se il rischio residuo rimane elevato nonostante le misure, consultare preventivamente il Garante per la protezione dei dati personali ex art. 36 GDPR",
+        "norma": "Art. 36 GDPR",
+        "sempre_presente": false,
+        "condizione": "rischio_aggregato === 'elevato'"
+      },
+      {
+        "id": "pr4",
+        "testo": "Verificare che eventuali fornitori esterni abbiano sottoscritto un contratto di responsabile del trattamento ex art. 28 GDPR",
+        "norma": "Art. 28 GDPR",
+        "sempre_presente": false,
+        "condizione": "presenza_fornitori_esterni"
+      }
+    ]
+  }
+}

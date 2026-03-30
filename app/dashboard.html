@@ -1,0 +1,935 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DPIA Path — Dashboard Docente</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg: #f5f6f8;
+  --surface: #ffffff;
+  --primary: #2a4fa8;
+  --primary-hover: #1e3d8a;
+  --accent: #4f8ef7;
+  --text: #1c2333;
+  --text-muted: #6b7a99;
+  --border: #dde2ee;
+  --green: #1a9e5c;
+  --green-bg: #eaf7f0;
+  --yellow: #d4880a;
+  --yellow-bg: #fdf5e0;
+  --red: #c0392b;
+  --red-bg: #fdecea;
+  --orange: #d4660a;
+  --sidebar-bg: #1a2035;
+  --radius: 8px;
+  --shadow: 0 2px 12px rgba(0,0,0,0.08);
+}
+html { font-size: 16px; }
+body {
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+}
+
+/* ===== TOP BAR ===== */
+.topbar {
+  background: var(--sidebar-bg);
+  color: #fff;
+  padding: 16px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.topbar-left { display: flex; align-items: center; gap: 16px; }
+.topbar .logo {
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--accent);
+  font-weight: 600;
+}
+.topbar h1 { font-size: 1.15rem; font-weight: 700; }
+.topbar-right { display: flex; align-items: center; gap: 12px; }
+.topbar-stat {
+  background: rgba(255,255,255,0.08);
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.topbar-stat .dot {
+  width: 8px; height: 8px; border-radius: 50%;
+}
+.dot-green { background: var(--green); }
+.dot-yellow { background: var(--yellow); }
+.dot-red { background: var(--red); }
+
+.btn {
+  padding: 8px 18px; border-radius: 6px;
+  font-size: 0.82rem; font-weight: 600;
+  cursor: pointer; border: none;
+  font-family: inherit; transition: all 0.15s;
+}
+.btn-outline {
+  background: transparent;
+  border: 1.5px solid rgba(255,255,255,0.25);
+  color: #fff;
+}
+.btn-outline:hover { border-color: #fff; }
+.btn-accent { background: var(--accent); color: #fff; }
+.btn-accent:hover { opacity: 0.9; }
+.btn-surface { background: var(--surface); color: var(--text); }
+.btn-surface:hover { background: #f0f2f7; }
+
+/* ===== LAYOUT ===== */
+.container { max-width: 1200px; margin: 0 auto; padding: 32px; }
+
+/* ===== STATS ROW ===== */
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+  margin-bottom: 28px;
+}
+.stat-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px 22px;
+  box-shadow: var(--shadow);
+}
+.stat-card .stat-num {
+  font-size: 2rem; font-weight: 800;
+  line-height: 1;
+}
+.stat-card .stat-label {
+  font-size: 0.75rem; color: var(--text-muted);
+  text-transform: uppercase; letter-spacing: 0.08em;
+  margin-top: 4px; font-weight: 600;
+}
+.stat-green .stat-num { color: var(--green); }
+.stat-yellow .stat-num { color: var(--yellow); }
+.stat-red .stat-num { color: var(--red); }
+
+/* ===== CONTROLS ===== */
+.controls-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+.controls-bar .left { display: flex; gap: 8px; align-items: center; }
+.filter-btn {
+  padding: 6px 14px; border-radius: 20px;
+  font-size: 0.78rem; font-weight: 600;
+  cursor: pointer; border: 1.5px solid var(--border);
+  background: transparent; color: var(--text-muted);
+  font-family: inherit; transition: all 0.15s;
+}
+.filter-btn:hover { border-color: var(--primary); color: var(--primary); }
+.filter-btn.active { background: var(--primary); border-color: var(--primary); color: #fff; }
+.controls-bar .right { display: flex; gap: 8px; align-items: center; }
+.search-input {
+  padding: 7px 14px; border-radius: 6px;
+  border: 1.5px solid var(--border);
+  font-size: 0.82rem; font-family: inherit;
+  width: 220px; background: #fff;
+}
+.search-input:focus { outline: none; border-color: var(--primary); }
+
+/* ===== SUBMISSIONS LIST ===== */
+.submissions-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.sub-card {
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.sub-card:hover { border-color: var(--accent); box-shadow: 0 4px 20px rgba(79,142,247,0.12); }
+.sub-card.expanded { border-color: var(--accent); }
+.sub-card.highlighted { box-shadow: 0 0 0 3px var(--accent), var(--shadow); }
+
+.sub-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 22px;
+}
+.sub-semaforo {
+  width: 36px; height: 36px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.9rem; flex-shrink: 0;
+}
+.sem-green { background: var(--green-bg); border: 2px solid var(--green); }
+.sem-yellow { background: var(--yellow-bg); border: 2px solid var(--yellow); }
+.sem-red { background: var(--red-bg); border: 2px solid var(--red); }
+.sem-gray { background: #f0f1f5; border: 2px solid var(--border); }
+
+.sub-info { flex: 1; min-width: 0; }
+.sub-title {
+  font-size: 0.95rem; font-weight: 700; color: var(--text);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.sub-meta {
+  font-size: 0.75rem; color: var(--text-muted); margin-top: 2px;
+  display: flex; gap: 14px; flex-wrap: wrap;
+}
+.sub-tags { display: flex; gap: 6px; flex-shrink: 0; flex-wrap: wrap; }
+.tag {
+  padding: 3px 10px; border-radius: 12px;
+  font-size: 0.7rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.05em;
+}
+.tag-green { background: var(--green-bg); color: var(--green); }
+.tag-yellow { background: var(--yellow-bg); color: var(--yellow); }
+.tag-red { background: var(--red-bg); color: var(--red); }
+.tag-blue { background: #eef2ff; color: var(--primary); }
+
+.sub-expand-icon {
+  color: var(--text-muted);
+  font-size: 1.1rem;
+  transition: transform 0.2s;
+  flex-shrink: 0;
+}
+.sub-card.expanded .sub-expand-icon { transform: rotate(180deg); }
+
+/* ===== EXPANDED DETAIL ===== */
+.sub-detail {
+  display: none;
+  border-top: 1px solid var(--border);
+  padding: 24px;
+  background: #fafbfd;
+}
+.sub-card.expanded .sub-detail { display: block; }
+
+.detail-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+.detail-section { }
+.detail-section h4 {
+  font-size: 0.72rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.1em;
+  color: var(--text-muted); margin-bottom: 10px;
+  padding-bottom: 6px; border-bottom: 1px solid var(--border);
+}
+.detail-section p, .detail-section li {
+  font-size: 0.82rem; line-height: 1.6; color: var(--text);
+}
+.detail-section ul { padding-left: 18px; margin-top: 4px; }
+
+.detail-full { grid-column: 1 / -1; }
+
+.risk-mini-table { width: 100%; font-size: 0.78rem; border-collapse: collapse; }
+.risk-mini-table th {
+  background: #eef0f5; padding: 6px 10px;
+  text-align: left; font-size: 0.68rem;
+  text-transform: uppercase; letter-spacing: 0.06em;
+  color: var(--text-muted); font-weight: 700;
+}
+.risk-mini-table td { padding: 6px 10px; border-bottom: 1px solid var(--border); }
+.risk-badge {
+  display: inline-block; padding: 2px 8px; border-radius: 4px;
+  font-size: 0.72rem; font-weight: 700;
+}
+.rb-low { background: var(--green-bg); color: var(--green); }
+.rb-med { background: var(--yellow-bg); color: var(--yellow); }
+.rb-high { background: var(--red-bg); color: var(--red); }
+
+.measures-list { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+.measure-tag {
+  padding: 3px 10px; border-radius: 12px;
+  font-size: 0.72rem; font-weight: 600;
+  background: var(--green-bg); color: var(--green);
+  border: 1px solid rgba(26,158,92,0.2);
+}
+.measure-missing-tag {
+  background: var(--red-bg); color: var(--red);
+  border: 1px solid rgba(192,57,43,0.2);
+}
+
+.detail-actions {
+  display: flex; gap: 8px; margin-top: 16px;
+  padding-top: 16px; border-top: 1px solid var(--border);
+}
+
+/* ===== COMMENT SECTION ===== */
+.comment-section {
+  margin-top: 16px; padding-top: 16px;
+  border-top: 1px solid var(--border);
+}
+.comment-section h4 {
+  font-size: 0.75rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.08em;
+  color: var(--text-muted); margin-bottom: 8px;
+}
+.comment-input-wrap { display: flex; gap: 8px; }
+.comment-input {
+  flex: 1; padding: 8px 12px; border: 1.5px solid var(--border);
+  border-radius: 6px; font-size: 0.82rem; font-family: inherit;
+}
+.comment-input:focus { outline: none; border-color: var(--primary); }
+.comments-list { margin-top: 10px; }
+.comment-item {
+  display: flex; gap: 8px; padding: 8px 0;
+  border-bottom: 1px solid rgba(0,0,0,0.04);
+  font-size: 0.8rem; line-height: 1.4;
+}
+.comment-time { color: var(--text-muted); font-size: 0.72rem; white-space: nowrap; min-width: 45px; }
+.comment-text { color: var(--text); }
+
+/* ===== EMPTY STATE ===== */
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--text-muted);
+}
+.empty-state h3 { font-size: 1.1rem; margin-bottom: 8px; color: var(--text); }
+.empty-state p { font-size: 0.88rem; line-height: 1.6; }
+.empty-state .setup-code {
+  background: var(--sidebar-bg); color: #c8d0e0;
+  padding: 16px 20px; border-radius: 8px;
+  font-family: 'Consolas', monospace; font-size: 0.78rem;
+  text-align: left; max-width: 600px; margin: 20px auto;
+  line-height: 1.6; overflow-x: auto;
+  white-space: pre-wrap; word-break: break-all;
+}
+
+/* ===== MODAL ===== */
+.modal-overlay {
+  display: none; position: fixed; inset: 0;
+  background: rgba(0,0,0,0.5); z-index: 200;
+  align-items: center; justify-content: center;
+}
+.modal-overlay.open { display: flex; }
+.modal {
+  background: var(--surface); border-radius: 12px;
+  width: 90%; max-width: 520px; max-height: 85vh;
+  overflow-y: auto; box-shadow: 0 8px 40px rgba(0,0,0,0.2);
+}
+.modal-header {
+  padding: 20px 24px; border-bottom: 1px solid var(--border);
+  display: flex; justify-content: space-between; align-items: center;
+}
+.modal-header h3 { font-size: 1rem; font-weight: 700; }
+.modal-close {
+  width: 30px; height: 30px; border-radius: 50%;
+  border: none; background: var(--bg); cursor: pointer;
+  font-size: 1.1rem; display: flex; align-items: center; justify-content: center;
+  color: var(--text-muted);
+}
+.modal-close:hover { background: var(--border); }
+.modal-body { padding: 24px; }
+.modal-body p { font-size: 0.85rem; line-height: 1.6; margin-bottom: 12px; }
+
+/* ===== PRESENTATION MODE ===== */
+body.presentation-mode .topbar { display: none; }
+body.presentation-mode .container { max-width: 100%; padding: 16px; }
+body.presentation-mode .sub-card { font-size: 1.05em; }
+
+@media (max-width: 768px) {
+  .detail-grid { grid-template-columns: 1fr; }
+  .stats-row { grid-template-columns: 1fr 1fr; }
+  .controls-bar { flex-direction: column; align-items: stretch; }
+  .controls-bar .right { justify-content: stretch; }
+  .search-input { width: 100%; }
+  .container { padding: 16px; }
+}
+
+@media print {
+  .topbar, .controls-bar, .detail-actions, .comment-section { display: none !important; }
+  .sub-card { break-inside: avoid; border: 1px solid #ccc; }
+  .sub-detail { display: block !important; }
+}
+</style>
+</head>
+<body>
+
+<!-- ===== TOP BAR ===== -->
+<div class="topbar">
+  <div class="topbar-left">
+    <div>
+      <div class="logo">Clinica Legale · GDPR</div>
+      <h1>Dashboard Docente — DPIA Path</h1>
+    </div>
+  </div>
+  <div class="topbar-right">
+    <div class="topbar-stat" id="stat-total"><strong id="count-total">0</strong>&nbsp;invii</div>
+    <div class="topbar-stat"><div class="dot dot-green"></div><span id="count-green">0</span></div>
+    <div class="topbar-stat"><div class="dot dot-yellow"></div><span id="count-yellow">0</span></div>
+    <div class="topbar-stat"><div class="dot dot-red"></div><span id="count-red">0</span></div>
+    <button class="btn btn-outline" onclick="refreshData()">&#8635; Aggiorna</button>
+    <button class="btn btn-outline" onclick="togglePresentation()">&#9713; Presentazione</button>
+    <button class="btn btn-outline" onclick="openSetupModal()">&#9881; Configurazione</button>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- ===== STATS ===== -->
+  <div class="stats-row" id="stats-row">
+    <div class="stat-card">
+      <div class="stat-num" id="stat-submissions">0</div>
+      <div class="stat-label">DPIA Inviate</div>
+    </div>
+    <div class="stat-card stat-green">
+      <div class="stat-num" id="stat-green">0</div>
+      <div class="stat-label">Rischio contenuto</div>
+    </div>
+    <div class="stat-card stat-yellow">
+      <div class="stat-num" id="stat-yellow">0</div>
+      <div class="stat-label">Rischio mitigabile</div>
+    </div>
+    <div class="stat-card stat-red">
+      <div class="stat-num" id="stat-red">0</div>
+      <div class="stat-label">Rischio elevato</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num" id="stat-avg-risk">—</div>
+      <div class="stat-label">Rischio medio (media)</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num" id="stat-avg-measures">—</div>
+      <div class="stat-label">Misure selezionate (media)</div>
+    </div>
+  </div>
+
+  <!-- ===== CONTROLS ===== -->
+  <div class="controls-bar">
+    <div class="left">
+      <button class="filter-btn active" onclick="filterBy('all',this)">Tutti</button>
+      <button class="filter-btn" onclick="filterBy('green',this)">&#9679; Verdi</button>
+      <button class="filter-btn" onclick="filterBy('yellow',this)">&#9679; Gialli</button>
+      <button class="filter-btn" onclick="filterBy('red',this)">&#9679; Rossi</button>
+    </div>
+    <div class="right">
+      <input type="text" class="search-input" placeholder="Cerca per titolare o studente..." id="search-input" oninput="applyFilters()">
+      <button class="btn btn-surface" onclick="expandAll()">Espandi tutti</button>
+      <button class="btn btn-surface" onclick="collapseAll()">Chiudi tutti</button>
+    </div>
+  </div>
+
+  <!-- ===== SUBMISSIONS ===== -->
+  <div class="submissions-list" id="submissions-list">
+    <div class="empty-state" id="empty-state">
+      <h3>Nessun report ricevuto</h3>
+      <p>Configura la connessione a Google Sheets oppure usa la modalità locale.</p>
+      <p style="margin-top:16px">
+        <button class="btn btn-accent" onclick="openSetupModal()">Configura connessione</button>
+        <button class="btn btn-surface" onclick="loadDemoData()" style="margin-left:8px">Carica dati demo</button>
+      </p>
+    </div>
+  </div>
+
+</div>
+
+<!-- ===== SETUP MODAL ===== -->
+<div class="modal-overlay" id="setup-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3>Configurazione Dashboard</h3>
+      <button class="modal-close" onclick="closeSetupModal()">&times;</button>
+    </div>
+    <div class="modal-body">
+      <p><strong>Modalità 1 — Google Sheets (consigliata per l'aula)</strong></p>
+      <p>1. Crea un nuovo Google Sheet<br>
+         2. Vai su <em>Estensioni → Apps Script</em><br>
+         3. Incolla il codice fornito nel file <code>apps_script.js</code> e fai il deploy come Web App<br>
+         4. Copia l'URL del deploy qui sotto:</p>
+      <div class="field-group" style="margin: 12px 0;">
+        <label style="font-size:0.82rem; font-weight:600; display:block; margin-bottom:4px;">URL Apps Script (Web App)</label>
+        <input type="text" id="config-url" placeholder="https://script.google.com/macros/s/.../exec"
+               style="width:100%; padding:9px 12px; border:1.5px solid var(--border); border-radius:6px; font-size:0.85rem; font-family:inherit;">
+      </div>
+      <p style="margin-top:16px"><strong>Modalità 2 — Locale (senza server)</strong></p>
+      <p>Gli studenti cliccano "Invia al docente" e i dati vengono salvati in <code>localStorage</code>. La dashboard li legge se aperta dallo stesso browser. Per raccogliere da più dispositivi, usare Google Sheets.</p>
+
+      <div style="margin-top:20px; display:flex; gap:8px;">
+        <button class="btn btn-accent" onclick="saveConfig()">Salva configurazione</button>
+        <button class="btn btn-surface" onclick="closeSetupModal()">Annulla</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="config.js"></script>
+<script>
+// ===== CONFIG =====
+let CONFIG = {
+  sheetUrl: (typeof DPIA_CONFIG !== 'undefined' && DPIA_CONFIG.APPS_SCRIPT_URL) || localStorage.getItem('dpia_dashboard_url') || '',
+  mode: 'sheets'
+};
+
+let submissions = [];
+let comments = {}; // id -> [{time, text}]
+let currentFilter = 'all';
+let allExpanded = false;
+
+// ===== RISK & MEASURE LABELS =====
+const riskNames = {
+  r1:'Discriminazione algoritmica', r2:'Errore decisionale', r3:'Opacità',
+  r4:'Esclusione ingiustificata', r5:'Impossibilità contestazione',
+  r6:'Violazione riservatezza', r7:'Uso improprio dati',
+  r8:'Vulnerabilità sicurezza', r9:'Effetti su vulnerabili'
+};
+const measureNames = {
+  m1:'Minimizzazione dati', m2:'Limitazione finalità', m3:'Controllo umano',
+  m4:'Logging', m5:'Audit periodici', m6:'Explainability', m7:'Informativa rafforzata',
+  m8:'Controlli accesso', m9:'Sicurezza tecnica', m10:'Revisione DPIA',
+  m11:'Canali contestazione', m12:'Consultazione DPO', m13:'Consultazione interessati',
+  m14:'Test bias/fairness', m15:'Contratto art. 28'
+};
+const essentialMeasures = ['m3','m6','m7','m11','m12'];
+
+// ===== DATA LOADING =====
+async function refreshData() {
+  const url = CONFIG.sheetUrl || (typeof DPIA_CONFIG !== 'undefined' && DPIA_CONFIG.APPS_SCRIPT_URL) || '';
+
+  if(url) {
+    try {
+      const resp = await fetch(url + '?action=getAll', { redirect: 'follow' });
+      const text = await resp.text();
+      const data = JSON.parse(text);
+      if(Array.isArray(data)) {
+        submissions = data;
+        saveLocal(submissions);
+      }
+    } catch(e) {
+      console.error('Errore nel caricamento da Google Sheets:', e);
+      submissions = loadLocal();
+    }
+  } else {
+    submissions = loadLocal();
+  }
+  loadComments();
+  render();
+}
+
+function saveLocal(data) {
+  localStorage.setItem('dpia_submissions', JSON.stringify(data));
+}
+function loadLocal() {
+  try { return JSON.parse(localStorage.getItem('dpia_submissions') || '[]'); }
+  catch(e) { return []; }
+}
+function loadComments() {
+  try { comments = JSON.parse(localStorage.getItem('dpia_comments') || '{}'); }
+  catch(e) { comments = {}; }
+}
+function saveComments() {
+  localStorage.setItem('dpia_comments', JSON.stringify(comments));
+}
+
+// ===== RENDER =====
+function render() {
+  updateStats();
+  renderList();
+}
+
+function updateStats() {
+  const total = submissions.length;
+  const greens = submissions.filter(s => s.finalColor === 'green').length;
+  const yellows = submissions.filter(s => s.finalColor === 'yellow').length;
+  const reds = submissions.filter(s => s.finalColor === 'red').length;
+
+  document.getElementById('stat-submissions').textContent = total;
+  document.getElementById('stat-green').textContent = greens;
+  document.getElementById('stat-yellow').textContent = yellows;
+  document.getElementById('stat-red').textContent = reds;
+  document.getElementById('count-total').textContent = total;
+  document.getElementById('count-green').textContent = greens;
+  document.getElementById('count-yellow').textContent = yellows;
+  document.getElementById('count-red').textContent = reds;
+
+  if(total > 0) {
+    const avgRisk = submissions
+      .filter(s => s.riskAvg != null)
+      .reduce((a,s) => a + parseFloat(s.riskAvg), 0) / Math.max(1, submissions.filter(s=>s.riskAvg!=null).length);
+    document.getElementById('stat-avg-risk').textContent = avgRisk.toFixed(1);
+
+    const avgMeasures = submissions
+      .filter(s => s.measuresCount != null)
+      .reduce((a,s) => a + s.measuresCount, 0) / Math.max(1, submissions.filter(s=>s.measuresCount!=null).length);
+    document.getElementById('stat-avg-measures').textContent = avgMeasures.toFixed(1);
+  }
+}
+
+function renderList() {
+  const container = document.getElementById('submissions-list');
+  const empty = document.getElementById('empty-state');
+  const filtered = getFiltered();
+
+  if(submissions.length === 0) {
+    empty.style.display = 'block';
+    // Remove all cards
+    container.querySelectorAll('.sub-card').forEach(c => c.remove());
+    return;
+  }
+
+  empty.style.display = 'none';
+  const existingCards = container.querySelectorAll('.sub-card');
+  existingCards.forEach(c => c.remove());
+
+  filtered.forEach((sub, idx) => {
+    container.insertAdjacentHTML('beforeend', buildCard(sub, idx));
+  });
+}
+
+function getFiltered() {
+  let list = submissions;
+  if(currentFilter !== 'all') {
+    list = list.filter(s => s.finalColor === currentFilter);
+  }
+  const q = document.getElementById('search-input').value.toLowerCase().trim();
+  if(q) {
+    list = list.filter(s =>
+      (s.titolare||'').toLowerCase().includes(q) ||
+      (s.studente||'').toLowerCase().includes(q) ||
+      (s.finalita||'').toLowerCase().includes(q)
+    );
+  }
+  return list;
+}
+
+function buildCard(sub, idx) {
+  const color = sub.finalColor || 'gray';
+  const semClass = color === 'gray' ? 'sem-gray' : `sem-${color}`;
+  const semEmoji = color === 'green' ? '&#9679;' : color === 'yellow' ? '&#9679;' : color === 'red' ? '&#9679;' : '—';
+  const titolare = sub.titolare || 'Titolare non specificato';
+  const studente = sub.studente || '';
+  const timestamp = sub.timestamp ? new Date(sub.timestamp).toLocaleString('it-IT') : '';
+  const precheckLabel = sub.precheckLabel || '';
+  const riskLabel = sub.riskLabel || '';
+  const finalLabel = sub.finalLabel || 'Non completato';
+  const subId = sub.id || `sub-${idx}`;
+
+  // Risk table
+  let riskRows = '';
+  if(sub.risks) {
+    Object.entries(sub.risks).forEach(([id, r]) => {
+      if(r.prob && r.grav) {
+        const score = r.prob * r.grav;
+        const cls = score >= 6 ? 'rb-high' : score >= 3 ? 'rb-med' : 'rb-low';
+        const level = score >= 6 ? 'ALTO' : score >= 3 ? 'MEDIO' : 'BASSO';
+        riskRows += `<tr><td>${riskNames[id]||id}</td><td>${r.prob===1?'Bassa':r.prob===2?'Media':'Alta'}</td><td>${r.grav===1?'Bassa':r.grav===2?'Media':'Alta'}</td><td><span class="risk-badge ${cls}">${level} (${score})</span></td></tr>`;
+      }
+    });
+  }
+
+  // Measures
+  let measuresHtml = '';
+  let missingHtml = '';
+  if(sub.measures) {
+    const selected = Object.keys(sub.measures).filter(id => sub.measures[id]);
+    const missing = essentialMeasures.filter(id => !sub.measures[id]);
+    measuresHtml = selected.map(id => `<span class="measure-tag">${measureNames[id]||id}</span>`).join('');
+    missingHtml = missing.map(id => `<span class="measure-tag measure-missing-tag">${measureNames[id]||id}</span>`).join('');
+  }
+
+  // Necessity
+  let necessityHtml = '';
+  if(sub.necessityResult) {
+    necessityHtml = `<p><strong>${sub.necessityResult.label}</strong></p><p style="font-size:0.8rem; color:var(--text-muted)">${sub.necessityResult.msg}</p>`;
+  }
+
+  // Comments for this submission
+  const subComments = comments[subId] || [];
+  const commentsHtml = subComments.map(c =>
+    `<div class="comment-item"><span class="comment-time">${c.time}</span><span class="comment-text">${escHtml(c.text)}</span></div>`
+  ).join('');
+
+  return `
+  <div class="sub-card" id="card-${subId}" data-color="${color}">
+    <div class="sub-header" onclick="toggleCard('${subId}')">
+      <div class="sub-semaforo ${semClass}"><span style="color:${color==='green'?'var(--green)':color==='yellow'?'var(--yellow)':color==='red'?'var(--red)':'var(--text-muted)'}">${semEmoji}</span></div>
+      <div class="sub-info">
+        <div class="sub-title">${escHtml(titolare)}</div>
+        <div class="sub-meta">
+          ${studente ? `<span>&#128100; ${escHtml(studente)}</span>` : ''}
+          ${timestamp ? `<span>&#128340; ${timestamp}</span>` : ''}
+          ${sub.riskAvg ? `<span>Rischio medio: ${sub.riskAvg}</span>` : ''}
+          ${sub.measuresCount != null ? `<span>${sub.measuresCount} misure</span>` : ''}
+        </div>
+      </div>
+      <div class="sub-tags">
+        ${precheckLabel ? `<span class="tag tag-blue">${escHtml(precheckLabel)}</span>` : ''}
+        <span class="tag tag-${color === 'gray' ? 'blue' : color}">${escHtml(finalLabel)}</span>
+      </div>
+      <div class="sub-expand-icon">&#9660;</div>
+    </div>
+    <div class="sub-detail">
+      <div class="detail-grid">
+        <div class="detail-section">
+          <h4>Descrizione del Trattamento</h4>
+          <p><strong>Titolare:</strong> ${escHtml(sub.titolare||'—')}</p>
+          <p><strong>Finalità:</strong> ${escHtml(sub.finalita||'—')}</p>
+          <p><strong>Dati:</strong> ${escHtml(sub.dati||'—')}</p>
+          <p><strong>Interessati:</strong> ${escHtml(sub.interessati||'—')}</p>
+          <p><strong>Base giuridica:</strong> ${escHtml(sub.base||'—')}</p>
+        </div>
+        <div class="detail-section">
+          <h4>AI e Processo Decisionale</h4>
+          <p><strong>Sistema AI:</strong> ${escHtml(sub.ai||'Non specificato')}</p>
+          <p><strong>Processo:</strong> ${escHtml(sub.processo||'—')}</p>
+          <p><strong>Fornitori:</strong> ${escHtml(sub.fornitori||'Nessuno')}</p>
+        </div>
+        ${necessityHtml ? `<div class="detail-section"><h4>Necessità e Proporzionalità</h4>${necessityHtml}</div>` : ''}
+        ${riskRows ? `
+        <div class="detail-section ${necessityHtml ? '' : 'detail-full'}">
+          <h4>Matrice dei Rischi</h4>
+          <table class="risk-mini-table">
+            <thead><tr><th>Rischio</th><th>Prob.</th><th>Grav.</th><th>Livello</th></tr></thead>
+            <tbody>${riskRows}</tbody>
+          </table>
+          ${sub.riskAggregate ? `<p style="margin-top:8px; font-size:0.82rem"><strong>${escHtml(sub.riskAggregate.label)}</strong></p>` : ''}
+        </div>
+        ` : ''}
+        <div class="detail-section detail-full">
+          <h4>Misure di Mitigazione</h4>
+          ${measuresHtml ? `<div class="measures-list">${measuresHtml}</div>` : '<p>Nessuna misura selezionata</p>'}
+          ${missingHtml ? `<p style="margin-top:10px; font-size:0.78rem; font-weight:700; color:var(--red)">Essenziali mancanti:</p><div class="measures-list">${missingHtml}</div>` : ''}
+        </div>
+        <div class="detail-section detail-full">
+          <h4>Esito Finale</h4>
+          <p><strong>${escHtml(sub.finalLabel||'Non calcolato')}</strong></p>
+          <p>${escHtml(sub.finalMessage||'')}</p>
+        </div>
+      </div>
+
+      <div class="comment-section">
+        <h4>Note del docente</h4>
+        <div class="comment-input-wrap">
+          <input type="text" class="comment-input" id="ci-${subId}" placeholder="Aggiungi una nota..." onkeydown="if(event.key==='Enter')addComment('${subId}')">
+          <button class="btn btn-accent" onclick="addComment('${subId}')">Aggiungi</button>
+        </div>
+        <div class="comments-list" id="cl-${subId}">${commentsHtml}</div>
+      </div>
+
+      <div class="detail-actions">
+        <button class="btn btn-surface" onclick="highlightCard('${subId}')">&#9733; Evidenzia in aula</button>
+        <button class="btn btn-surface" onclick="removeSubmission('${subId}')">&#128465; Rimuovi</button>
+      </div>
+    </div>
+  </div>`;
+}
+
+// ===== INTERACTIONS =====
+function toggleCard(id) {
+  const card = document.getElementById('card-'+id);
+  if(card) card.classList.toggle('expanded');
+}
+
+function expandAll() {
+  document.querySelectorAll('.sub-card').forEach(c => c.classList.add('expanded'));
+}
+
+function collapseAll() {
+  document.querySelectorAll('.sub-card').forEach(c => c.classList.remove('expanded'));
+}
+
+function highlightCard(id) {
+  // Remove previous highlights
+  document.querySelectorAll('.sub-card.highlighted').forEach(c => c.classList.remove('highlighted'));
+  const card = document.getElementById('card-'+id);
+  if(card) {
+    card.classList.add('highlighted');
+    card.classList.add('expanded');
+    card.scrollIntoView({ behavior:'smooth', block:'center' });
+  }
+}
+
+function removeSubmission(id) {
+  if(!confirm('Rimuovere questo report dalla dashboard?')) return;
+  submissions = submissions.filter(s => (s.id||'') !== id);
+  saveLocal(submissions);
+  render();
+}
+
+function filterBy(filter, btn) {
+  currentFilter = filter;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  renderList();
+}
+
+function applyFilters() { renderList(); }
+
+function addComment(subId) {
+  const input = document.getElementById('ci-'+subId);
+  const text = input.value.trim();
+  if(!text) return;
+  if(!comments[subId]) comments[subId] = [];
+  const now = new Date();
+  const time = now.getHours().toString().padStart(2,'0') + ':' + now.getMinutes().toString().padStart(2,'0');
+  comments[subId].push({ time, text });
+  saveComments();
+  input.value = '';
+  const cl = document.getElementById('cl-'+subId);
+  cl.insertAdjacentHTML('beforeend',
+    `<div class="comment-item"><span class="comment-time">${time}</span><span class="comment-text">${escHtml(text)}</span></div>`
+  );
+}
+
+function togglePresentation() {
+  document.body.classList.toggle('presentation-mode');
+}
+
+// ===== CONFIG =====
+function openSetupModal() {
+  document.getElementById('config-url').value = CONFIG.sheetUrl;
+  document.getElementById('setup-modal').classList.add('open');
+}
+function closeSetupModal() {
+  document.getElementById('setup-modal').classList.remove('open');
+}
+function saveConfig() {
+  const url = document.getElementById('config-url').value.trim();
+  CONFIG.sheetUrl = url;
+  CONFIG.mode = url ? 'sheets' : 'local';
+  localStorage.setItem('dpia_dashboard_url', url);
+  localStorage.setItem('dpia_dashboard_mode', CONFIG.mode);
+  closeSetupModal();
+  refreshData();
+}
+
+// ===== DEMO DATA =====
+function loadDemoData() {
+  const demo = [
+    {
+      id: 'demo-1',
+      studente: 'Studente A — Gruppo 1',
+      timestamp: new Date().toISOString(),
+      titolare: 'Comune di Milano — Servizio Politiche Abitative',
+      finalita: 'Prioritizzazione automatica domande di alloggio di emergenza mediante sistema AI',
+      dati: 'Dati anagrafici, economici (ISEE), familiari, territoriali, segnalazioni servizi sociali',
+      interessati: 'Richiedenti alloggio di emergenza, nuclei familiari vulnerabili, minori',
+      base: 'Art. 6 par. 1 lett. e) — Compito di interesse pubblico',
+      ai: 'Modello ML supervisionato (fornitore esterno SocietàTech Srl). Sistema a punteggio composito, parzialmente opaco.',
+      processo: 'Il richiedente compila il modulo online. Il sistema interroga banche dati esterne e assegna punteggio. Graduatoria trasmessa agli operatori. Controllo umano formale ma raramente esercitato.',
+      fornitori: 'SocietàTech Srl — responsabile trattamento ex art. 28. Codice sorgente proprietario.',
+      precheckLabel: 'DPIA obbligatoria',
+      risks: {
+        r1:{prob:3,grav:3}, r2:{prob:2,grav:3}, r3:{prob:3,grav:2},
+        r4:{prob:2,grav:3}, r5:{prob:3,grav:3}, r6:{prob:1,grav:2},
+        r7:{prob:1,grav:1}, r8:{prob:1,grav:2}, r9:{prob:3,grav:3}
+      },
+      riskAvg: '4.6',
+      riskAggregate: { level:'elevato', label:'Rischio aggregato: ELEVATO' },
+      measures: {
+        m1:true, m2:true, m3:false, m4:true, m5:false, m6:false, m7:false,
+        m8:true, m9:true, m10:false, m11:false, m12:true, m13:false, m14:false, m15:false
+      },
+      measuresCount: 5,
+      necessityResult: { label:'Profili critici', msg:'Necessità parzialmente giustificata ma con criticità su controllo umano, spiegabilità e proporzionalità dei dati territoriali.' },
+      finalColor: 'red',
+      finalLabel: 'Rischio elevato — misure insufficienti',
+      finalMessage: 'Il trattamento presenta rischi elevati e le misure adottate sono insufficienti. Non si dovrebbe procedere senza integrare le misure mancanti.'
+    },
+    {
+      id: 'demo-2',
+      studente: 'Studente B — Gruppo 2',
+      timestamp: new Date(Date.now() - 600000).toISOString(),
+      titolare: 'Comune di Milano — Servizio Politiche Abitative',
+      finalita: 'Prioritizzazione automatica domande di alloggio mediante sistema a punteggio trasparente',
+      dati: 'Dati anagrafici, ISEE, composizione nucleo familiare',
+      interessati: 'Richiedenti alloggio, nuclei familiari vulnerabili',
+      base: 'Art. 6 par. 1 lett. e) — Compito di interesse pubblico',
+      ai: 'Sistema a regole trasparenti con pesi espliciti. Nessun modello ML opaco. Documentazione completa.',
+      processo: 'Il richiedente compila il modulo. Il sistema calcola il punteggio con formula trasparente. Operatore sociale valida ogni posizione. Meccanismo di contestazione attivo.',
+      fornitori: 'Sviluppo interno con supporto tecnico esterno.',
+      precheckLabel: 'DPIA raccomandata',
+      risks: {
+        r1:{prob:1,grav:2}, r2:{prob:1,grav:2}, r3:{prob:1,grav:1},
+        r4:{prob:1,grav:2}, r5:{prob:1,grav:1}, r6:{prob:1,grav:2},
+        r7:{prob:1,grav:1}, r8:{prob:1,grav:2}, r9:{prob:2,grav:2}
+      },
+      riskAvg: '1.7',
+      riskAggregate: { level:'basso', label:'Rischio aggregato: BASSO' },
+      measures: {
+        m1:true, m2:true, m3:true, m4:true, m5:true, m6:true, m7:true,
+        m8:true, m9:true, m10:true, m11:true, m12:true, m13:true, m14:false, m15:true
+      },
+      measuresCount: 14,
+      necessityResult: { label:'Necessità e proporzionalità adeguate', msg:'Trattamento necessario e proporzionato. Dati minimali, sistema trasparente, controllo umano effettivo.' },
+      finalColor: 'green',
+      finalLabel: 'Rischio residuo contenuto',
+      finalMessage: 'Il trattamento presenta rischi contenuti adeguatamente mitigati. Si può procedere mantenendo le misure adottate e monitorando nel tempo.'
+    },
+    {
+      id: 'demo-3',
+      studente: 'Studente C — Gruppo 3',
+      timestamp: new Date(Date.now() - 1200000).toISOString(),
+      titolare: 'Comune di Milano — Servizio Politiche Abitative',
+      finalita: 'Prioritizzazione domande alloggio con sistema AI e supervisione umana rafforzata',
+      dati: 'Dati anagrafici, economici, familiari, sociali. Eliminati dati territoriali (riduzione proxy discriminatori).',
+      interessati: 'Richiedenti alloggio, nuclei familiari, soggetti vulnerabili',
+      base: 'Art. 6 par. 1 lett. e) — Compito di interesse pubblico',
+      ai: 'Modello ML supervisionato con audit esterno annuale. Output spiegabile tramite SHAP values. Fornitore con obbligo di trasparenza.',
+      processo: 'Sistema propone graduatoria. Ogni caso viene rivisto da operatore sociale con possibilità di override documentato. Meccanismo di contestazione con risposta in 15 giorni.',
+      fornitori: 'SocietàTech Srl — contratto art. 28 con clausola di audit.',
+      precheckLabel: 'DPIA obbligatoria',
+      risks: {
+        r1:{prob:2,grav:3}, r2:{prob:2,grav:2}, r3:{prob:1,grav:2},
+        r4:{prob:1,grav:2}, r5:{prob:1,grav:2}, r6:{prob:1,grav:2},
+        r7:{prob:1,grav:1}, r8:{prob:1,grav:2}, r9:{prob:2,grav:3}
+      },
+      riskAvg: '2.8',
+      riskAggregate: { level:'medio_alto', label:'Rischio aggregato: MEDIO-ALTO' },
+      measures: {
+        m1:true, m2:true, m3:true, m4:true, m5:true, m6:true, m7:true,
+        m8:true, m9:true, m10:true, m11:true, m12:true, m13:false, m14:true, m15:true
+      },
+      measuresCount: 14,
+      necessityResult: { label:'Necessità e proporzionalità parzialmente soddisfatte', msg:'Trattamento giustificato con misure correttive adottate. Permane criticità su discriminazione indiretta, mitigata da audit.' },
+      finalColor: 'yellow',
+      finalLabel: 'Rischio elevato ma mitigabile',
+      finalMessage: 'Il trattamento presenta rischi significativi ma le misure adottate li riducono. Si può procedere mantenendo monitoraggio attivo e audit periodici.'
+    }
+  ];
+  submissions = demo;
+  saveLocal(submissions);
+  render();
+}
+
+// ===== LISTEN FOR SUBMISSIONS FROM index.html =====
+window.addEventListener('storage', (e) => {
+  if(e.key === 'dpia_submissions') {
+    refreshData();
+  }
+});
+
+// ===== UTILITY =====
+function escHtml(str) {
+  if(!str) return '';
+  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ===== INIT =====
+window.addEventListener('DOMContentLoaded', () => {
+  refreshData();
+  const interval = (typeof DPIA_CONFIG !== 'undefined' && DPIA_CONFIG.REFRESH_INTERVAL) || 10;
+  setInterval(refreshData, interval * 1000);
+});
+</script>
+</body>
+</html>

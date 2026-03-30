@@ -1599,7 +1599,122 @@ function sendToDocente() {
   });
 }
 
-window.addEventListener('DOMContentLoaded', init);
+// ===== AUTOSAVE / RESTORE =====
+const SAVE_KEY = 'dpia_form_state';
+
+function autoSave() {
+  const formData = {
+    current: state.current,
+    precheck: state.precheck,
+    necessity: state.necessity,
+    risks: state.risks,
+    measures: state.measures,
+    studente: document.getElementById('studente-name') ? document.getElementById('studente-name').value : '',
+    fields: {}
+  };
+  ['d1','d2','d3','d4','d5','d6','d7','d8'].forEach(id => {
+    const el = document.getElementById(id);
+    if(el) formData.fields[id] = el.value;
+  });
+  try { localStorage.setItem(SAVE_KEY, JSON.stringify(formData)); } catch(e) {}
+}
+
+function autoRestore() {
+  let saved;
+  try { saved = JSON.parse(localStorage.getItem(SAVE_KEY)); } catch(e) { return; }
+  if(!saved) return;
+
+  // Restore text fields
+  if(saved.fields) {
+    Object.entries(saved.fields).forEach(([id, val]) => {
+      const el = document.getElementById(id);
+      if(el && val) el.value = val;
+    });
+  }
+
+  // Restore student name
+  if(saved.studente) {
+    const el = document.getElementById('studente-name');
+    if(el) el.value = saved.studente;
+  }
+
+  // Restore precheck toggles
+  if(saved.precheck) {
+    Object.entries(saved.precheck).forEach(([id, val]) => {
+      if(val === 'yes' || val === 'no') {
+        state.precheck[id] = val;
+        const yesBtn = document.getElementById(id+'-yes');
+        const noBtn = document.getElementById(id+'-no');
+        if(yesBtn && noBtn) {
+          yesBtn.classList.remove('active-yes','active-no');
+          noBtn.classList.remove('active-yes','active-no');
+          if(val === 'yes') { yesBtn.classList.add('active-yes'); noBtn.classList.add('active-no'); }
+          else { noBtn.classList.add('active-yes'); yesBtn.classList.add('active-no'); }
+        }
+      }
+    });
+    computePrecheck();
+  }
+
+  // Restore necessity
+  if(saved.necessity) {
+    Object.entries(saved.necessity).forEach(([id, idx]) => {
+      if(idx !== null && idx !== undefined) {
+        selectScale(id, idx);
+      }
+    });
+  }
+
+  // Restore risks
+  if(saved.risks) {
+    Object.entries(saved.risks).forEach(([id, r]) => {
+      if(r.prob) { state.risks[id].prob = r.prob; const el = document.getElementById('prob-'+id); if(el) el.value = r.prob; }
+      if(r.grav) { state.risks[id].grav = r.grav; const el = document.getElementById('grav-'+id); if(el) el.value = r.grav; }
+      updateRiskBadge(id);
+    });
+    computeRiskAggregate();
+  }
+
+  // Restore measures
+  if(saved.measures) {
+    Object.entries(saved.measures).forEach(([id, checked]) => {
+      if(checked) {
+        state.measures[id] = true;
+        const mi = document.getElementById('mi-'+id);
+        const cb = document.getElementById('cb-'+id);
+        if(mi) mi.classList.add('selected');
+        if(cb) cb.checked = true;
+      }
+    });
+    computeMeasuresCoverage();
+  }
+
+  // Restore current section
+  if(saved.current && saved.current > 0) {
+    goTo(saved.current);
+  }
+
+  updateSidebar();
+}
+
+// Hook autosave to all interactions
+const _origSetToggle = setToggle;
+setToggle = function(id, val, btn) { _origSetToggle(id, val, btn); autoSave(); };
+const _origSelectScale = selectScale;
+// selectScale already calls autoSave via the patched updateSidebar below
+const _origSetRisk = setRisk;
+setRisk = function(id, field, val) { _origSetRisk(id, field, val); autoSave(); };
+const _origToggleMeasure = toggleMeasure;
+toggleMeasure = function(id) { _origToggleMeasure(id); autoSave(); };
+const _origGoTo = goTo;
+goTo = function(idx) { _origGoTo(idx); autoSave(); };
+const _origUpdateSidebar = updateSidebar;
+updateSidebar = function() { _origUpdateSidebar(); autoSave(); };
+
+window.addEventListener('DOMContentLoaded', () => {
+  init();
+  autoRestore();
+});
 </script>
 </body>
 </html>

@@ -4,159 +4,89 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-<title>DPIA Path — Template EDPB 2026</title>
+<title>DPIA Path — Esercitazione Template EDPB 2026</title>
 <style>
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-:root {
-  --bg: #f5f6f8; --surface: #ffffff;
-  --sidebar-bg: #1a2035; --sidebar-text: #c8d0e0; --sidebar-accent: #4f8ef7;
-  --primary: #2a4fa8; --primary-hover: #1e3d8a; --accent: #4f8ef7;
-  --text: #1c2333; --text-muted: #6b7a99; --border: #dde2ee;
-  --green: #1a9e5c; --green-bg: #eaf7f0;
-  --yellow: #d4880a; --yellow-bg: #fdf5e0;
-  --red: #c0392b; --red-bg: #fdecea;
-  --orange: #d4660a; --orange-bg: #fff3ea;
-  --radius: 8px; --shadow: 0 2px 12px rgba(0,0,0,0.08);
-}
-html { font-size: 16px; }
-body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; display: flex; }
-
-/* SIDEBAR */
-#sidebar { width: 280px; min-width: 280px; background: var(--sidebar-bg); color: var(--sidebar-text); display: flex; flex-direction: column; min-height: 100vh; position: fixed; top: 0; left: 0; bottom: 0; overflow-y: auto; z-index: 100; }
-#sidebar-header { padding: 28px 24px 20px; border-bottom: 1px solid rgba(255,255,255,0.08); }
-#sidebar-header .logo { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--sidebar-accent); font-weight: 600; margin-bottom: 6px; }
-#sidebar-header h1 { font-size: 1.25rem; font-weight: 700; color: #fff; line-height: 1.3; }
-#sidebar-header p { font-size: 0.78rem; margin-top: 6px; color: rgba(200,208,224,0.7); line-height: 1.5; }
-#sidebar-nav { padding: 16px 0; }
-.nav-item { display: flex; align-items: flex-start; gap: 12px; padding: 10px 24px; cursor: pointer; transition: background 0.15s; border-left: 3px solid transparent; }
-.nav-item:hover { background: rgba(255,255,255,0.05); }
-.nav-item.active { background: rgba(79,142,247,0.15); border-left-color: var(--sidebar-accent); }
-.nav-item.completed { border-left-color: var(--green); }
-.nav-num { min-width: 22px; height: 22px; border-radius: 50%; background: rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; font-size: 0.72rem; font-weight: 700; color: rgba(200,208,224,0.6); margin-top: 1px; }
-.nav-item.active .nav-num { background: var(--sidebar-accent); color: #fff; }
-.nav-item.completed .nav-num { background: var(--green); color: #fff; }
-.nav-label { font-size: 0.82rem; line-height: 1.35; color: var(--sidebar-text); }
-.nav-item.active .nav-label { color: #fff; }
-.nav-sublabel { font-size: 0.72rem; color: rgba(200,208,224,0.5); margin-top: 2px; }
-#sidebar-summary { margin: 0 16px 16px; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 16px; }
-#sidebar-summary h3 { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; color: rgba(200,208,224,0.5); margin-bottom: 10px; }
-.summary-chip { display: inline-flex; align-items: center; gap: 6px; font-size: 0.75rem; font-weight: 600; padding: 4px 10px; border-radius: 20px; margin: 3px 3px 3px 0; }
-.chip-green { background: rgba(26,158,92,0.2); color: #5dcea0; }
-.chip-yellow { background: rgba(212,136,10,0.2); color: #f0b840; }
-.chip-red { background: rgba(192,57,43,0.2); color: #e87d72; }
-.chip-blue { background: rgba(79,142,247,0.15); color: var(--sidebar-accent); }
-.sidebar-legal { padding: 16px 24px; border-top: 1px solid rgba(255,255,255,0.06); font-size: 0.7rem; color: rgba(200,208,224,0.35); line-height: 1.5; margin-top: auto; }
-
-/* MAIN */
-#main { margin-left: 280px; flex: 1; display: flex; flex-direction: column; min-height: 100vh; }
-#progress-bar-wrap { background: var(--surface); border-bottom: 1px solid var(--border); padding: 14px 40px; position: sticky; top: 0; z-index: 50; display: flex; align-items: center; gap: 16px; }
-#progress-label { font-size: 0.78rem; color: var(--text-muted); white-space: nowrap; min-width: 100px; }
-#progress-bar-track { flex: 1; height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; }
-#progress-bar-fill { height: 100%; background: linear-gradient(90deg, var(--primary), var(--accent)); border-radius: 3px; transition: width 0.4s ease; }
-#progress-pct { font-size: 0.78rem; font-weight: 600; color: var(--primary); min-width: 36px; text-align: right; }
-
-#content { flex: 1; padding: 40px; max-width: 900px; }
-.section { display: none; }
-.section.active { display: block; }
-.section-header { margin-bottom: 28px; }
-.section-tag { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--primary); font-weight: 700; margin-bottom: 8px; }
-.section-header h2 { font-size: 1.5rem; font-weight: 700; color: var(--text); line-height: 1.2; }
-.section-header p { font-size: 0.88rem; color: var(--text-muted); margin-top: 8px; line-height: 1.6; }
-.legal-ref { display: inline-block; background: #eef2ff; color: var(--primary); font-size: 0.72rem; font-weight: 600; padding: 3px 10px; border-radius: 4px; margin-top: 10px; }
-
-/* CARDS & FORM */
-.card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; margin-bottom: 20px; box-shadow: var(--shadow); }
-.card-title { font-size: 0.82rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); margin-bottom: 16px; }
-.field-group { margin-bottom: 18px; }
-.field-group label { display: block; font-size: 0.82rem; font-weight: 600; color: var(--text); margin-bottom: 6px; }
-.field-group .field-note { font-size: 0.75rem; color: var(--text-muted); margin-bottom: 6px; line-height: 1.4; }
-.field-group input[type="text"], .field-group textarea, .field-group select { width: 100%; padding: 10px 14px; border: 1.5px solid var(--border); border-radius: 6px; font-size: 0.88rem; color: var(--text); font-family: inherit; background: #fafbfd; transition: border-color 0.15s; }
-.field-group input:focus, .field-group textarea:focus, .field-group select:focus { outline: none; border-color: var(--primary); background: #fff; }
-.field-group textarea { min-height: 80px; resize: vertical; }
-.field-required::after { content: ' *'; color: var(--red); }
-
-/* CHECKBOXES */
-.check-group label { display: flex; align-items: flex-start; gap: 8px; font-size: 0.85rem; line-height: 1.5; cursor: pointer; padding: 4px 0; }
-.check-group input[type="checkbox"], .check-group input[type="radio"] { margin-top: 3px; accent-color: var(--primary); min-width: 16px; }
-
-/* DYNAMIC TABLE */
-.dyn-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; margin-bottom: 12px; }
-.dyn-table th { background: var(--bg); padding: 8px 10px; text-align: left; font-size: 0.72rem; font-weight: 700; text-transform: uppercase; color: var(--text-muted); border-bottom: 2px solid var(--border); }
-.dyn-table td { padding: 8px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
-.dyn-table input[type="text"], .dyn-table textarea, .dyn-table select { width: 100%; padding: 6px 8px; border: 1px solid var(--border); border-radius: 4px; font-size: 0.82rem; font-family: inherit; background: #fafbfd; }
-.dyn-table textarea { min-height: 45px; resize: vertical; }
-.btn-add-row { display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; border-radius: 6px; border: 1.5px dashed var(--border); font-size: 0.78rem; font-weight: 600; cursor: pointer; background: transparent; color: var(--primary); transition: all 0.15s; font-family: inherit; }
-.btn-add-row:hover { border-color: var(--primary); background: #f0f4ff; }
-.btn-remove-row { padding: 4px 8px; border: none; border-radius: 4px; font-size: 0.75rem; cursor: pointer; background: var(--red-bg); color: var(--red); font-weight: 600; }
-.btn-remove-row:hover { background: var(--red); color: #fff; }
-
-/* OUTCOME */
-.outcome-box { border-radius: var(--radius); padding: 20px 24px; margin-top: 20px; border: 2px solid transparent; }
-.outcome-box.green { background: var(--green-bg); border-color: var(--green); }
-.outcome-box.yellow { background: var(--yellow-bg); border-color: var(--yellow); }
-.outcome-box.orange { background: var(--orange-bg); border-color: var(--orange); }
-.outcome-box.red { background: var(--red-bg); border-color: var(--red); }
-.outcome-box h3 { font-size: 1rem; font-weight: 700; margin-bottom: 6px; }
-.outcome-box.green h3 { color: var(--green); }
-.outcome-box.yellow h3 { color: var(--yellow); }
-.outcome-box.orange h3 { color: var(--orange); }
-.outcome-box.red h3 { color: var(--red); }
-.outcome-box p { font-size: 0.85rem; line-height: 1.6; }
-
-/* RISK CARDS */
-.risk-item { margin-bottom: 14px; padding: 16px; border: 1.5px solid var(--border); border-radius: 6px; background: #fafbfd; }
-.risk-item-header { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 10px; }
-.risk-score-badge { min-width: 36px; height: 28px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 0.85rem; font-weight: 800; padding: 0 8px; }
-.badge-low { background: var(--green-bg); color: var(--green); }
-.badge-med { background: var(--yellow-bg); color: var(--yellow); }
-.badge-high { background: var(--red-bg); color: var(--red); }
-.risk-controls { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-.risk-ctrl label { display: block; font-size: 0.72rem; font-weight: 700; text-transform: uppercase; color: var(--text-muted); margin-bottom: 6px; }
-.risk-ctrl select { width: 100%; padding: 7px 10px; border: 1.5px solid var(--border); border-radius: 6px; font-size: 0.82rem; font-family: inherit; background: #fff; cursor: pointer; }
-
-/* DECISION */
-.decision-option { padding: 14px 18px; margin-bottom: 10px; border: 2px solid var(--border); border-radius: 8px; cursor: pointer; transition: all 0.15s; }
-.decision-option:hover { border-color: var(--primary); }
-.decision-option.selected { border-color: var(--primary); background: #f0f4ff; }
-.decision-option label { display: flex; align-items: flex-start; gap: 10px; cursor: pointer; font-size: 0.9rem; }
-
-/* SCHEMA REFERENCE */
-.schema-section { margin-bottom: 20px; padding: 16px; border-left: 3px solid var(--primary); background: #fafbfd; border-radius: 0 6px 6px 0; }
-.schema-section h4 { font-size: 0.9rem; font-weight: 700; color: var(--primary); margin-bottom: 8px; }
-.schema-section ul { padding-left: 20px; font-size: 0.82rem; line-height: 1.7; color: var(--text); }
-.schema-section li { margin-bottom: 2px; }
-
-/* REPORT */
-#report-section { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 32px; margin-top: 24px; display: none; }
-#report-section h2 { font-size: 1.1rem; font-weight: 700; border-bottom: 2px solid var(--primary); padding-bottom: 10px; margin-bottom: 20px; }
-#report-section h3 { font-size: 0.9rem; font-weight: 700; color: var(--primary); margin: 20px 0 8px; text-transform: uppercase; }
-#report-section p, #report-section li { font-size: 0.85rem; line-height: 1.7; }
-#report-section ul { padding-left: 20px; margin: 8px 0; }
-#report-section table { width:100%; border-collapse:collapse; margin:8px 0; font-size:0.82rem; }
-#report-section th { background:var(--bg); padding:6px 10px; text-align:left; font-size:0.72rem; font-weight:700; text-transform:uppercase; border-bottom:2px solid var(--border); }
-#report-section td { padding:6px 10px; border-bottom:1px solid var(--border); }
-
-/* NAV BUTTONS */
-#nav-buttons { padding: 24px 40px; border-top: 1px solid var(--border); background: var(--surface); display: flex; justify-content: space-between; align-items: center; position: sticky; bottom: 0; z-index: 50; }
-.btn { padding: 11px 24px; border-radius: 7px; font-size: 0.88rem; font-weight: 600; cursor: pointer; border: none; transition: all 0.15s; font-family: inherit; }
-.btn-secondary { background: transparent; border: 1.5px solid var(--border); color: var(--text-muted); }
-.btn-secondary:hover { border-color: var(--primary); color: var(--primary); }
-.btn-primary { background: var(--primary); color: #fff; }
-.btn-primary:hover { background: var(--primary-hover); }
-.btn-success { background: var(--green); color: #fff; }
-.btn-print { background: var(--sidebar-bg); color: #fff; margin-left: 12px; }
-.info-note { background: #eef2ff; border-left: 3px solid var(--primary); padding: 12px 16px; border-radius: 0 6px 6px 0; font-size: 0.8rem; line-height: 1.5; margin-bottom: 16px; }
-.hidden { display: none !important; }
-
-@media print {
-  #sidebar, #progress-bar-wrap, #nav-buttons { display: none !important; }
-  #main { margin-left: 0; }
-  #content { padding: 20px; max-width: 100%; }
-  #report-section { display: block !important; border: none; box-shadow: none; }
-  .section { display: none !important; }
-  .btn, #btn-send { display: none !important; }
-  #send-feedback { display: none !important; }
-}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#f5f6f8;--surface:#fff;--sidebar-bg:#1a2035;--sidebar-text:#c8d0e0;--sidebar-accent:#4f8ef7;--primary:#2a4fa8;--primary-hover:#1e3d8a;--accent:#4f8ef7;--text:#1c2333;--text-muted:#6b7a99;--border:#dde2ee;--green:#1a9e5c;--green-bg:#eaf7f0;--yellow:#d4880a;--yellow-bg:#fdf5e0;--red:#c0392b;--red-bg:#fdecea;--orange:#d4660a;--orange-bg:#fff3ea;--radius:8px;--shadow:0 2px 12px rgba(0,0,0,.08)}
+html{font-size:16px}
+body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex}
+#sidebar{width:270px;min-width:270px;background:var(--sidebar-bg);color:var(--sidebar-text);display:flex;flex-direction:column;min-height:100vh;position:fixed;top:0;left:0;bottom:0;overflow-y:auto;z-index:100}
+#sidebar-header{padding:24px 20px 16px;border-bottom:1px solid rgba(255,255,255,.08)}
+#sidebar-header .logo{font-size:.7rem;text-transform:uppercase;letter-spacing:.12em;color:var(--sidebar-accent);font-weight:600;margin-bottom:4px}
+#sidebar-header h1{font-size:1.2rem;font-weight:700;color:#fff;line-height:1.3}
+#sidebar-header p{font-size:.75rem;margin-top:4px;color:rgba(200,208,224,.7);line-height:1.4}
+#sidebar-nav{padding:12px 0}
+.nav-item{display:flex;align-items:flex-start;gap:10px;padding:9px 20px;cursor:pointer;transition:background .15s;border-left:3px solid transparent}
+.nav-item:hover{background:rgba(255,255,255,.05)}
+.nav-item.active{background:rgba(79,142,247,.15);border-left-color:var(--sidebar-accent)}
+.nav-item.completed{border-left-color:var(--green)}
+.nav-num{min-width:20px;height:20px;border-radius:50%;background:rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;color:rgba(200,208,224,.6);margin-top:1px}
+.nav-item.active .nav-num{background:var(--sidebar-accent);color:#fff}
+.nav-item.completed .nav-num{background:var(--green);color:#fff}
+.nav-label{font-size:.8rem;line-height:1.3;color:var(--sidebar-text)}
+.nav-item.active .nav-label{color:#fff}
+.nav-sublabel{font-size:.7rem;color:rgba(200,208,224,.5);margin-top:1px}
+.sidebar-legal{padding:14px 20px;border-top:1px solid rgba(255,255,255,.06);font-size:.68rem;color:rgba(200,208,224,.35);line-height:1.5;margin-top:auto}
+#main{margin-left:270px;flex:1;display:flex;flex-direction:column;min-height:100vh}
+#progress-bar-wrap{background:var(--surface);border-bottom:1px solid var(--border);padding:12px 36px;position:sticky;top:0;z-index:50;display:flex;align-items:center;gap:14px}
+#progress-label{font-size:.76rem;color:var(--text-muted);white-space:nowrap;min-width:90px}
+#progress-bar-track{flex:1;height:6px;background:var(--border);border-radius:3px;overflow:hidden}
+#progress-bar-fill{height:100%;background:linear-gradient(90deg,var(--primary),var(--accent));border-radius:3px;transition:width .4s ease}
+#progress-pct{font-size:.76rem;font-weight:600;color:var(--primary);min-width:32px;text-align:right}
+#content{flex:1;padding:36px;max-width:880px}
+.section{display:none}.section.active{display:block}
+.section-header{margin-bottom:24px}
+.section-tag{font-size:.7rem;text-transform:uppercase;letter-spacing:.12em;color:var(--primary);font-weight:700;margin-bottom:6px}
+.section-header h2{font-size:1.4rem;font-weight:700;line-height:1.2}
+.section-header p{font-size:.86rem;color:var(--text-muted);margin-top:6px;line-height:1.5}
+.legal-ref{display:inline-block;background:#eef2ff;color:var(--primary);font-size:.7rem;font-weight:600;padding:3px 9px;border-radius:4px;margin-top:8px}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:22px;margin-bottom:18px;box-shadow:var(--shadow)}
+.card-title{font-size:.8rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--text-muted);margin-bottom:14px}
+.field-group{margin-bottom:16px}
+.field-group label{display:block;font-size:.82rem;font-weight:600;color:var(--text);margin-bottom:5px}
+.field-group select{width:100%;padding:9px 12px;border:1.5px solid var(--border);border-radius:6px;font-size:.86rem;color:var(--text);font-family:inherit;background:#fafbfd;cursor:pointer}
+.field-group textarea{width:100%;padding:9px 12px;border:1.5px solid var(--border);border-radius:6px;font-size:.86rem;color:var(--text);font-family:inherit;background:#fafbfd;min-height:70px;resize:vertical}
+.check-item{display:flex;align-items:flex-start;gap:8px;padding:7px 12px;margin-bottom:6px;border:1.5px solid var(--border);border-radius:6px;cursor:pointer;transition:all .15s;background:#fafbfd}
+.check-item:hover{border-color:var(--primary);background:#f0f4ff}
+.check-item.selected{border-color:var(--green);background:var(--green-bg)}
+.check-item.wrong{border-color:var(--red);background:var(--red-bg)}
+.check-item.missed{border-color:var(--orange);background:var(--orange-bg)}
+.check-item input{margin-top:3px;accent-color:var(--primary);min-width:16px}
+.check-item label{font-size:.84rem;line-height:1.4;cursor:pointer;flex:1}
+.check-item .tag{font-size:.68rem;font-weight:700;padding:1px 6px;border-radius:3px;margin-left:6px;white-space:nowrap}
+.risk-row{display:flex;align-items:center;gap:10px;padding:10px 12px;margin-bottom:6px;border:1.5px solid var(--border);border-radius:6px;background:#fafbfd}
+.risk-row.selected{border-color:var(--accent);background:#f0f4ff}
+.risk-row input[type="checkbox"]{accent-color:var(--primary);min-width:16px}
+.risk-row .rname{flex:1;font-size:.84rem;font-weight:600}
+.risk-row select{padding:5px 8px;border:1px solid var(--border);border-radius:4px;font-size:.8rem;font-family:inherit;width:100px}
+.risk-badge{min-width:32px;text-align:center;font-weight:800;font-size:.82rem;padding:2px 6px;border-radius:4px}
+.outcome-box{border-radius:var(--radius);padding:18px 22px;margin-top:16px;border:2px solid transparent}
+.outcome-box.green{background:var(--green-bg);border-color:var(--green)}.outcome-box.yellow{background:var(--yellow-bg);border-color:var(--yellow)}.outcome-box.orange{background:var(--orange-bg);border-color:var(--orange)}.outcome-box.red{background:var(--red-bg);border-color:var(--red)}
+.outcome-box h3{font-size:.95rem;font-weight:700;margin-bottom:4px}
+.outcome-box.green h3{color:var(--green)}.outcome-box.yellow h3{color:var(--yellow)}.outcome-box.orange h3{color:var(--orange)}.outcome-box.red h3{color:var(--red)}
+.outcome-box p,.outcome-box li{font-size:.84rem;line-height:1.6}
+.outcome-box ul{padding-left:18px;margin-top:6px}
+.decision-option{padding:12px 16px;margin-bottom:8px;border:2px solid var(--border);border-radius:8px;cursor:pointer;transition:all .15s}
+.decision-option:hover{border-color:var(--primary)}.decision-option.selected{border-color:var(--primary);background:#f0f4ff}
+.decision-option label{display:flex;align-items:flex-start;gap:10px;cursor:pointer;font-size:.88rem}
+.score-bar{height:8px;border-radius:4px;background:var(--border);margin:6px 0 4px;overflow:hidden}
+.score-fill{height:100%;border-radius:4px;transition:width .5s ease}
+.fb-item{padding:12px 16px;margin-bottom:10px;border-radius:6px;font-size:.84rem;line-height:1.5}
+.fb-ok{background:var(--green-bg);border-left:3px solid var(--green)}.fb-warn{background:var(--yellow-bg);border-left:3px solid var(--yellow)}.fb-err{background:var(--red-bg);border-left:3px solid var(--red)}
+.schema-section{margin-bottom:16px;padding:14px;border-left:3px solid var(--primary);background:#fafbfd;border-radius:0 6px 6px 0}
+.schema-section h4{font-size:.88rem;font-weight:700;color:var(--primary);margin-bottom:6px}
+.schema-section ul{padding-left:18px;font-size:.8rem;line-height:1.7}
+.info-note{background:#eef2ff;border-left:3px solid var(--primary);padding:10px 14px;border-radius:0 6px 6px 0;font-size:.8rem;line-height:1.5;margin-bottom:14px}
+.scenario-box{background:linear-gradient(135deg,#f8f0ff,#eef2ff);border:2px solid var(--accent);border-radius:var(--radius);padding:24px;margin-bottom:20px;font-size:.9rem;line-height:1.7}
+.scenario-box h3{font-size:1.1rem;font-weight:700;color:var(--primary);margin-bottom:10px}
+#nav-buttons{padding:20px 36px;border-top:1px solid var(--border);background:var(--surface);display:flex;justify-content:space-between;align-items:center;position:sticky;bottom:0;z-index:50}
+.btn{padding:10px 22px;border-radius:7px;font-size:.86rem;font-weight:600;cursor:pointer;border:none;transition:all .15s;font-family:inherit}
+.btn-secondary{background:transparent;border:1.5px solid var(--border);color:var(--text-muted)}.btn-secondary:hover{border-color:var(--primary);color:var(--primary)}
+.btn-primary{background:var(--primary);color:#fff}.btn-primary:hover{background:var(--primary-hover)}
+.btn-success{background:var(--green);color:#fff}
+.btn-print{background:var(--sidebar-bg);color:#fff;margin-left:10px}
+.hidden{display:none!important}
+@media print{#sidebar,#progress-bar-wrap,#nav-buttons{display:none!important}#main{margin-left:0}#content{padding:20px;max-width:100%}.section{display:none!important}.section.active{display:block!important}.btn{display:none!important}}
 </style>
 </head>
 <body>
@@ -165,747 +95,640 @@ body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background
   <div id="sidebar-header">
     <div class="logo">Clinica Legale &middot; GDPR</div>
     <h1>DPIA Path</h1>
-    <p>Esercitazione DPIA &mdash; Template EDPB 2026</p>
+    <p>Esercitazione guidata &mdash; Template EDPB 2026</p>
   </div>
   <div id="sidebar-nav">
-    <div class="nav-item active" onclick="goTo(0)" id="nav0">
-      <div class="nav-num">1</div>
-      <div class="nav-text"><div class="nav-label">Panoramica e Precheck</div><div class="nav-sublabel">Titolare, motivi della DPIA</div></div>
-    </div>
-    <div class="nav-item" onclick="goTo(1)" id="nav1">
-      <div class="nav-num">2</div>
-      <div class="nav-text"><div class="nav-label">Descrizione del Trattamento</div><div class="nav-sublabel">Dati, finalit&agrave;, base giuridica</div></div>
-    </div>
-    <div class="nav-item" onclick="goTo(2)" id="nav2">
-      <div class="nav-num">3</div>
-      <div class="nav-text"><div class="nav-label">Necessit&agrave; e Proporzionalit&agrave;</div><div class="nav-sublabel">Impatti, necessit&agrave;, bilanciamento</div></div>
-    </div>
-    <div class="nav-item" onclick="goTo(3)" id="nav3">
-      <div class="nav-num">4</div>
-      <div class="nav-text"><div class="nav-label">Rischi e Misure</div><div class="nav-sublabel">Rischio inerente, misure, residuo</div></div>
-    </div>
-    <div class="nav-item" onclick="goTo(4)" id="nav4">
-      <div class="nav-num">5</div>
-      <div class="nav-text"><div class="nav-label">Conclusione e Decisione</div><div class="nav-sublabel">DPO, decisione finale, report</div></div>
-    </div>
-    <div class="nav-item" onclick="goTo(5)" id="nav5">
-      <div class="nav-num">&#9737;</div>
-      <div class="nav-text"><div class="nav-label">Schema Template EDPB</div><div class="nav-sublabel">Riferimento completo</div></div>
-    </div>
+    <div class="nav-item active" onclick="goTo(0)" id="nav0"><div class="nav-num">&#9654;</div><div><div class="nav-label">Lo Scenario</div><div class="nav-sublabel">Leggi il caso</div></div></div>
+    <div class="nav-item" onclick="goTo(1)" id="nav1"><div class="nav-num">1</div><div><div class="nav-label">Precheck</div><div class="nav-sublabel">Serve una DPIA?</div></div></div>
+    <div class="nav-item" onclick="goTo(2)" id="nav2"><div class="nav-num">2</div><div><div class="nav-label">Classificazione</div><div class="nav-sublabel">Dati, base giuridica</div></div></div>
+    <div class="nav-item" onclick="goTo(3)" id="nav3"><div class="nav-num">3</div><div><div class="nav-label">Rischi</div><div class="nav-sublabel">Identifica e valuta</div></div></div>
+    <div class="nav-item" onclick="goTo(4)" id="nav4"><div class="nav-num">4</div><div><div class="nav-label">Misure e Decisione</div><div class="nav-sublabel">Mitigazione e esito</div></div></div>
+    <div class="nav-item" onclick="goTo(5)" id="nav5"><div class="nav-num">&#9733;</div><div><div class="nav-label">Valutazione</div><div class="nav-sublabel">Feedback e punteggio</div></div></div>
+    <div class="nav-item" onclick="goTo(6)" id="nav6"><div class="nav-num">&#9737;</div><div><div class="nav-label">Schema EDPB</div><div class="nav-sublabel">Riferimento</div></div></div>
   </div>
-  <div id="sidebar-summary">
-    <h3>Riepilogo</h3>
-    <div id="summary-content"><div style="color:rgba(200,208,224,0.4); font-style:italic; font-size:0.75rem;">Compila le sezioni per vedere il riepilogo.</div></div>
-  </div>
-  <div class="sidebar-legal">Template EDPB 2026 &middot; Art. 35 Reg. (UE) 2016/679<br>Uso didattico &mdash; Clinica Legale AI &amp; DPIA</div>
+  <div class="sidebar-legal">Template EDPB 2026 &middot; Art. 35 GDPR &middot; AI Act<br>Uso didattico &mdash; Clinica Legale</div>
 </nav>
 
 <div id="main">
   <div id="progress-bar-wrap">
-    <div id="progress-label">Sezione 1 di 6</div>
-    <div id="progress-bar-track"><div id="progress-bar-fill" style="width:16.7%"></div></div>
-    <div id="progress-pct">17%</div>
+    <div id="progress-label">Scenario</div>
+    <div id="progress-bar-track"><div id="progress-bar-fill" style="width:14%"></div></div>
+    <div id="progress-pct">14%</div>
   </div>
-
   <div id="content">
 
-    <!-- ===== SEZ 1: PANORAMICA E PRECHECK ===== -->
+    <!-- SEC 0: SCENARIO -->
     <div class="section active" id="sec0">
       <div class="section-header">
-        <div class="section-tag">Sezione 1 &mdash; Panoramica e Precheck</div>
-        <h2>Chi &egrave; il titolare e perch&eacute; serve una DPIA?</h2>
-        <p>Identificare il titolare del trattamento e verificare se ricorrono i presupposti per una DPIA obbligatoria o raccomandata.</p>
-        <span class="legal-ref">Template EDPB 2026, Sez. 0 &middot; Art. 35 par. 1 e 3 GDPR</span>
+        <div class="section-tag">Lo Scenario</div>
+        <h2>Leggi attentamente il caso</h2>
+        <p>Ti viene assegnato casualmente uno scenario. Il tuo compito &egrave; condurre una DPIA corretta applicando il GDPR e, dove rilevante, l'AI Act.</p>
       </div>
-
+      <div class="scenario-box" id="scenario-text"></div>
       <div class="card">
-        <div class="card-title">Titolare del trattamento</div>
+        <div class="card-title">Identificazione</div>
         <div class="field-group">
-          <label class="field-required">Titolare</label>
-          <input type="text" id="ctrl_name" placeholder="Es: Comune di Torino &mdash; Servizi Sociali">
-        </div>
-        <div class="field-group">
-          <label>DPO (se nominato)</label>
-          <input type="text" id="ctrl_dpo" placeholder="Nome e contatto del DPO">
-        </div>
-        <div class="field-group">
-          <label class="field-required">Nome del trattamento</label>
-          <input type="text" id="proc_name" placeholder="Es: Sistema FamigliaSafe &mdash; Predizione rischio minori">
+          <label>Nome studente / gruppo</label>
+          <input type="text" id="studente-name" style="width:100%;padding:9px 12px;border:1.5px solid var(--border);border-radius:6px;font-size:.86rem;font-family:inherit" placeholder="Es: Mario Rossi &mdash; Gruppo 1">
         </div>
       </div>
+      <button class="btn btn-primary" onclick="goTo(1)" style="margin-top:8px">Inizia l'esercitazione &rarr;</button>
+      <div style="margin-top:16px;"><button class="btn btn-secondary" onclick="newScenario()">&#8635; Cambia scenario</button></div>
+    </div>
 
+    <!-- SEC 1: PRECHECK -->
+    <div class="section" id="sec1">
+      <div class="section-header">
+        <div class="section-tag">Sezione 1 &mdash; Precheck</div>
+        <h2>&Egrave; necessaria una DPIA?</h2>
+        <p>Sulla base dello scenario, seleziona i criteri che ritieni applicabili.</p>
+        <span class="legal-ref">Art. 35(3) GDPR &middot; Linee guida WP248 EDPB</span>
+      </div>
       <div class="card">
-        <div class="card-title">Perch&eacute; &egrave; necessaria la DPIA?</div>
-        <div class="info-note">Selezionare tutti i criteri applicabili. I criteri dell'art. 35(3) rendono la DPIA obbligatoria. Se ricorrono almeno 2 criteri EDPB, la DPIA &egrave; fortemente raccomandata.</div>
-
-        <div style="margin-bottom:16px;">
-          <strong style="font-size:0.82rem; color:var(--red);">Criteri obbligatori &mdash; Art. 35(3) GDPR:</strong>
-          <div class="check-group" style="margin-top:6px;">
-            <label><input type="checkbox" id="r35a" onchange="computePrecheck()"> <strong>a)</strong> Profilazione sistematica con effetti giuridici o analoghi significativi</label>
-            <label><input type="checkbox" id="r35b" onchange="computePrecheck()"> <strong>b)</strong> Trattamento su larga scala di dati particolari (art. 9) o penali (art. 10)</label>
-            <label><input type="checkbox" id="r35c" onchange="computePrecheck()"> <strong>c)</strong> Sorveglianza sistematica su larga scala di zona accessibile al pubblico</label>
-          </div>
-        </div>
-
-        <div>
-          <strong style="font-size:0.82rem; color:var(--orange);">Criteri EDPB di rischio elevato (Linee guida WP248):</strong>
-          <div class="check-group" style="margin-top:6px;">
-            <label><input type="checkbox" class="edpb-check" onchange="computePrecheck()"> Valutazione o scoring (profilazione, previsione)</label>
-            <label><input type="checkbox" class="edpb-check" onchange="computePrecheck()"> Decisioni automatizzate con effetti significativi</label>
-            <label><input type="checkbox" class="edpb-check" onchange="computePrecheck()"> Monitoraggio sistematico</label>
-            <label><input type="checkbox" class="edpb-check" onchange="computePrecheck()"> Dati sensibili o altamente personali</label>
-            <label><input type="checkbox" class="edpb-check" onchange="computePrecheck()"> Trattamento su larga scala</label>
-            <label><input type="checkbox" class="edpb-check" onchange="computePrecheck()"> Abbinamento o combinazione di dataset</label>
-            <label><input type="checkbox" class="edpb-check" onchange="computePrecheck()"> Soggetti vulnerabili (minori, anziani, dipendenti...)</label>
-            <label><input type="checkbox" class="edpb-check" onchange="computePrecheck()"> Uso innovativo / nuove tecnologie (AI, IoT, biometria)</label>
-            <label><input type="checkbox" class="edpb-check" onchange="computePrecheck()"> Impedimento all'esercizio di un diritto o all'uso di un servizio</label>
-          </div>
-        </div>
-
-        <div id="precheck-outcome"></div>
+        <div class="card-title">Criteri obbligatori &mdash; Art. 35(3) GDPR</div>
+        <div id="precheck-35"></div>
+      </div>
+      <div class="card">
+        <div class="card-title">Criteri EDPB di rischio elevato</div>
+        <div id="precheck-edpb"></div>
       </div>
     </div>
 
-    <!-- ===== SEZ 2: DESCRIZIONE ===== -->
-    <div class="section" id="sec1">
+    <!-- SEC 2: CLASSIFICAZIONE -->
+    <div class="section" id="sec2">
       <div class="section-header">
-        <div class="section-tag">Sezione 2 &mdash; Descrizione del Trattamento</div>
-        <h2>Cosa viene trattato e perch&eacute;?</h2>
-        <p>Descrivere i dati personali, le finalit&agrave;, il contesto e la base giuridica del trattamento.</p>
-        <span class="legal-ref">Template EDPB 2026, Sez. 1-2 &middot; Art. 35(7)(a) GDPR</span>
+        <div class="section-tag">Sezione 2 &mdash; Classificazione</div>
+        <h2>Quali dati, quale base giuridica?</h2>
+        <p>Identifica i dati personali trattati e la base giuridica corretta.</p>
+        <span class="legal-ref">Art. 6, 9 GDPR &middot; Template EDPB Sez. 1-2</span>
       </div>
-
       <div class="card">
-        <div class="card-title">Dati personali trattati</div>
-        <table class="dyn-table" id="tbl_data">
-          <thead><tr><th>Dato personale</th><th>Spiegazione</th><th>Cat. particolare (art. 9)?</th><th></th></tr></thead>
-          <tbody></tbody>
-        </table>
-        <button class="btn-add-row" onclick="addDataRow()">+ Aggiungi dato</button>
+        <div class="card-title">Dati personali coinvolti</div>
+        <div class="info-note">Seleziona i dati che ritieni siano effettivamente trattati nello scenario. Indica se si tratta di dati particolari (art. 9/10 GDPR).</div>
+        <div id="data-items"></div>
       </div>
-
-      <div class="card">
-        <div class="card-title">Finalit&agrave; del trattamento</div>
-        <div class="field-group">
-          <label class="field-required">Finalit&agrave; principali</label>
-          <textarea id="purposes" placeholder="Descrivere le finalit&agrave; specifiche ed esplicite per cui i dati vengono trattati..."></textarea>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-title">Contesto del trattamento</div>
-        <div class="field-group">
-          <label class="field-required">Natura, ambito e contesto</label>
-          <div class="field-note">Descrivere: tecnologie usate, scala del trattamento, categorie di interessati, gruppi vulnerabili, trasferimenti verso paesi terzi</div>
-          <textarea id="context" placeholder="Es: Il sistema utilizza un modello ML per analizzare dati di 50.000 famiglie. Gli interessati includono minori e nuclei in situazione di vulnerabilit&agrave; economica..."></textarea>
-        </div>
-      </div>
-
       <div class="card">
         <div class="card-title">Base giuridica</div>
         <div class="field-group">
-          <label class="field-required">Base giuridica (Art. 6(1) GDPR)</label>
-          <select id="legal_basis">
+          <label>Base giuridica principale (Art. 6(1) GDPR)</label>
+          <select id="sel-legal-basis">
             <option value="">-- Selezionare --</option>
-            <option value="a">a) Consenso dell'interessato</option>
-            <option value="b">b) Esecuzione di un contratto</option>
+            <option value="a">a) Consenso</option>
+            <option value="b">b) Esecuzione contratto</option>
             <option value="c">c) Obbligo legale</option>
             <option value="d">d) Interessi vitali</option>
-            <option value="e">e) Interesse pubblico / autorit&agrave; pubblica</option>
+            <option value="e">e) Interesse pubblico</option>
             <option value="f">f) Legittimo interesse</option>
           </select>
         </div>
         <div class="field-group">
-          <label>Giustificazione della base giuridica</label>
-          <textarea id="legal_justification" placeholder="Spiegare perch&eacute; questa base giuridica &egrave; applicabile. Se art. 6(1)(f), condurre il balancing test..."></textarea>
-        </div>
-        <div class="field-group">
-          <label>Se dati particolari (art. 9): condizione per il sollevamento del divieto</label>
-          <select id="art9_exception">
+          <label>Se dati particolari: eccezione art. 9(2)</label>
+          <select id="sel-art9">
             <option value="">-- Non applicabile --</option>
             <option value="a">a) Consenso esplicito</option>
-            <option value="b">b) Lavoro / sicurezza sociale</option>
-            <option value="e">e) Dati resi pubblici</option>
+            <option value="b">b) Lavoro/sicurezza sociale</option>
             <option value="g">g) Interesse pubblico rilevante</option>
-            <option value="h">h) Medicina / sanit&agrave;</option>
-            <option value="j">j) Archiviazione / ricerca / statistica</option>
+            <option value="h">h) Medicina/sanit&agrave;</option>
+            <option value="j">j) Ricerca/statistica</option>
           </select>
         </div>
       </div>
     </div>
 
-    <!-- ===== SEZ 3: NECESSITA E PROPORZIONALITA ===== -->
-    <div class="section" id="sec2">
-      <div class="section-header">
-        <div class="section-tag">Sezione 3 &mdash; Necessit&agrave; e Proporzionalit&agrave;</div>
-        <h2>Il trattamento &egrave; necessario e proporzionato?</h2>
-        <p>Valutare se il trattamento &egrave; il meno intrusivo possibile e se i benefici giustificano gli impatti sui diritti degli interessati.</p>
-        <span class="legal-ref">Template EDPB 2026, Sez. 3 &middot; Art. 35(7)(b) GDPR</span>
-      </div>
-
-      <div class="card">
-        <div class="card-title">Valutazione della necessit&agrave;</div>
-        <div class="field-note" style="margin-bottom:12px;">Il trattamento &egrave; efficace e il meno intrusivo? Esistono alternative meno invasive? Fornire evidenze.</div>
-        <div class="field-group">
-          <textarea id="necessity" rows="5" placeholder="Valutare se il trattamento &egrave; strettamente necessario. Descrivere le alternative considerate e perch&eacute; sono state scartate..."></textarea>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-title">Valutazione della proporzionalit&agrave;</div>
-        <div class="field-note" style="margin-bottom:12px;">Bilanciare gli impatti sui diritti degli interessati con i benefici del trattamento. Il trattamento &egrave; proporzionato e bilanciato?</div>
-        <div class="field-group">
-          <textarea id="proportionality" rows="5" placeholder="Discutere l'importanza del trattamento, i benefici per gli interessati e per la collettivit&agrave;, confrontandoli con i potenziali impatti negativi sui diritti..."></textarea>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-title">Misure di conformit&agrave; principali</div>
-        <div class="field-note" style="margin-bottom:12px;">Descrivere le misure gi&agrave; adottate o pianificate a supporto dei principi GDPR (trasparenza, minimizzazione, sicurezza, diritti degli interessati)</div>
-        <div class="field-group">
-          <textarea id="compliance_measures" rows="5" placeholder="Es: Informativa rafforzata con sezione dedicata all'AI, pseudonimizzazione dei dati, controllo umano sulle decisioni, meccanismo di reclamo accessibile, audit periodici del sistema..."></textarea>
-        </div>
-      </div>
-    </div>
-
-    <!-- ===== SEZ 4: RISCHI E MISURE ===== -->
+    <!-- SEC 3: RISCHI -->
     <div class="section" id="sec3">
       <div class="section-header">
-        <div class="section-tag">Sezione 4 &mdash; Rischi e Misure</div>
-        <h2>Quali sono i rischi e come mitigarli?</h2>
-        <p>Identificare i rischi per i diritti degli interessati, valutarli e definire le misure di mitigazione. Rivalutare il rischio residuo.</p>
-        <span class="legal-ref">Template EDPB 2026, Sez. 4 &middot; Art. 35(7)(c-d) GDPR</span>
+        <div class="section-tag">Sezione 3 &mdash; Rischi</div>
+        <h2>Quali rischi per i diritti degli interessati?</h2>
+        <p>Seleziona i rischi rilevanti per lo scenario e valuta probabilit&agrave; e gravit&agrave;.</p>
+        <span class="legal-ref">Template EDPB Sez. 4 &middot; Art. 35(7)(c) GDPR</span>
       </div>
-
-      <div class="info-note">
-        <strong>Metodo:</strong> Probabilit&agrave; (1-3) &times; Gravit&agrave; (1-3). Score: 1-2 = Basso, 3-4 = Medio, 6-9 = Alto.<br>
-        Un rischio pu&ograve; essere non accettabile anche con bassa probabilit&agrave; se la gravit&agrave; &egrave; molto elevata.
-      </div>
-
-      <!-- Inherent risk -->
+      <div class="info-note"><strong>Metodo:</strong> P (1-3) &times; G (1-3). Score: 1-2 = Basso, 3-4 = Medio, 6-9 = Alto.</div>
       <div class="card">
-        <div class="card-title">4.1 &mdash; Rischio inerente (prima delle misure aggiuntive)</div>
-        <div id="inherent-risks"></div>
-        <button class="btn-add-row" onclick="addRisk('inherent')" style="margin-top:8px">+ Aggiungi rischio</button>
-        <div id="risk-aggregate" class="hidden" style="margin-top:16px"></div>
-      </div>
-
-      <!-- Measures -->
-      <div class="card">
-        <div class="card-title">4.2 &mdash; Misure di mitigazione aggiuntive</div>
-        <table class="dyn-table" id="tbl_measures">
-          <thead><tr><th>Misura</th><th>Rischi mitigati</th><th>Stato</th><th></th></tr></thead>
-          <tbody></tbody>
-        </table>
-        <button class="btn-add-row" onclick="addMeasureRow()">+ Aggiungi misura</button>
-      </div>
-
-      <!-- Residual risk -->
-      <div class="card">
-        <div class="card-title">4.3 &mdash; Rischio residuo (dopo le misure)</div>
-        <div id="residual-risks"></div>
-        <button class="btn-add-row" onclick="addRisk('residual')" style="margin-top:8px">+ Aggiungi rischio residuo</button>
+        <div id="risk-list"></div>
       </div>
     </div>
 
-    <!-- ===== SEZ 5: CONCLUSIONE ===== -->
+    <!-- SEC 4: MISURE E DECISIONE -->
     <div class="section" id="sec4">
       <div class="section-header">
-        <div class="section-tag">Sezione 5 &mdash; Conclusione e Decisione</div>
-        <h2>Qual &egrave; la decisione finale?</h2>
-        <p>Parere del DPO, coinvolgimento degli interessati e decisione sul trattamento.</p>
-        <span class="legal-ref">Template EDPB 2026, Sez. 5-6 &middot; Art. 35-36 GDPR</span>
+        <div class="section-tag">Sezione 4 &mdash; Misure e Decisione</div>
+        <h2>Come mitigare i rischi? Qual &egrave; la decisione?</h2>
+        <p>Seleziona le misure di mitigazione e scegli la decisione finale secondo il template EDPB.</p>
+        <span class="legal-ref">Template EDPB Sez. 4-6 &middot; Art. 35(7)(d), 36 GDPR</span>
       </div>
-
       <div class="card">
-        <div class="card-title">Parere del DPO e degli interessati</div>
-        <div class="field-group">
-          <label>Parere del DPO</label>
-          <textarea id="dpo_advice" rows="3" placeholder="Riportare il parere del DPO sul trattamento..."></textarea>
-        </div>
-        <div class="field-group">
-          <label>Opinione degli interessati o loro rappresentanti</label>
-          <textarea id="subjects_views" rows="3" placeholder="Riportare l'opinione degli interessati, o spiegare perch&eacute; non sono stati coinvolti..."></textarea>
-        </div>
+        <div class="card-title">Misure di mitigazione</div>
+        <div id="measure-list"></div>
       </div>
-
       <div class="card">
-        <div class="card-title">Decisione finale</div>
-        <div id="decision-options">
-          <div class="decision-option" onclick="selectDecision('rejected')">
-            <label><input type="radio" name="decision" value="rejected">
-              <div><strong style="color:var(--red)">RESPINTO</strong><br><span style="font-size:0.82rem; color:var(--text-muted)">Il trattamento deve essere abbandonato.</span></div>
-            </label>
-          </div>
-          <div class="decision-option" onclick="selectDecision('consultation')">
-            <label><input type="radio" name="decision" value="consultation">
-              <div><strong style="color:var(--orange)">CONSULTAZIONE PREVENTIVA</strong><br><span style="font-size:0.82rem; color:var(--text-muted)">I rischi residui restano alti &mdash; consultazione con l'Autorit&agrave; di controllo (art. 36 GDPR).</span></div>
-            </label>
-          </div>
-          <div class="decision-option" onclick="selectDecision('approved')">
-            <label><input type="radio" name="decision" value="approved">
-              <div><strong style="color:var(--green)">APPROVATO</strong><br><span style="font-size:0.82rem; color:var(--text-muted)">I rischi residui sono accettabili. Il trattamento pu&ograve; procedere.</span></div>
-            </label>
-          </div>
-          <div class="decision-option" onclick="selectDecision('conditional')">
-            <label><input type="radio" name="decision" value="conditional">
-              <div><strong style="color:var(--yellow)">APPROVATO CON CONDIZIONI</strong><br><span style="font-size:0.82rem; color:var(--text-muted)">Il trattamento pu&ograve; procedere solo dopo il soddisfacimento delle condizioni indicate.</span></div>
-            </label>
-          </div>
-        </div>
-        <div class="field-group" style="margin-top:16px;">
-          <label>Motivazione della decisione</label>
-          <textarea id="decision_justification" rows="3" placeholder="Giustificare la decisione presa..."></textarea>
-        </div>
-        <div id="conditions-box" class="hidden field-group" style="margin-top:8px;">
-          <label>Condizioni da soddisfare</label>
-          <textarea id="conditions_text" rows="3" placeholder="Elencare le condizioni..."></textarea>
-        </div>
+        <div class="card-title">Decisione finale (Template EDPB Sez. 6)</div>
+        <div id="decision-list"></div>
       </div>
-
-      <div class="card">
-        <div class="card-title">Identificazione</div>
-        <div class="field-group">
-          <label class="field-required">Nome studente / gruppo</label>
-          <input type="text" id="studente-name" placeholder="Es: Mario Rossi &mdash; Gruppo 1">
-        </div>
-      </div>
-
-      <div style="margin-top:24px; display:flex; gap:12px; flex-wrap:wrap;">
-        <button class="btn btn-success" onclick="generateReport()">Genera Report DPIA</button>
-        <button class="btn btn-primary" onclick="sendToDocente()" id="btn-send" style="background:#6a3fbf">&#10148; Invia al docente</button>
-        <button class="btn btn-print" onclick="generateReport(); setTimeout(()=>window.print(), 300)">Stampa / PDF</button>
-      </div>
-      <div id="send-feedback" style="margin-top:10px; font-size:0.85rem; display:none;"></div>
-      <div id="report-section"><div id="report-content"></div></div>
+      <div style="margin-top:16px"><button class="btn btn-success" onclick="evaluate()">Invia e ricevi valutazione &rarr;</button></div>
     </div>
 
-    <!-- ===== SEZ 6: SCHEMA TEMPLATE EDPB ===== -->
+    <!-- SEC 5: VALUTAZIONE -->
     <div class="section" id="sec5">
       <div class="section-header">
-        <div class="section-tag">Riferimento</div>
-        <h2>Schema completo del Template EDPB 2026</h2>
-        <p>Struttura integrale del template DPIA adottato dall'European Data Protection Board il 10 marzo 2026. Le sezioni dell'esercitazione coprono i punti essenziali di questo schema.</p>
-        <span class="legal-ref">Template EDPB 2026 &middot; Art. 35 Reg. (UE) 2016/679</span>
+        <div class="section-tag">Valutazione</div>
+        <h2>Ecco come hai fatto</h2>
       </div>
-
-      <div class="schema-section">
-        <h4>0. Panoramica del Trattamento</h4>
-        <ul>
-          <li><strong>0.1</strong> Titolare/i del trattamento (denominazione, unit&agrave; responsabili, DPO)</li>
-          <li><strong>0.2</strong> Responsabili e sub-responsabili del trattamento (obblighi e compiti)</li>
-          <li><strong>0.3</strong> Nome del trattamento (nome nel registro, versione corrente)</li>
-          <li><strong>0.4</strong> Pianificazione (data avvio, data fine o condizioni di scadenza)</li>
-          <li><strong>0.5</strong> Scheda tecnica DPIA (versione, team, linee guida, ragioni per la DPIA, ambito, date, pubblicazione)</li>
-        </ul>
+      <div id="eval-results"></div>
+      <div style="margin-top:20px;display:flex;gap:10px;flex-wrap:wrap;">
+        <button class="btn btn-primary" onclick="newScenario()">&#8635; Nuovo scenario</button>
+        <button class="btn btn-secondary" onclick="sendToDocente()">&#10148; Invia al docente</button>
+        <button class="btn btn-print" onclick="window.print()">Stampa</button>
       </div>
-
-      <div class="schema-section">
-        <h4>1. Descrizione Sistematica del Trattamento</h4>
-        <ul>
-          <li><strong>1.1.a</strong> Dati personali trattati (tabella: dato, spiegazione, categoria particolare art. 9)</li>
-          <li><strong>1.1.b</strong> Finalit&agrave; del trattamento (finalit&agrave; specifica, dati coinvolti, giustificazione)</li>
-          <li><strong>1.1.c</strong> Usi secondari o compatibili</li>
-          <li><strong>1.1.d</strong> Natura, ambito e contesto (tecnologie, scala, interessati, gruppi vulnerabili, transfrontaliero, trasferimenti)</li>
-          <li><strong>1.2</strong> Descrizione funzionale (fasi: raccolta, uso, conservazione, condivisione, cancellazione)</li>
-          <li><strong>1.3</strong> Mezzi di trattamento, asset di supporto e architettura</li>
-          <li><strong>1.4</strong> Conformit&agrave; a codici di condotta approvati</li>
-        </ul>
-      </div>
-
-      <div class="schema-section">
-        <h4>2. Analisi del Trattamento</h4>
-        <ul>
-          <li><strong>2.1.a</strong> Base giuridica (art. 6(1) GDPR per ciascuna finalit&agrave;)</li>
-          <li><strong>2.1.b</strong> Motivi per il sollevamento del divieto (art. 9(2) se dati particolari)</li>
-          <li><strong>2.2.a</strong> Minimizzazione dei dati e periodi di conservazione</li>
-          <li><strong>2.2.b</strong> Qualit&agrave; dei dati</li>
-          <li><strong>2.3.a</strong> Misure di conformit&agrave; ai principi art. 5(1): equit&agrave;, trasparenza, limitazione finalit&agrave;, minimizzazione, esattezza, limitazione conservazione, integrit&agrave;/riservatezza, accountability</li>
-          <li><strong>2.3.b</strong> Misure a supporto dei diritti degli interessati (artt. 12-22 GDPR)</li>
-          <li><strong>2.3.c</strong> Conformit&agrave; ad altri requisiti GDPR (consenso, responsabili, trasferimenti internazionali)</li>
-          <li><strong>2.3.d</strong> Protezione dei dati by design e by default (art. 25)</li>
-          <li><strong>2.3.e</strong> Sicurezza del trattamento (art. 32)</li>
-        </ul>
-      </div>
-
-      <div class="schema-section">
-        <h4>3. Considerazioni su Necessit&agrave; e Proporzionalit&agrave;</h4>
-        <ul>
-          <li><strong>3.1</strong> Impatti del trattamento sui diritti e le libert&agrave; (minacce, fonti, impatti)</li>
-          <li><strong>3.2</strong> Valutazione della necessit&agrave; (trattamento efficace e meno intrusivo, alternative)</li>
-          <li><strong>3.3</strong> Valutazione della proporzionalit&agrave; (bilanciamento impatti vs. benefici)</li>
-        </ul>
-      </div>
-
-      <div class="schema-section">
-        <h4>4. Valutazione e Gestione dei Rischi</h4>
-        <ul>
-          <li><strong>4.1.a</strong> Impatti da eventi non previsti/accidentali/illeciti (accesso illegittimo, modifica indesiderata, perdita dati)</li>
-          <li><strong>4.1.b</strong> Metodo di valutazione (livelli probabilit&agrave;/gravit&agrave;, metriche, priorit&agrave;, accettabilit&agrave;)</li>
-          <li><strong>4.1.c</strong> Valutazione del rischio inerente (probabilit&agrave;, gravit&agrave;, fattori modulanti, livello, accettabilit&agrave;)</li>
-          <li><strong>4.2.a</strong> Misure di mitigazione aggiuntive (misura, rischi mitigati, efficacia, stato implementazione)</li>
-          <li><strong>4.2.b</strong> Valutazione del rischio residuo (rischio rivalutato dopo le misure)</li>
-          <li><strong>4.2.c</strong> Piano di implementazione (attivit&agrave;, responsabili, tempistiche)</li>
-        </ul>
-      </div>
-
-      <div class="schema-section">
-        <h4>5. Coinvolgimento delle Parti Interessate</h4>
-        <ul>
-          <li><strong>5.1</strong> Parere del DPO (opinione, conclusioni, raccomandazioni e come sono state recepite)</li>
-          <li><strong>5.2</strong> Opinione degli interessati o loro rappresentanti (partecipazione al processo)</li>
-        </ul>
-      </div>
-
-      <div class="schema-section">
-        <h4>6. Conclusione e Decisione</h4>
-        <ul>
-          <li><strong>RESPINTO</strong> &mdash; il trattamento deve essere abbandonato</li>
-          <li><strong>CONSULTAZIONE</strong> &mdash; consultazione preventiva con l'Autorit&agrave; di controllo (art. 36)</li>
-          <li><strong>APPROVATO</strong> &mdash; rischi residui accettabili, il trattamento pu&ograve; procedere</li>
-          <li><strong>APPROVATO CON CONDIZIONI</strong> &mdash; il trattamento pu&ograve; procedere solo dopo il soddisfacimento delle condizioni</li>
-        </ul>
-      </div>
-
-      <div class="info-note" style="margin-top:20px;">
-        <strong>Nota:</strong> Per ciascuna misura di conformit&agrave; (sez. 2.3), il template EDPB prevede: elenco delle misure adottate, valutazione di adeguatezza ed efficacia, stato di implementazione (pianificata / parzialmente implementata / implementata).
-      </div>
+      <div id="send-feedback" style="margin-top:10px;font-size:.84rem;display:none"></div>
     </div>
 
-  </div><!-- end #content -->
+    <!-- SEC 6: SCHEMA EDPB -->
+    <div class="section" id="sec6">
+      <div class="section-header">
+        <div class="section-tag">Riferimento</div>
+        <h2>Schema Template EDPB 2026</h2>
+        <p>Struttura integrale del template DPIA adottato dall'EDPB il 10 marzo 2026.</p>
+        <span class="legal-ref">Template EDPB 2026 &middot; Art. 35 Reg. (UE) 2016/679</span>
+      </div>
+      <div class="schema-section"><h4>0. Panoramica del Trattamento</h4><ul><li><strong>0.1</strong> Titolare (denominazione, unit&agrave;, DPO)</li><li><strong>0.2</strong> Responsabili e sub-responsabili</li><li><strong>0.3</strong> Nome del trattamento</li><li><strong>0.4</strong> Pianificazione (date avvio/fine)</li><li><strong>0.5</strong> Scheda tecnica DPIA (versione, team, ragioni, ambito, pubblicazione)</li></ul></div>
+      <div class="schema-section"><h4>1. Descrizione Sistematica</h4><ul><li><strong>1.1</strong> Dati personali, finalit&agrave;, usi secondari, natura/ambito/contesto</li><li><strong>1.2</strong> Descrizione funzionale (fasi del trattamento)</li><li><strong>1.3</strong> Mezzi, asset e architettura</li><li><strong>1.4</strong> Codici di condotta</li></ul></div>
+      <div class="schema-section"><h4>2. Analisi del Trattamento</h4><ul><li><strong>2.1</strong> Base giuridica (art. 6) e condizioni art. 9(2)</li><li><strong>2.2</strong> Minimizzazione, conservazione, qualit&agrave; dati</li><li><strong>2.3</strong> Misure di conformit&agrave;: principi art. 5, diritti interessati, by design, sicurezza</li></ul></div>
+      <div class="schema-section"><h4>3. Necessit&agrave; e Proporzionalit&agrave;</h4><ul><li><strong>3.1</strong> Impatti sui diritti</li><li><strong>3.2</strong> Necessit&agrave; (meno intrusivo?)</li><li><strong>3.3</strong> Proporzionalit&agrave; (benefici vs impatti)</li></ul></div>
+      <div class="schema-section"><h4>4. Valutazione e Gestione Rischi</h4><ul><li><strong>4.1</strong> Minacce, metodo, rischio inerente (P &times; G)</li><li><strong>4.2</strong> Misure aggiuntive, rischio residuo, piano</li></ul></div>
+      <div class="schema-section"><h4>5. Parti Interessate</h4><ul><li><strong>5.1</strong> Parere DPO</li><li><strong>5.2</strong> Opinione interessati</li></ul></div>
+      <div class="schema-section"><h4>6. Conclusione</h4><ul><li><strong>RESPINTO</strong> &mdash; trattamento da abbandonare</li><li><strong>CONSULTAZIONE</strong> &mdash; art. 36 GDPR</li><li><strong>APPROVATO</strong> &mdash; rischi residui accettabili</li><li><strong>APPROVATO CON CONDIZIONI</strong></li></ul></div>
+      <div class="info-note" style="margin-top:16px"><strong>Nota:</strong> Per ogni misura di conformit&agrave; il template prevede: elenco misure, valutazione adeguatezza/efficacia, stato (pianificata/parziale/implementata). Un rischio pu&ograve; essere non accettabile anche con bassa probabilit&agrave; se la gravit&agrave; &egrave; molto elevata.</div>
+    </div>
 
+  </div>
   <div id="nav-buttons">
     <button class="btn btn-secondary" id="btn-back" onclick="navigate(-1)" style="visibility:hidden">&larr; Indietro</button>
-    <div style="font-size:0.8rem; color:var(--text-muted)" id="nav-hint"></div>
+    <div style="font-size:.78rem;color:var(--text-muted)" id="nav-hint"></div>
     <button class="btn btn-primary" id="btn-next" onclick="navigate(1)">Avanti &rarr;</button>
   </div>
 </div>
 
 <script>
-const DPIA_CONFIG = {
-  APPS_SCRIPT_URL: "https://script.google.com/macros/s/AKfycbxC5cpOpFBY-RhfzZyEQck6ED6_dXBd6SPNMkFlINcC3Zeo5y-AvpODkVgWnjPbdWH-UA/exec",
-  SESSION_NAME: "DPIA Path — Clinica Legale"
-};
+// ===== CATALOGUES =====
+const ART35 = [
+  {id:'a', text:'Profilazione sistematica ed estensiva con effetti giuridici o analoghi significativi', ref:'Art. 35(3)(a)'},
+  {id:'b', text:'Trattamento su larga scala di dati particolari (art. 9) o penali (art. 10)', ref:'Art. 35(3)(b)'},
+  {id:'c', text:'Sorveglianza sistematica su larga scala di zona accessibile al pubblico', ref:'Art. 35(3)(c)'}
+];
+const EDPB = [
+  {id:'e1', text:'Valutazione o scoring (profilazione, previsione)'},
+  {id:'e2', text:'Decisioni automatizzate con effetti significativi'},
+  {id:'e3', text:'Monitoraggio sistematico'},
+  {id:'e4', text:'Dati sensibili o altamente personali'},
+  {id:'e5', text:'Trattamento su larga scala'},
+  {id:'e6', text:'Abbinamento o combinazione di dataset'},
+  {id:'e7', text:'Soggetti vulnerabili (minori, anziani, dipendenti, pazienti...)'},
+  {id:'e8', text:'Uso innovativo / nuove tecnologie (AI, IoT, biometria...)'},
+  {id:'e9', text:'Impedimento all\'esercizio di un diritto o uso di un servizio'}
+];
+const RISKS = [
+  {id:'r1', name:'Discriminazione algoritmica', desc:'Risultati discriminatori basati su caratteristiche protette o proxy'},
+  {id:'r2', name:'Errore decisionale', desc:'Decisioni errate con conseguenze negative per gli interessati'},
+  {id:'r3', name:'Opacit\u00e0 / mancanza di spiegabilit\u00e0', desc:'Impossibilit\u00e0 di comprendere la logica delle decisioni'},
+  {id:'r4', name:'Esclusione ingiustificata', desc:'Esclusione da servizi, opportunit\u00e0 o diritti'},
+  {id:'r5', name:'Impossibilit\u00e0 di contestazione', desc:'Assenza di meccanismi di ricorso efficaci'},
+  {id:'r6', name:'Violazione della riservatezza', desc:'Data breach, accessi non autorizzati, divulgazione'},
+  {id:'r7', name:'Uso improprio dei dati', desc:'Riutilizzo per finalit\u00e0 incompatibili (function creep)'},
+  {id:'r8', name:'Sorveglianza sproporzionata', desc:'Monitoraggio eccessivo rispetto alle finalit\u00e0'},
+  {id:'r9', name:'Effetti su soggetti vulnerabili', desc:'Impatto sproporzionato su persone gi\u00e0 in svantaggio'},
+  {id:'r10', name:'Inferenze indesiderate', desc:'Deduzione di informazioni sensibili non fornite dall\'interessato'},
+  {id:'r11', name:'Assenza di controllo umano', desc:'Decisioni completamente automatizzate senza revisione'},
+  {id:'r12', name:'Mancanza di trasparenza', desc:'Interessati non informati del trattamento o dell\'uso di AI'}
+];
+const MEASURES = [
+  {id:'m1', name:'Minimizzazione dei dati'},
+  {id:'m2', name:'Pseudonimizzazione / anonimizzazione'},
+  {id:'m3', name:'Controllo umano sulle decisioni'},
+  {id:'m4', name:'Informativa rafforzata (specifica su AI)'},
+  {id:'m5', name:'Diritto di opposizione / opt-out'},
+  {id:'m6', name:'Audit periodici del sistema'},
+  {id:'m7', name:'Test per bias e fairness'},
+  {id:'m8', name:'Explainability / spiegazioni intelligibili'},
+  {id:'m9', name:'Controlli di accesso e autenticazione'},
+  {id:'m10', name:'Cifratura e sicurezza tecnica'},
+  {id:'m11', name:'Revisione periodica della DPIA'},
+  {id:'m12', name:'Canali di reclamo accessibili'},
+  {id:'m13', name:'Privacy by design e by default'},
+  {id:'m14', name:'Limitazione della conservazione'}
+];
+const DECISIONS = [
+  {id:'rejected', label:'RESPINTO', desc:'Il trattamento deve essere abbandonato', color:'var(--red)'},
+  {id:'consultation', label:'CONSULTAZIONE', desc:'Consultazione preventiva con l\'Autorit\u00e0 (art. 36 GDPR)', color:'var(--orange)'},
+  {id:'conditional', label:'APPROVATO CON CONDIZIONI', desc:'Procede solo dopo il soddisfacimento delle condizioni', color:'var(--yellow)'},
+  {id:'approved', label:'APPROVATO', desc:'Rischi residui accettabili, il trattamento pu\u00f2 procedere', color:'var(--green)'}
+];
 
-const state = { current: 0, total: 6, decision: null };
-
-// ===== PRECHECK =====
-function computePrecheck() {
-  const obl = document.getElementById('r35a').checked || document.getElementById('r35b').checked || document.getElementById('r35c').checked;
-  const edpbCount = document.querySelectorAll('.edpb-check:checked').length;
-  const box = document.getElementById('precheck-outcome');
-  let r;
-  if (obl) r = { c: 'red', l: 'DPIA obbligatoria', m: 'Il trattamento rientra in uno dei casi di DPIA obbligatoria ex art. 35(3) GDPR.' };
-  else if (edpbCount >= 2) r = { c: 'orange', l: 'DPIA fortemente raccomandata', m: `Il trattamento soddisfa ${edpbCount} criteri EDPB di rischio elevato.` };
-  else if (edpbCount === 1) r = { c: 'yellow', l: 'DPIA consigliata', m: 'Il trattamento soddisfa 1 criterio EDPB.' };
-  else { box.innerHTML = ''; updateSidebar(); autoSave(); return; }
-  box.innerHTML = `<div class="outcome-box ${r.c}"><h3>${r.l}</h3><p>${r.m}</p></div>`;
-  updateSidebar(); autoSave();
-}
-
-// ===== DYNAMIC ROWS =====
-function removeRow(btn) { btn.closest('tr').remove(); autoSave(); }
-function removeRisk(btn) { btn.closest('.risk-item').remove(); computeAggregate(); autoSave(); }
-
-function addDataRow(d) {
-  const tb = document.querySelector('#tbl_data tbody');
-  const tr = document.createElement('tr');
-  tr.innerHTML = `<td><input type="text" data-f="item" placeholder="Es: Nome, ISEE, diagnosi" value="${(d&&d.item)||''}"></td>
-    <td><input type="text" data-f="expl" placeholder="Tipo dato, interessati" value="${(d&&d.expl)||''}"></td>
-    <td><select data-f="special"><option value="no" ${(d&&d.special!=='yes')?'selected':''}>No</option><option value="yes" ${(d&&d.special==='yes')?'selected':''}>S&igrave; (art. 9/10)</option></select></td>
-    <td><button class="btn-remove-row" onclick="removeRow(this)">X</button></td>`;
-  tb.appendChild(tr); wireInputs(tr); autoSave();
-}
-
-function addMeasureRow(d) {
-  const tb = document.querySelector('#tbl_measures tbody');
-  const tr = document.createElement('tr');
-  tr.innerHTML = `<td><input type="text" data-f="measure" placeholder="Es: Pseudonimizzazione" value="${(d&&d.measure)||''}"></td>
-    <td><input type="text" data-f="risks" placeholder="Rischi mitigati" value="${(d&&d.risks)||''}"></td>
-    <td><select data-f="status"><option value="planned" ${(d&&d.status==='planned')?'selected':''}>Pianificata</option><option value="partial" ${(d&&d.status==='partial')?'selected':''}>Parziale</option><option value="done" ${(d&&d.status==='done')?'selected':''}>Implementata</option></select></td>
-    <td><button class="btn-remove-row" onclick="removeRow(this)">X</button></td>`;
-  tb.appendChild(tr); wireInputs(tr); autoSave();
-}
-
-let riskN = { inherent: 0, residual: 0 };
-function addRisk(type, d) {
-  riskN[type]++;
-  const id = type + '_' + riskN[type];
-  const container = document.getElementById(type + '-risks');
-  const div = document.createElement('div');
-  div.className = 'risk-item'; div.id = id;
-  const isRes = type === 'residual';
-  div.innerHTML = `
-    <div class="risk-item-header">
-      <input type="text" data-f="name" placeholder="${isRes ? 'Rischio rivalutato' : 'Nome del rischio'}" value="${(d&&d.name)||''}" style="flex:1; font-weight:700; border:1px solid var(--border); border-radius:4px; padding:6px 8px;">
-      <div class="risk-score-badge badge-low" id="badge_${id}">—</div>
-      <button class="btn-remove-row" onclick="removeRisk(this)" style="margin-left:8px">X</button>
-    </div>
-    ${isRes ? `<div style="margin:8px 0;"><input type="text" data-f="applied" placeholder="Misure applicate" value="${(d&&d.applied)||''}" style="width:100%; padding:6px 8px; border:1px solid var(--border); border-radius:4px; font-size:0.82rem;"></div>` : ''}
-    <div class="risk-controls">
-      <div class="risk-ctrl"><label>Probabilit&agrave;</label>
-        <select data-f="prob" onchange="updBadge('${id}')"><option value="">—</option><option value="1" ${(d&&d.prob==1)?'selected':''}>1 - Bassa</option><option value="2" ${(d&&d.prob==2)?'selected':''}>2 - Media</option><option value="3" ${(d&&d.prob==3)?'selected':''}>3 - Alta</option></select></div>
-      <div class="risk-ctrl"><label>Gravit&agrave;</label>
-        <select data-f="sev" onchange="updBadge('${id}')"><option value="">—</option><option value="1" ${(d&&d.sev==1)?'selected':''}>1 - Bassa</option><option value="2" ${(d&&d.sev==2)?'selected':''}>2 - Media</option><option value="3" ${(d&&d.sev==3)?'selected':''}>3 - Alta</option></select></div>
-    </div>
-    <div style="margin-top:8px;">
-      <select data-f="acceptable" style="padding:6px 8px; border:1px solid var(--border); border-radius:4px; font-size:0.82rem;">
-        <option value="">Accettabile?</option><option value="yes" ${(d&&d.acceptable==='yes')?'selected':''}>S&igrave;</option><option value="no" ${(d&&d.acceptable==='no')?'selected':''}>No</option>
-      </select>
-    </div>`;
-  container.appendChild(div); wireInputs(div);
-  if (d && d.prob && d.sev) updBadge(id);
-}
-
-function updBadge(id) {
-  const el = document.getElementById(id);
-  const p = el.querySelector('[data-f="prob"]').value;
-  const s = el.querySelector('[data-f="sev"]').value;
-  const b = document.getElementById('badge_' + id);
-  if (!p || !s) { b.textContent = '—'; b.className = 'risk-score-badge badge-low'; }
-  else {
-    const sc = p * s;
-    b.textContent = sc + '/9';
-    b.className = 'risk-score-badge ' + (sc >= 6 ? 'badge-high' : sc >= 3 ? 'badge-med' : 'badge-low');
+// ===== SCENARIOS =====
+const SCENARIOS = [
+{
+  id:1, title:'FamigliaSafe \u2014 AI predittiva rischio minori',
+  text:`<h3>FamigliaSafe \u2014 Sistema AI per la protezione dei minori</h3>
+<p>Il <strong>Comune di Rivalta</strong> (180.000 abitanti) intende implementare <strong>FamigliaSafe</strong>, un sistema di machine learning supervisionato che analizza i dati di <strong>35.000 nuclei familiari</strong> per calcolare un <strong>punteggio di rischio</strong> relativo alla probabilit\u00e0 di situazioni di pregiudizio per i minori.</p>
+<p>Il sistema integra dati provenienti da: <strong>anagrafe comunale</strong> (composizione nucleo, residenza), <strong>servizi sociali</strong> (segnalazioni pregresse, interventi), <strong>ISEE</strong> (situazione economica), <strong>ASL</strong> (accessi al pronto soccorso dei minori, patologie croniche dei genitori), <strong>Tribunale per i Minorenni</strong> (precedenti provvedimenti). Il modello \u00e8 stato addestrato su dati storici degli ultimi 8 anni.</p>
+<p>Le famiglie con punteggio superiore alla soglia vengono <strong>automaticamente segnalate</strong> ai servizi sociali per un colloquio. Il sistema \u00e8 stato sviluppato da una software house esterna (<strong>DataCare Srl</strong>) e gira su server cloud. <strong>Non \u00e8 prevista una revisione umana sistematica</strong> prima della segnalazione.</p>`,
+  correct: {
+    art35: {a:true, b:true, c:false},
+    edpb: [true,true,false,true,true,true,true,true,true],
+    dataItems: ['anagrafe','isee','sanitari','giudiziari','segnalazioni_sociali'],
+    specialData: ['sanitari','giudiziari'],
+    legalBasis: 'e',
+    art9: 'g',
+    risks: {r1:{p:3,g:3},r2:{p:2,g:3},r3:{p:3,g:3},r4:{p:2,g:3},r5:{p:2,g:3},r9:{p:3,g:3},r10:{p:2,g:2},r11:{p:3,g:3},r12:{p:2,g:2}},
+    measures: ['m1','m2','m3','m4','m6','m7','m8','m9','m10','m12','m13'],
+    decision: 'consultation',
+    decisionAlt: ['conditional'],
+    feedback: {
+      key:'Scenario ad altissimo rischio: profilazione con effetti significativi su soggetti vulnerabili (minori), dati sanitari e giudiziari su larga scala, assenza di controllo umano. La DPIA \u00e8 obbligatoria ex art. 35(3)(a) e (b). L\'AI Act classifica i sistemi di welfare scoring come ad alto rischio. L\'assenza di revisione umana prima della segnalazione \u00e8 un punto critico.',
+      legalNote:'La base giuridica \u00e8 l\'interesse pubblico (art. 6(1)(e)) con eccezione art. 9(2)(g) per i dati sanitari e giudiziari. Il consenso non \u00e8 appropriato per un servizio pubblico obbligatorio.',
+      riskNote:'I rischi chiave sono la discriminazione (dati storici che codificano bias socioeconomici), l\'opacit\u00e0 del modello ML, l\'assenza di controllo umano e gli effetti devastanti su soggetti vulnerabili. La geolocalizzazione e l\'ISEE possono fungere da proxy per origine etnica e status sociale.'
+    }
   }
-  computeAggregate(); autoSave();
+},
+{
+  id:2, title:'CreditoSmart \u2014 Scoring AI per credito bancario',
+  text:`<h3>CreditoSmart \u2014 Valutazione automatizzata del merito creditizio</h3>
+<p>La <strong>Banca Popolare del Centro</strong> vuole implementare <strong>CreditoSmart</strong>, un sistema AI che valuta le richieste di prestito personale (da 5.000 a 50.000 euro) analizzando automaticamente il profilo del richiedente.</p>
+<p>Il sistema utilizza: <strong>storia creditizia</strong> (Centrale Rischi), <strong>dati reddituali</strong> (buste paga, dichiarazioni), <strong>dati anagrafici</strong> (et\u00e0, residenza, stato civile), e \u2014 elemento innovativo \u2014 <strong>analisi dell'attivit\u00e0 social media</strong> del richiedente (post pubblici, connessioni, frequenza d'uso) come indicatore di "stabilit\u00e0 comportamentale".</p>
+<p>Il sistema produce un <strong>punteggio da 0 a 100</strong> e una raccomandazione (approvare/rifiutare/richiedere garanzie aggiuntive). Un operatore umano pu\u00f2 teoricamente sovrascrivere la decisione, ma nella pratica il <strong>95% delle decisioni segue la raccomandazione</strong> del sistema senza modifiche. I richiedenti <strong>non vengono informati</strong> dell'analisi dei social media.</p>`,
+  correct: {
+    art35: {a:true, b:false, c:false},
+    edpb: [true,true,false,true,true,true,false,true,true],
+    dataItems: ['anagrafici','reddituali','creditizi','social_media'],
+    specialData: [],
+    legalBasis: 'f',
+    art9: '',
+    risks: {r1:{p:3,g:2},r2:{p:2,g:2},r3:{p:3,g:2},r4:{p:2,g:3},r5:{p:2,g:2},r7:{p:2,g:2},r10:{p:3,g:2},r11:{p:2,g:2},r12:{p:3,g:2}},
+    measures: ['m1','m3','m4','m5','m6','m7','m8','m12','m13','m14'],
+    decision: 'conditional',
+    decisionAlt: ['consultation'],
+    feedback: {
+      key:'Profilazione con effetti significativi sull\'accesso al credito: DPIA obbligatoria ex art. 35(3)(a). L\'uso dei social media come indicatore creditizio \u00e8 altamente problematico: mancanza di trasparenza, possibile discriminazione indiretta, violazione del principio di minimizzazione. Il controllo umano \u00e8 formale (95% di adesione automatica).',
+      legalNote:'Il legittimo interesse (art. 6(1)(f)) richiede un balancing test rigoroso. L\'analisi social media \u00e8 difficilmente giustificabile come necessaria. Non ci sono dati art. 9, ma i social media possono rivelare indirettamente opinioni politiche, religione, orientamento sessuale.',
+      riskNote:'L\'analisi social media pu\u00f2 generare discriminazione indiretta: la frequenza d\'uso dei social correla con et\u00e0, classe sociale, cultura. L\'assenza di informativa sull\'analisi social viola gli artt. 13-14 GDPR. Il controllo umano al 95% di adesione automatica non \u00e8 "significativo" ai sensi dell\'art. 22.'
+    }
+  }
+},
+{
+  id:3, title:'WellnessWork \u2014 App benessere aziendale',
+  text:`<h3>WellnessWork \u2014 Programma di benessere aziendale con app</h3>
+<p>La <strong>TechFlow SpA</strong> (2.200 dipendenti) lancia un programma di benessere aziendale basato sull'app <strong>WellnessWork</strong>. L'app raccoglie: <strong>passi giornalieri</strong>, <strong>ore di sonno</strong>, <strong>frequenza cardiaca</strong> (da smartwatch aziendale), <strong>livello di stress auto-dichiarato</strong> e <strong>questionari settimanali sul benessere psicologico</strong>.</p>
+<p>La partecipazione \u00e8 <strong>"volontaria"</strong>, ma i dipendenti che aderiscono ricevono un <strong>bonus annuale di 600 euro</strong> e <strong>3 giorni di permesso aggiuntivi</strong>. I dati vengono aggregati in una <strong>dashboard per l'HR</strong> che mostra statistiche di reparto (non individuali). Tuttavia, nei reparti con meno di 5 persone, i dati aggregati possono permettere la <strong>re-identificazione</strong>.</p>
+<p>L'app \u00e8 fornita da <strong>HealthMetrics Inc.</strong> (societ\u00e0 statunitense), con server in <strong>AWS Ireland</strong>. I dati grezzi sono accessibili al fornitore per "miglioramento del servizio".</p>`,
+  correct: {
+    art35: {a:false, b:true, c:false},
+    edpb: [true,false,true,true,true,false,true,true,false],
+    dataItems: ['biometrici','salute_fisica','salute_psicologica','comportamentali'],
+    specialData: ['biometrici','salute_fisica','salute_psicologica'],
+    legalBasis: 'a',
+    art9: 'a',
+    risks: {r1:{p:1,g:2},r6:{p:2,g:3},r7:{p:2,g:2},r8:{p:2,g:2},r9:{p:2,g:2},r10:{p:3,g:2},r12:{p:2,g:2}},
+    measures: ['m1','m2','m4','m5','m9','m10','m12','m13','m14'],
+    decision: 'conditional',
+    decisionAlt: ['consultation'],
+    feedback: {
+      key:'Scenario borderline sul consenso: i dipendenti sono soggetti vulnerabili per lo squilibrio di potere con il datore di lavoro. Il bonus di 600\u20ac e i permessi aggiuntivi rendono il consenso potenzialmente non libero (considerando 43 GDPR, Linee guida EDPB 5/2020). I dati di frequenza cardiaca sono biometrici; i questionari di benessere psicologico sono dati sanitari.',
+      legalNote:'Il consenso come base giuridica \u00e8 la risposta pi\u00f9 ovvia ma \u00e8 problematica: nel contesto lavorativo il consenso \u00e8 raramente "libero" (art. 7, considerando 43 GDPR). Il legittimo interesse \u00e8 difficile da sostenere per dati sanitari. La re-identificazione nei piccoli reparti \u00e8 un problema di pseudonimizzazione insufficiente.',
+      riskNote:'Il rischio principale \u00e8 la sorveglianza del datore di lavoro mascherata da welfare. Il trasferimento dati al fornitore USA richiede garanzie adeguate (Capo V GDPR). L\'accesso del fornitore ai dati grezzi per "miglioramento del servizio" \u00e8 un potenziale function creep.'
+    }
+  }
+},
+{
+  id:4, title:'CittadinoBot \u2014 Chatbot AI comunale',
+  text:`<h3>CittadinoBot \u2014 Assistente virtuale per i servizi comunali</h3>
+<p>Il <strong>Comune di Vallechiara</strong> (45.000 abitanti) attiva <strong>CittadinoBot</strong>, un chatbot basato su un modello linguistico (LLM) per rispondere alle domande dei cittadini sui servizi comunali: orari uffici, modulistica, stato pratiche, informazioni su tributi.</p>
+<p>Il chatbot raccoglie: <strong>testo delle domande</strong>, <strong>codice fiscale</strong> (solo se il cittadino chiede lo stato di una pratica), <strong>timestamp</strong> e <strong>indirizzo IP</strong>. Le conversazioni sono <strong>conservate per 12 mesi</strong> per analisi di qualit\u00e0 del servizio. <strong>Non vengono prese decisioni automatizzate</strong>: il bot fornisce solo informazioni.</p>
+<p>Il modello LLM \u00e8 fornito da <strong>OpenAI</strong> (API a pagamento). Le conversazioni vengono inviate ai server di OpenAI per la generazione delle risposte. Il Comune ha verificato che OpenAI non utilizzi i dati per l'addestramento (opt-out attivato).</p>`,
+  correct: {
+    art35: {a:false, b:false, c:false},
+    edpb: [false,false,false,false,false,false,false,true,false],
+    dataItems: ['codice_fiscale','testo_domande','ip_timestamp'],
+    specialData: [],
+    legalBasis: 'e',
+    art9: '',
+    risks: {r6:{p:2,g:2},r7:{p:1,g:1},r12:{p:2,g:1}},
+    measures: ['m4','m9','m10','m14'],
+    decision: 'approved',
+    decisionAlt: ['conditional'],
+    feedback: {
+      key:'Scenario a rischio basso-medio. Nessun criterio art. 35(3) \u00e8 soddisfatto: non c\'\u00e8 profilazione, non ci sono dati particolari, non c\'\u00e8 sorveglianza. Solo 1 criterio EDPB (nuove tecnologie). La DPIA non \u00e8 obbligatoria ma \u00e8 buona pratica. Attenzione per\u00f2: i cittadini potrebbero rivelare dati sensibili nelle domande (es. "ho una disabilit\u00e0, quali agevolazioni?") e i dati transitano verso server di OpenAI.',
+      legalNote:'Base giuridica: interesse pubblico (art. 6(1)(e)) per l\'erogazione dei servizi comunali. Non ci sono dati particolari a meno che il cittadino non li inserisca spontaneamente nelle domande \u2014 punto da gestire con informativa chiara.',
+      riskNote:'I rischi sono limitati ma non assenti: il transito dei dati verso OpenAI richiede valutazione dei trasferimenti extra-UE, la conservazione per 12 mesi delle conversazioni deve essere giustificata, e va garantita trasparenza sull\'uso dell\'AI.'
+    }
+  }
+},
+{
+  id:5, title:'TalentAI \u2014 Screening automatizzato dei CV',
+  text:`<h3>TalentAI \u2014 Sistema AI per la selezione del personale</h3>
+<p>La <strong>GrandDistribution Srl</strong> (catena di 120 punti vendita, 8.000 dipendenti) adotta <strong>TalentAI</strong>, un sistema AI per lo screening iniziale dei CV ricevuti per posizioni di addetto vendita e magazziniere (circa <strong>15.000 candidature/anno</strong>).</p>
+<p>Il sistema analizza: <strong>testo del CV</strong>, <strong>et\u00e0</strong>, <strong>distanza dal punto vendita</strong>, <strong>esperienza pregressa</strong>, <strong>titolo di studio</strong>. Opzionalmente, il candidato pu\u00f2 caricare un <strong>video di presentazione di 60 secondi</strong> che viene analizzato per "competenze comunicative" tramite <strong>analisi delle espressioni facciali e del tono di voce</strong>.</p>
+<p>TalentAI assegna un punteggio e <strong>scarta automaticamente il 70% delle candidature</strong> sotto una soglia. Solo il restante 30% viene visionato da un recruiter umano. I candidati scartati ricevono un'email generica di rifiuto <strong>senza motivazione specifica</strong>. Il sistema \u00e8 classificato come <strong>ad alto rischio dall'AI Act</strong> (Allegato III, punto 4).</p>`,
+  correct: {
+    art35: {a:true, b:false, c:false},
+    edpb: [true,true,false,true,true,false,false,true,true],
+    dataItems: ['anagrafici','cv_professionale','geolocalizzazione','video_biometrico'],
+    specialData: ['video_biometrico'],
+    legalBasis: 'f',
+    art9: 'a',
+    risks: {r1:{p:3,g:3},r2:{p:2,g:2},r3:{p:3,g:2},r4:{p:3,g:3},r5:{p:3,g:2},r9:{p:2,g:2},r10:{p:3,g:2},r11:{p:3,g:2},r12:{p:3,g:2}},
+    measures: ['m1','m3','m4','m5','m6','m7','m8','m12','m13'],
+    decision: 'conditional',
+    decisionAlt: ['consultation'],
+    feedback: {
+      key:'Sistema ad alto rischio per AI Act (Allegato III, punto 4: occupazione e gestione lavoratori). L\'analisi delle espressioni facciali e del tono di voce costituisce trattamento di dati biometrici (art. 9). L\'art. 5(1)(f) AI Act vieta i sistemi di riconoscimento delle emozioni sul luogo di lavoro \u2014 il video-screening \u00e8 in area grigia poich\u00e9 avviene in fase di selezione.',
+      legalNote:'Legittimo interesse (art. 6(1)(f)) per lo screening CV, ma il consenso esplicito (art. 9(2)(a)) \u00e8 necessario per l\'analisi biometrica del video. Attenzione: il consenso di un candidato \u00e8 discutibilmente "libero" dato lo squilibrio di potere. La "distanza dal punto vendita" pu\u00f2 essere proxy per segregazione residenziale.',
+      riskNote:'Lo scarto automatico del 70% senza motivazione viola l\'art. 22(3) GDPR (diritto a spiegazioni). L\'analisi facciale pu\u00f2 discriminare per et\u00e0, etnia, disabilit\u00e0 visibili. La distanza geografica pu\u00f2 codificare discriminazione socioeconomica e razziale. L\'AI Act impone obblighi di trasparenza, supervisione umana e gestione del rischio.'
+    }
+  }
+},
+{
+  id:6, title:'StudyTrack \u2014 Analytics predittive universitarie',
+  text:`<h3>StudyTrack \u2014 Sistema predittivo per il contrasto all'abbandono universitario</h3>
+<p>L'<strong>Universit\u00e0 di Valdarno</strong> (22.000 iscritti) implementa <strong>StudyTrack</strong>, un sistema che analizza il comportamento degli studenti sulla piattaforma di e-learning per <strong>predire la probabilit\u00e0 di abbandono</strong> e attivare interventi di supporto.</p>
+<p>Dati raccolti: <strong>tempo di permanenza sulle pagine</strong>, <strong>pattern di accesso</strong> (orari, frequenza), <strong>risultati degli esami</strong>, <strong>interazioni nei forum</strong>, <strong>download di materiale</strong>, <strong>ritardi nelle consegne</strong>. Il sistema calcola un <strong>"indice di rischio abbandono"</strong> da 0 a 100.</p>
+<p>Gli studenti con indice superiore a 70 ricevono <strong>automaticamente un'email</strong> dal tutor che propone un incontro. I docenti possono visualizzare l'indice dei propri studenti. L'universit\u00e0 sostiene che il sistema \u00e8 solo di <strong>"supporto"</strong> e non produce effetti giuridici. Lo studente <strong>non viene informato</strong> che il suo comportamento online viene analizzato per calcolare l'indice.</p>`,
+  correct: {
+    art35: {a:false, b:false, c:false},
+    edpb: [true,false,true,false,true,false,false,true,false],
+    dataItems: ['comportamentali_online','risultati_accademici','interazioni_forum'],
+    specialData: [],
+    legalBasis: 'e',
+    art9: '',
+    risks: {r1:{p:1,g:1},r3:{p:2,g:2},r5:{p:2,g:1},r8:{p:3,g:2},r10:{p:2,g:2},r12:{p:3,g:2}},
+    measures: ['m1','m4','m5','m6','m8','m11','m12','m13','m14'],
+    decision: 'conditional',
+    decisionAlt: ['approved'],
+    feedback: {
+      key:'Scenario borderline. Non ci sono criteri art. 35(3) chiaramente soddisfatti: l\'effetto \u00e8 un\'email di supporto, non una decisione giuridica. Ma 3-4 criteri EDPB si applicano (scoring, monitoraggio, larga scala, nuove tecnologie), quindi la DPIA \u00e8 fortemente raccomandata. Il punto critico \u00e8 la mancanza di trasparenza: lo studente non sa di essere monitorato e profilato.',
+      legalNote:'L\'interesse pubblico (art. 6(1)(e)) per la missione educativa \u00e8 la base pi\u00f9 solida. Il legittimo interesse (f) \u00e8 possibile ma pi\u00f9 debole. Non ci sono dati art. 9, a meno che le interazioni nei forum non rivelino opinioni o condizioni personali.',
+      riskNote:'Il rischio principale \u00e8 la sorveglianza: tracciare ogni click dello studente crea un effetto panoptico che pu\u00f2 modificare il comportamento (chilling effect). La condivisione dell\'indice con i docenti pu\u00f2 generare stigmatizzazione e trattamento differenziale. L\'assenza di informativa \u00e8 una violazione diretta degli artt. 13-14 GDPR.'
+    }
+  }
+}
+];
+
+// ===== STATE =====
+let SC, state = {current:0, total:7};
+
+function pickScenario() {
+  SC = SCENARIOS[Math.floor(Math.random()*SCENARIOS.length)];
+  document.getElementById('scenario-text').innerHTML = SC.text;
+  buildUI();
+}
+function newScenario() {
+  pickScenario();
+  state.current = 0;
+  for(let i=0;i<state.total;i++){document.getElementById('nav'+i).classList.remove('active','completed');document.getElementById('sec'+i).classList.remove('active');}
+  document.getElementById('nav0').classList.add('active');document.getElementById('sec0').classList.add('active');
+  document.getElementById('progress-bar-fill').style.width='14%';document.getElementById('progress-pct').textContent='14%';document.getElementById('progress-label').textContent='Scenario';
+  document.getElementById('btn-back').style.visibility='hidden';document.getElementById('btn-next').style.display='';
+  window.scrollTo({top:0});
 }
 
-function computeAggregate() {
-  const scores = [];
-  document.querySelectorAll('#inherent-risks .risk-item').forEach(item => {
-    const p = item.querySelector('[data-f="prob"]').value;
-    const s = item.querySelector('[data-f="sev"]').value;
-    if (p && s) scores.push(p * s);
-  });
-  const box = document.getElementById('risk-aggregate');
-  if (!scores.length) { box.classList.add('hidden'); return; }
-  box.classList.remove('hidden');
-  const max = Math.max(...scores), avg = (scores.reduce((a, b) => a + b, 0) / scores.length).toFixed(1);
-  const high = scores.filter(s => s >= 6).length;
-  let c, l;
-  if (high >= 1) { c = 'red'; l = 'ELEVATO'; }
-  else if (scores.filter(s => s >= 3).length >= 2 || avg >= 4) { c = 'orange'; l = 'MEDIO-ALTO'; }
-  else if (avg >= 2) { c = 'yellow'; l = 'MEDIO'; }
-  else { c = 'green'; l = 'BASSO'; }
-  box.innerHTML = `<div class="outcome-box ${c}"><h3>Rischio aggregato: ${l}</h3><p>Media: ${avg}/9 &middot; Max: ${max}/9 &middot; Rischi alti: ${high}/${scores.length}</p></div>`;
+function buildUI() {
+  // Precheck
+  document.getElementById('precheck-35').innerHTML = ART35.map(c => `<div class="check-item" id="ci35_${c.id}" onclick="togCI(this)"><input type="checkbox" id="ch35_${c.id}"><label>${c.text} <span class="tag" style="background:#eef2ff;color:var(--primary)">${c.ref}</span></label></div>`).join('');
+  document.getElementById('precheck-edpb').innerHTML = EDPB.map(c => `<div class="check-item" id="ci_${c.id}" onclick="togCI(this)"><input type="checkbox" id="ch_${c.id}"><label>${c.text}</label></div>`).join('');
+  // Data items
+  const allData = [
+    {id:'anagrafici',name:'Dati anagrafici (nome, et\u00e0, residenza, stato civile)',special:false},
+    {id:'codice_fiscale',name:'Codice fiscale / identificativo',special:false},
+    {id:'reddituali',name:'Dati reddituali / economici (ISEE, buste paga)',special:false},
+    {id:'creditizi',name:'Storia creditizia / Centrale Rischi',special:false},
+    {id:'sanitari',name:'Dati sanitari / accessi PS / patologie',special:true},
+    {id:'giudiziari',name:'Dati giudiziari / precedenti penali / provvedimenti',special:true},
+    {id:'segnalazioni_sociali',name:'Segnalazioni servizi sociali / interventi',special:false},
+    {id:'social_media',name:'Dati da social media (post, connessioni)',special:false},
+    {id:'biometrici',name:'Dati biometrici (frequenza cardiaca, espressioni facciali)',special:true},
+    {id:'salute_fisica',name:'Dati di salute fisica (passi, sonno, attivit\u00e0)',special:true},
+    {id:'salute_psicologica',name:'Dati di salute psicologica / benessere mentale',special:true},
+    {id:'comportamentali',name:'Dati comportamentali (abitudini, pattern)',special:false},
+    {id:'geolocalizzazione',name:'Geolocalizzazione / distanza / residenza',special:false},
+    {id:'cv_professionale',name:'CV / esperienza professionale / titolo di studio',special:false},
+    {id:'video_biometrico',name:'Video con analisi facciale / voce',special:true},
+    {id:'comportamentali_online',name:'Comportamento online (click, tempo pagina, accessi)',special:false},
+    {id:'risultati_accademici',name:'Risultati esami / valutazioni accademiche',special:false},
+    {id:'interazioni_forum',name:'Interazioni forum / comunicazioni',special:false},
+    {id:'ip_timestamp',name:'Indirizzo IP / timestamp',special:false},
+    {id:'testo_domande',name:'Testo delle domande / conversazioni',special:false}
+  ];
+  document.getElementById('data-items').innerHTML = allData.map(d => `<div class="check-item" id="di_${d.id}" onclick="togCI(this)"><input type="checkbox" id="chd_${d.id}"><label>${d.name}${d.special?' <span class="tag" style="background:var(--red-bg);color:var(--red)">Art. 9/10</span>':''}</label></div>`).join('');
+  // Risks
+  document.getElementById('risk-list').innerHTML = RISKS.map(r => `<div class="risk-row" id="rr_${r.id}">
+    <input type="checkbox" id="chr_${r.id}" onchange="togRisk('${r.id}')">
+    <div class="rname">${r.name}<div style="font-size:.75rem;color:var(--text-muted);font-weight:400">${r.desc}</div></div>
+    <select id="rp_${r.id}" disabled style="opacity:.4"><option value="">P</option><option value="1">1</option><option value="2">2</option><option value="3">3</option></select>
+    <select id="rg_${r.id}" disabled style="opacity:.4"><option value="">G</option><option value="1">1</option><option value="2">2</option><option value="3">3</option></select>
+    <div class="risk-badge" id="rb_${r.id}" style="color:var(--text-muted)">—</div>
+  </div>`).join('');
+  // Measures
+  document.getElementById('measure-list').innerHTML = MEASURES.map(m => `<div class="check-item" id="mi_${m.id}" onclick="togCI(this)"><input type="checkbox" id="chm_${m.id}"><label>${m.name}</label></div>`).join('');
+  // Decision
+  document.getElementById('decision-list').innerHTML = DECISIONS.map(d => `<div class="decision-option" id="do_${d.id}" onclick="selDec('${d.id}')"><label><input type="radio" name="dec" value="${d.id}"><div><strong style="color:${d.color}">${d.label}</strong><br><span style="font-size:.82rem;color:var(--text-muted)">${d.desc}</span></div></label></div>`).join('');
+  state.decision = null;
 }
 
-// ===== DECISION =====
-function selectDecision(val) {
-  state.decision = val;
+function togCI(el) {
+  const cb = el.querySelector('input');
+  cb.checked = !cb.checked;
+  el.classList.toggle('selected', cb.checked);
+}
+function togRisk(id) {
+  const cb = document.getElementById('chr_'+id);
+  const row = document.getElementById('rr_'+id);
+  const ps = document.getElementById('rp_'+id);
+  const gs = document.getElementById('rg_'+id);
+  row.classList.toggle('selected', cb.checked);
+  ps.disabled = !cb.checked; ps.style.opacity = cb.checked?1:.4;
+  gs.disabled = !cb.checked; gs.style.opacity = cb.checked?1:.4;
+  if(!cb.checked){ps.value='';gs.value='';document.getElementById('rb_'+id).textContent='—';document.getElementById('rb_'+id).style.color='var(--text-muted)';}
+  ps.onchange = gs.onchange = () => {
+    const p=parseInt(ps.value)||0,g=parseInt(gs.value)||0;
+    const b=document.getElementById('rb_'+id);
+    if(p&&g){const s=p*g;b.textContent=s+'/9';b.style.color=s>=6?'var(--red)':s>=3?'var(--yellow)':'var(--green)';b.style.background=s>=6?'var(--red-bg)':s>=3?'var(--yellow-bg)':'var(--green-bg)';b.style.borderRadius='4px';b.style.padding='2px 6px';}
+    else{b.textContent='—';b.style.color='var(--text-muted)';b.style.background='none';}
+  };
+}
+function selDec(id) {
+  state.decision = id;
   document.querySelectorAll('.decision-option').forEach(o => o.classList.remove('selected'));
-  const r = document.querySelector(`input[name="decision"][value="${val}"]`);
-  if (r) { r.checked = true; r.closest('.decision-option').classList.add('selected'); }
-  document.getElementById('conditions-box').classList.toggle('hidden', val !== 'conditional');
-  updateSidebar(); autoSave();
+  document.getElementById('do_'+id).classList.add('selected');
+  document.querySelector(`#do_${id} input`).checked = true;
+}
+
+// ===== EVALUATION =====
+function evaluate() {
+  const C = SC.correct;
+  let totalPts=0, maxPts=0, feedback=[];
+
+  // 1. Precheck art35
+  let pre35ok=0, pre35max=3;
+  ['a','b','c'].forEach(id => {
+    const checked = document.getElementById('ch35_'+id).checked;
+    const correct = C.art35[id];
+    if(checked===correct) pre35ok++;
+  });
+  maxPts+=6; totalPts+=pre35ok*2;
+
+  // 2. Precheck EDPB
+  let edpbOk=0, edpbMax=EDPB.length;
+  EDPB.forEach((e,i) => {
+    const checked = document.getElementById('ch_'+e.id).checked;
+    const correct = C.edpb[i];
+    if(checked===correct) edpbOk++;
+  });
+  maxPts+=9; totalPts+=edpbOk;
+
+  // 3. Data items
+  let dataOk=0, dataMissed=[], dataExtra=[];
+  const allDataIds = [...document.querySelectorAll('[id^="chd_"]')].map(e => e.id.replace('chd_',''));
+  allDataIds.forEach(id => {
+    const checked = document.getElementById('chd_'+id).checked;
+    const shouldBe = C.dataItems.includes(id);
+    if(checked && shouldBe) dataOk++;
+    else if(!checked && shouldBe) dataMissed.push(id);
+    else if(checked && !shouldBe) dataExtra.push(id);
+  });
+  maxPts+=C.dataItems.length*2; totalPts+=dataOk*2; totalPts-=dataExtra.length;
+
+  // 4. Legal basis
+  const lbOk = document.getElementById('sel-legal-basis').value === C.legalBasis;
+  maxPts+=3; if(lbOk) totalPts+=3;
+  const a9Ok = document.getElementById('sel-art9').value === C.art9;
+  if(C.art9) { maxPts+=2; if(a9Ok) totalPts+=2; }
+
+  // 5. Risks
+  let riskOk=0, riskMissed=[], riskExtra=[], pgScore=0, pgMax=0;
+  RISKS.forEach(r => {
+    const checked = document.getElementById('chr_'+r.id).checked;
+    const shouldBe = r.id in C.risks;
+    if(checked && shouldBe) {
+      riskOk++;
+      const ep=C.risks[r.id].p, eg=C.risks[r.id].g;
+      const sp=parseInt(document.getElementById('rp_'+r.id).value)||0;
+      const sg=parseInt(document.getElementById('rg_'+r.id).value)||0;
+      if(sp && sg) { pgMax+=2; if(Math.abs(sp-ep)<=1) pgScore++; if(Math.abs(sg-eg)<=1) pgScore++; }
+    }
+    else if(!checked && shouldBe) riskMissed.push(r);
+    else if(checked && !shouldBe) riskExtra.push(r);
+  });
+  const expectedRiskCount = Object.keys(C.risks).length;
+  maxPts+=expectedRiskCount*2; totalPts+=riskOk*2; totalPts-=riskExtra.length;
+  maxPts+=pgMax; totalPts+=pgScore;
+
+  // 6. Measures
+  let measOk=0, measMissed=[], measExtra=[];
+  MEASURES.forEach(m => {
+    const checked = document.getElementById('chm_'+m.id).checked;
+    const shouldBe = C.measures.includes(m.id);
+    if(checked && shouldBe) measOk++;
+    else if(!checked && shouldBe) measMissed.push(m);
+    else if(checked && !shouldBe) measExtra.push(m);
+  });
+  maxPts+=C.measures.length*2; totalPts+=measOk*2;
+
+  // 7. Decision
+  const decOk = state.decision === C.decision;
+  const decAlt = C.decisionAlt && C.decisionAlt.includes(state.decision);
+  maxPts+=4; if(decOk) totalPts+=4; else if(decAlt) totalPts+=2;
+
+  totalPts = Math.max(0, totalPts);
+  const pct = Math.round((totalPts/maxPts)*100);
+  const color = pct>=75?'green':pct>=50?'yellow':pct>=30?'orange':'red';
+  const label = pct>=75?'Ottimo':pct>=50?'Sufficiente':pct>=30?'Insufficiente':'Gravemente insufficiente';
+
+  // Build feedback HTML
+  let html = `<div class="outcome-box ${color}"><h3>${label} — ${pct}%</h3>
+    <div class="score-bar"><div class="score-fill" style="width:${pct}%;background:var(--${color})"></div></div>
+    <p>${totalPts}/${maxPts} punti &middot; Scenario: <strong>${SC.title}</strong></p></div>`;
+
+  // Precheck feedback
+  html += `<div class="card" style="margin-top:16px"><div class="card-title">Precheck (${pre35ok}/3 art. 35 + ${edpbOk}/${edpbMax} EDPB)</div>`;
+  ['a','b','c'].forEach(id => {
+    const checked = document.getElementById('ch35_'+id).checked;
+    const correct = C.art35[id];
+    const el = document.getElementById('ci35_'+id);
+    if(checked===correct) { el.classList.add('selected'); el.classList.remove('wrong','missed'); html+=`<div class="fb-item fb-ok">Art. 35(3)(${id}): ${checked?'Selezionato':'Non selezionato'} — Corretto</div>`; }
+    else if(correct&&!checked) { el.classList.add('missed'); html+=`<div class="fb-item fb-err">Art. 35(3)(${id}): Non selezionato — <strong>Mancato!</strong> Questo criterio si applica.</div>`; }
+    else { el.classList.add('wrong'); html+=`<div class="fb-item fb-warn">Art. 35(3)(${id}): Selezionato — <strong>Non si applica</strong> a questo scenario.</div>`; }
+  });
+  html += '</div>';
+
+  // Data feedback
+  html += `<div class="card"><div class="card-title">Classificazione dati (${dataOk}/${C.dataItems.length} corretti)</div>`;
+  if(dataMissed.length) html+=`<div class="fb-item fb-err"><strong>Dati mancati:</strong> ${dataMissed.join(', ')}</div>`;
+  if(dataExtra.length) html+=`<div class="fb-item fb-warn"><strong>Dati in eccesso:</strong> ${dataExtra.join(', ')} — non presenti nello scenario</div>`;
+  html+=`<div class="fb-item ${lbOk?'fb-ok':'fb-err'}"><strong>Base giuridica:</strong> ${lbOk?'Corretta':'Errata'} (attesa: art. 6(1)(${C.legalBasis}))</div>`;
+  if(C.art9) html+=`<div class="fb-item ${a9Ok?'fb-ok':'fb-err'}"><strong>Eccezione art. 9(2):</strong> ${a9Ok?'Corretta':'Errata'} (attesa: lett. ${C.art9})</div>`;
+  html += `<div class="fb-item fb-ok" style="background:#eef2ff;border-color:var(--primary)">${C.feedback.legalNote}</div></div>`;
+
+  // Risk feedback
+  html += `<div class="card"><div class="card-title">Rischi (${riskOk}/${expectedRiskCount} identificati)</div>`;
+  if(riskMissed.length) html+=`<div class="fb-item fb-err"><strong>Rischi mancati:</strong><ul>${riskMissed.map(r=>`<li>${r.name}: ${r.desc}</li>`).join('')}</ul></div>`;
+  if(riskExtra.length) html+=`<div class="fb-item fb-warn"><strong>Rischi non rilevanti:</strong> ${riskExtra.map(r=>r.name).join(', ')}</div>`;
+  if(pgMax) html+=`<div class="fb-item fb-ok">Valutazione P&times;G: ${pgScore}/${pgMax} coerenti con le attese</div>`;
+  html += `<div class="fb-item fb-ok" style="background:#eef2ff;border-color:var(--primary)">${C.feedback.riskNote}</div></div>`;
+
+  // Measures feedback
+  html += `<div class="card"><div class="card-title">Misure (${measOk}/${C.measures.length} corrette)</div>`;
+  if(measMissed.length) html+=`<div class="fb-item fb-err"><strong>Misure mancanti:</strong><ul>${measMissed.map(m=>`<li>${m.name}</li>`).join('')}</ul></div>`;
+  html += '</div>';
+
+  // Decision feedback
+  html += `<div class="card"><div class="card-title">Decisione</div>`;
+  if(decOk) html+=`<div class="fb-item fb-ok"><strong>Decisione corretta!</strong></div>`;
+  else if(decAlt) html+=`<div class="fb-item fb-warn"><strong>Decisione accettabile</strong> ma la risposta migliore era: ${C.decision.toUpperCase()}</div>`;
+  else html+=`<div class="fb-item fb-err"><strong>Decisione errata.</strong> Attesa: ${C.decision.toUpperCase()}${C.decisionAlt?' (accettabile anche: '+C.decisionAlt.join(', ')+')':''}</div>`;
+  html += `<div class="fb-item fb-ok" style="background:#eef2ff;border-color:var(--primary)">${C.feedback.key}</div></div>`;
+
+  document.getElementById('eval-results').innerHTML = html;
+  goTo(5);
 }
 
 // ===== NAV =====
-function navigate(dir) { const n = state.current + dir; if (n >= 0 && n < state.total) goTo(n); }
-function goTo(idx) {
-  document.getElementById('nav' + state.current).classList.remove('active');
-  if (state.current < idx) document.getElementById('nav' + state.current).classList.add('completed');
-  document.getElementById('sec' + state.current).classList.remove('active');
-  state.current = idx;
-  document.getElementById('sec' + idx).classList.add('active');
-  for (let i = 0; i < state.total; i++) document.getElementById('nav' + i).classList.remove('active');
-  document.getElementById('nav' + idx).classList.add('active');
-  const pct = Math.round(((idx + 1) / state.total) * 100);
-  document.getElementById('progress-bar-fill').style.width = pct + '%';
-  document.getElementById('progress-pct').textContent = pct + '%';
-  document.getElementById('progress-label').textContent = `Sezione ${idx + 1} di ${state.total}`;
-  document.getElementById('btn-back').style.visibility = idx === 0 ? 'hidden' : 'visible';
-  document.getElementById('btn-next').style.display = idx === state.total - 1 ? 'none' : '';
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-  autoSave();
-}
-
-// ===== SIDEBAR =====
-function updateSidebar() {
-  const chips = [];
-  const cn = document.getElementById('ctrl_name');
-  if (cn && cn.value) chips.push(`<span class="summary-chip chip-blue">${cn.value.substring(0, 25)}</span>`);
-  // precheck
-  const obl = document.getElementById('r35a').checked || document.getElementById('r35b').checked || document.getElementById('r35c').checked;
-  const ec = document.querySelectorAll('.edpb-check:checked').length;
-  if (obl) chips.push('<span class="summary-chip chip-red">DPIA obbligatoria</span>');
-  else if (ec >= 2) chips.push('<span class="summary-chip chip-yellow">DPIA raccomandata</span>');
-  if (state.decision) {
-    const dm = { rejected: ['chip-red', 'RESPINTO'], consultation: ['chip-yellow', 'CONSULTAZIONE'], approved: ['chip-green', 'APPROVATO'], conditional: ['chip-yellow', 'CON CONDIZIONI'] };
-    const d = dm[state.decision];
-    chips.push(`<span class="summary-chip ${d[0]}">${d[1]}</span>`);
-  }
-  const sc = document.getElementById('summary-content');
-  sc.innerHTML = chips.length ? chips.join('') : '<div style="color:rgba(200,208,224,0.4); font-style:italic; font-size:0.75rem;">Compila le sezioni per vedere il riepilogo.</div>';
-}
-
-// ===== REPORT =====
-function generateReport() {
-  const rs = document.getElementById('report-section');
-  rs.style.display = 'block';
-  const v = id => (document.getElementById(id) || {}).value || '';
-  const today = new Date().toLocaleDateString('it-IT');
-
-  const dataRows = [];
-  document.querySelectorAll('#tbl_data tbody tr').forEach(tr => {
-    const item = tr.querySelector('[data-f="item"]').value;
-    const expl = tr.querySelector('[data-f="expl"]').value;
-    const spec = tr.querySelector('[data-f="special"]').value;
-    if (item) dataRows.push(`<tr><td>${item}</td><td>${expl}</td><td>${spec === 'yes' ? 'S\u00ec' : 'No'}</td></tr>`);
-  });
-
-  function collectRisks(containerId) {
-    const rows = [];
-    document.querySelectorAll(`#${containerId} .risk-item`).forEach(item => {
-      const n = (item.querySelector('[data-f="name"]') || {}).value || '';
-      const p = (item.querySelector('[data-f="prob"]') || {}).value || '';
-      const s = (item.querySelector('[data-f="sev"]') || {}).value || '';
-      const a = (item.querySelector('[data-f="acceptable"]') || {}).value || '';
-      if (n) rows.push(`<tr><td>${n}</td><td>${p}</td><td>${s}</td><td>${p && s ? p*s + '/9' : '—'}</td><td>${a === 'yes' ? 'S\u00ec' : a === 'no' ? 'No' : '—'}</td></tr>`);
-    });
-    return rows.join('');
-  }
-
-  const measures = [];
-  document.querySelectorAll('#tbl_measures tbody tr').forEach(tr => {
-    const m = tr.querySelector('[data-f="measure"]').value;
-    const st = tr.querySelector('[data-f="status"]').value;
-    if (m) measures.push(`<li>${m} (${st === 'done' ? 'implementata' : st === 'partial' ? 'parziale' : 'pianificata'})</li>`);
-  });
-
-  const dl = { rejected: 'RESPINTO', consultation: 'CONSULTAZIONE PREVENTIVA', approved: 'APPROVATO', conditional: 'APPROVATO CON CONDIZIONI' };
-
-  document.getElementById('report-content').innerHTML = `
-    <h2>DPIA — Template EDPB 2026<br><small style="font-size:0.7em; font-weight:400">Art. 35 Reg. (UE) 2016/679</small></h2>
-    <div style="font-size:0.78rem; color:var(--text-muted); margin-bottom:20px;">Data: ${today} · Bozza didattica — da revisionare e validare</div>
-
-    <h3>1. Panoramica</h3>
-    <p><strong>Titolare:</strong> ${v('ctrl_name')}</p>
-    <p><strong>DPO:</strong> ${v('ctrl_dpo') || 'Non indicato'}</p>
-    <p><strong>Trattamento:</strong> ${v('proc_name')}</p>
-
-    <h3>2. Descrizione del Trattamento</h3>
-    ${dataRows.length ? `<table><thead><tr><th>Dato</th><th>Spiegazione</th><th>Art. 9</th></tr></thead><tbody>${dataRows.join('')}</tbody></table>` : ''}
-    <p><strong>Finalit\u00e0:</strong> ${v('purposes')}</p>
-    <p><strong>Contesto:</strong> ${v('context')}</p>
-    <p><strong>Base giuridica:</strong> Art. 6(1)(${v('legal_basis')}) — ${v('legal_justification')}</p>
-
-    <h3>3. Necessit\u00e0 e Proporzionalit\u00e0</h3>
-    <p><strong>Necessit\u00e0:</strong> ${v('necessity')}</p>
-    <p><strong>Proporzionalit\u00e0:</strong> ${v('proportionality')}</p>
-    <p><strong>Misure di conformit\u00e0:</strong> ${v('compliance_measures')}</p>
-
-    <h3>4. Rischi e Misure</h3>
-    <p><strong>Rischio inerente:</strong></p>
-    ${collectRisks('inherent-risks') ? `<table><thead><tr><th>Rischio</th><th>P</th><th>G</th><th>Score</th><th>Accettabile</th></tr></thead><tbody>${collectRisks('inherent-risks')}</tbody></table>` : '<p>Non compilato</p>'}
-    ${measures.length ? `<p><strong>Misure aggiuntive:</strong></p><ul>${measures.join('')}</ul>` : ''}
-    <p><strong>Rischio residuo:</strong></p>
-    ${collectRisks('residual-risks') ? `<table><thead><tr><th>Rischio</th><th>P</th><th>G</th><th>Score</th><th>Accettabile</th></tr></thead><tbody>${collectRisks('residual-risks')}</tbody></table>` : '<p>Non compilato</p>'}
-
-    <h3>5. Conclusione</h3>
-    <p><strong>DPO:</strong> ${v('dpo_advice') || 'Non indicato'}</p>
-    <p><strong>Interessati:</strong> ${v('subjects_views') || 'Non indicato'}</p>
-    <p><strong>Decisione: ${state.decision ? dl[state.decision] : 'Non presa'}</strong></p>
-    <p>${v('decision_justification')}</p>
-
-    <div style="font-size:0.75rem; color:var(--text-muted); border-top:1px solid var(--border); padding-top:16px; margin-top:24px; font-style:italic;">
-      Bozza generata da DPIA Path a fini didattici. Da revisionare e validare dal titolare e dal DPO. Non costituisce consulenza legale. Clinica Legale AI & DPIA.
-    </div>`;
-  rs.scrollIntoView({ behavior: 'smooth' });
-}
-
-// ===== AUTOSAVE =====
-const SAVE_KEY = 'dpia_edpb_v2';
-function wireInputs(el) {
-  el.querySelectorAll('input,textarea,select').forEach(e => {
-    e.addEventListener('input', () => { updateSidebar(); autoSave(); });
-    e.addEventListener('change', () => { updateSidebar(); autoSave(); });
-  });
-}
-
-function collectAll() {
-  const d = { current: state.current, decision: state.decision, fields: {}, checks: {}, tables: {}, inherent: [], residual: [] };
-  ['ctrl_name','ctrl_dpo','proc_name','purposes','context','legal_basis','legal_justification','art9_exception','necessity','proportionality','compliance_measures','dpo_advice','subjects_views','decision_justification','conditions_text','studente-name'].forEach(id => {
-    const el = document.getElementById(id);
-    if (el) d.fields[id] = el.value;
-  });
-  ['r35a','r35b','r35c'].forEach(id => { d.checks[id] = document.getElementById(id).checked; });
-  d.checks.edpb = Array.from(document.querySelectorAll('.edpb-check')).map(e => e.checked);
-
-  function tblData(tblId, fields) {
-    const rows = [];
-    document.querySelectorAll(`#${tblId} tbody tr`).forEach(tr => {
-      const row = {};
-      fields.forEach(f => { const el = tr.querySelector(`[data-f="${f}"]`); if (el) row[f] = el.value; });
-      rows.push(row);
-    });
-    return rows;
-  }
-  d.tables.data = tblData('tbl_data', ['item','expl','special']);
-  d.tables.measures = tblData('tbl_measures', ['measure','risks','status']);
-
-  function collectRiskCards(containerId) {
-    const items = [];
-    document.querySelectorAll(`#${containerId} .risk-item`).forEach(item => {
-      const row = {};
-      item.querySelectorAll('[data-f]').forEach(el => { row[el.dataset.f] = el.value; });
-      items.push(row);
-    });
-    return items;
-  }
-  d.inherent = collectRiskCards('inherent-risks');
-  d.residual = collectRiskCards('residual-risks');
-  return d;
-}
-
-function autoSave() { try { localStorage.setItem(SAVE_KEY, JSON.stringify(collectAll())); } catch(e) {} }
-
-function autoRestore() {
-  let s; try { s = JSON.parse(localStorage.getItem(SAVE_KEY)); } catch(e) { return; } if (!s) return;
-  if (s.fields) Object.entries(s.fields).forEach(([id, val]) => { const el = document.getElementById(id); if (el && val) el.value = val; });
-  if (s.checks) {
-    ['r35a','r35b','r35c'].forEach(id => { if (s.checks[id]) document.getElementById(id).checked = true; });
-    if (s.checks.edpb) { const els = document.querySelectorAll('.edpb-check'); s.checks.edpb.forEach((v, i) => { if (els[i]) els[i].checked = v; }); }
-  }
-  if (s.tables) {
-    if (s.tables.data) s.tables.data.forEach(r => addDataRow(r));
-    if (s.tables.measures) s.tables.measures.forEach(r => addMeasureRow(r));
-  }
-  if (s.inherent) s.inherent.forEach(r => addRisk('inherent', r));
-  if (s.residual) s.residual.forEach(r => addRisk('residual', r));
-  if (s.decision) selectDecision(s.decision);
-  if (s.current > 0) goTo(s.current);
-  computePrecheck(); computeAggregate(); updateSidebar();
+function navigate(dir){const n=state.current+dir;if(n>=0&&n<state.total)goTo(n);}
+function goTo(idx){
+  document.getElementById('nav'+state.current).classList.remove('active');
+  if(state.current<idx)document.getElementById('nav'+state.current).classList.add('completed');
+  document.getElementById('sec'+state.current).classList.remove('active');
+  state.current=idx;
+  document.getElementById('sec'+idx).classList.add('active');
+  for(let i=0;i<state.total;i++)document.getElementById('nav'+i).classList.remove('active');
+  document.getElementById('nav'+idx).classList.add('active');
+  const pct=Math.round(((idx+1)/state.total)*100);
+  document.getElementById('progress-bar-fill').style.width=pct+'%';
+  document.getElementById('progress-pct').textContent=pct+'%';
+  const labels=['Scenario','Precheck','Classificazione','Rischi','Misure','Valutazione','Schema EDPB'];
+  document.getElementById('progress-label').textContent=labels[idx]||'';
+  document.getElementById('btn-back').style.visibility=idx===0?'hidden':'visible';
+  document.getElementById('btn-next').style.display=(idx>=5)?'none':'';
+  window.scrollTo({top:0,behavior:'smooth'});
 }
 
 // ===== SEND =====
-function sendToDocente() {
-  const fb = document.getElementById('send-feedback');
-  const name = document.getElementById('studente-name');
-  if (!name.value.trim()) { fb.style.display = 'block'; fb.innerHTML = '<span style="color:var(--red)">Inserisci il tuo nome prima di inviare.</span>'; name.focus(); return; }
-  const data = collectAll();
-  data.id = 'sub-' + Date.now(); data.studente = name.value; data.timestamp = new Date().toISOString();
-  const url = DPIA_CONFIG.APPS_SCRIPT_URL;
-  if (!url) { fb.style.display = 'block'; fb.innerHTML = '<span style="color:var(--red)">URL non configurato.</span>'; return; }
-  fb.style.display = 'block'; fb.innerHTML = '<span style="color:var(--primary)">&#9203; Invio...</span>';
-  try {
-    const ifr = document.createElement('iframe'); ifr.name = 'f' + Date.now(); ifr.style.display = 'none'; document.body.appendChild(ifr);
-    const form = document.createElement('form'); form.method = 'POST'; form.action = url; form.target = ifr.name; form.style.display = 'none';
-    const inp = document.createElement('input'); inp.type = 'hidden'; inp.name = 'payload'; inp.value = JSON.stringify(data);
-    form.appendChild(inp); document.body.appendChild(form); form.submit();
-    setTimeout(() => { fb.innerHTML = '<span style="color:var(--green)">&#10004; <strong>Inviato!</strong></span>'; try { document.body.removeChild(ifr); document.body.removeChild(form); } catch(e){} }, 3000);
-  } catch(e) { fb.innerHTML = '<span style="color:var(--red)">Errore: ' + e.message + '</span>'; }
+function sendToDocente(){
+  const fb=document.getElementById('send-feedback');
+  const name=document.getElementById('studente-name');
+  if(!name.value.trim()){fb.style.display='block';fb.innerHTML='<span style="color:var(--red)">Inserisci il tuo nome.</span>';return;}
+  const data={id:'sub-'+Date.now(),studente:name.value,timestamp:new Date().toISOString(),scenario:SC.title,evaluation:document.getElementById('eval-results').innerHTML};
+  const url="https://script.google.com/macros/s/AKfycbxC5cpOpFBY-RhfzZyEQck6ED6_dXBd6SPNMkFlINcC3Zeo5y-AvpODkVgWnjPbdWH-UA/exec";
+  fb.style.display='block';fb.innerHTML='<span style="color:var(--primary)">&#9203; Invio...</span>';
+  try{
+    const ifr=document.createElement('iframe');ifr.name='f'+Date.now();ifr.style.display='none';document.body.appendChild(ifr);
+    const form=document.createElement('form');form.method='POST';form.action=url;form.target=ifr.name;form.style.display='none';
+    const inp=document.createElement('input');inp.type='hidden';inp.name='payload';inp.value=JSON.stringify(data);
+    form.appendChild(inp);document.body.appendChild(form);form.submit();
+    setTimeout(()=>{fb.innerHTML='<span style="color:var(--green)">&#10004; Inviato!</span>';try{document.body.removeChild(ifr);document.body.removeChild(form);}catch(e){}},3000);
+  }catch(e){fb.innerHTML='<span style="color:var(--red)">Errore: '+e.message+'</span>';}
 }
 
 // ===== INIT =====
-window.addEventListener('DOMContentLoaded', () => {
-  document.querySelectorAll('#content input, #content textarea, #content select').forEach(el => {
-    el.addEventListener('input', () => { updateSidebar(); autoSave(); });
-    el.addEventListener('change', () => { updateSidebar(); autoSave(); });
-  });
-  autoRestore(); updateSidebar();
-});
+window.addEventListener('DOMContentLoaded',()=>{pickScenario();});
 </script>
 </body>
 </html>

@@ -4,244 +4,94 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-<meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Expires" content="0">
-<title>DPIA Template EDPB 2026 — Valutazione d'Impatto sulla Protezione dei Dati</title>
+<title>DPIA Path — Template EDPB 2026</title>
 <style>
-/* ===== RESET & BASE ===== */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 :root {
-  --bg: #f5f6f8;
-  --surface: #ffffff;
-  --sidebar-bg: #1a2035;
-  --sidebar-text: #c8d0e0;
-  --sidebar-accent: #4f8ef7;
-  --primary: #2a4fa8;
-  --primary-hover: #1e3d8a;
-  --accent: #4f8ef7;
-  --text: #1c2333;
-  --text-muted: #6b7a99;
-  --border: #dde2ee;
-  --green: #1a9e5c;
-  --green-bg: #eaf7f0;
-  --yellow: #d4880a;
-  --yellow-bg: #fdf5e0;
-  --red: #c0392b;
-  --red-bg: #fdecea;
-  --orange: #d4660a;
-  --orange-bg: #fff3ea;
-  --radius: 8px;
-  --shadow: 0 2px 12px rgba(0,0,0,0.08);
+  --bg: #f5f6f8; --surface: #ffffff;
+  --sidebar-bg: #1a2035; --sidebar-text: #c8d0e0; --sidebar-accent: #4f8ef7;
+  --primary: #2a4fa8; --primary-hover: #1e3d8a; --accent: #4f8ef7;
+  --text: #1c2333; --text-muted: #6b7a99; --border: #dde2ee;
+  --green: #1a9e5c; --green-bg: #eaf7f0;
+  --yellow: #d4880a; --yellow-bg: #fdf5e0;
+  --red: #c0392b; --red-bg: #fdecea;
+  --orange: #d4660a; --orange-bg: #fff3ea;
+  --radius: 8px; --shadow: 0 2px 12px rgba(0,0,0,0.08);
 }
 html { font-size: 16px; }
-body {
-  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  min-height: 100vh;
-  display: flex;
-}
+body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; display: flex; }
 
-/* ===== SIDEBAR ===== */
-#sidebar {
-  width: 280px; min-width: 280px;
-  background: var(--sidebar-bg); color: var(--sidebar-text);
-  display: flex; flex-direction: column;
-  min-height: 100vh; position: fixed;
-  top: 0; left: 0; bottom: 0;
-  overflow-y: auto; z-index: 100;
-}
-#sidebar-header {
-  padding: 28px 24px 20px;
-  border-bottom: 1px solid rgba(255,255,255,0.08);
-}
-#sidebar-header .logo {
-  font-size: 0.72rem; text-transform: uppercase;
-  letter-spacing: 0.12em; color: var(--sidebar-accent);
-  font-weight: 600; margin-bottom: 6px;
-}
+/* SIDEBAR */
+#sidebar { width: 280px; min-width: 280px; background: var(--sidebar-bg); color: var(--sidebar-text); display: flex; flex-direction: column; min-height: 100vh; position: fixed; top: 0; left: 0; bottom: 0; overflow-y: auto; z-index: 100; }
+#sidebar-header { padding: 28px 24px 20px; border-bottom: 1px solid rgba(255,255,255,0.08); }
+#sidebar-header .logo { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--sidebar-accent); font-weight: 600; margin-bottom: 6px; }
 #sidebar-header h1 { font-size: 1.25rem; font-weight: 700; color: #fff; line-height: 1.3; }
-#sidebar-header p {
-  font-size: 0.78rem; margin-top: 6px;
-  color: rgba(200,208,224,0.7); line-height: 1.5;
-}
+#sidebar-header p { font-size: 0.78rem; margin-top: 6px; color: rgba(200,208,224,0.7); line-height: 1.5; }
 #sidebar-nav { padding: 16px 0; }
-.nav-item {
-  display: flex; align-items: flex-start; gap: 12px;
-  padding: 10px 24px; cursor: pointer;
-  transition: background 0.15s; border-left: 3px solid transparent;
-}
+.nav-item { display: flex; align-items: flex-start; gap: 12px; padding: 10px 24px; cursor: pointer; transition: background 0.15s; border-left: 3px solid transparent; }
 .nav-item:hover { background: rgba(255,255,255,0.05); }
 .nav-item.active { background: rgba(79,142,247,0.15); border-left-color: var(--sidebar-accent); }
 .nav-item.completed { border-left-color: var(--green); }
-.nav-num {
-  min-width: 22px; height: 22px; border-radius: 50%;
-  background: rgba(255,255,255,0.1);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 0.72rem; font-weight: 700;
-  color: rgba(200,208,224,0.6); margin-top: 1px;
-}
+.nav-num { min-width: 22px; height: 22px; border-radius: 50%; background: rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; font-size: 0.72rem; font-weight: 700; color: rgba(200,208,224,0.6); margin-top: 1px; }
 .nav-item.active .nav-num { background: var(--sidebar-accent); color: #fff; }
 .nav-item.completed .nav-num { background: var(--green); color: #fff; }
 .nav-label { font-size: 0.82rem; line-height: 1.35; color: var(--sidebar-text); }
 .nav-item.active .nav-label { color: #fff; }
 .nav-sublabel { font-size: 0.72rem; color: rgba(200,208,224,0.5); margin-top: 2px; }
-
-#sidebar-summary {
-  margin: 0 16px 16px;
-  border-top: 1px solid rgba(255,255,255,0.08);
-  padding-top: 16px;
-}
-#sidebar-summary h3 {
-  font-size: 0.7rem; text-transform: uppercase;
-  letter-spacing: 0.1em; color: rgba(200,208,224,0.5);
-  margin-bottom: 10px;
-}
-.summary-chip {
-  display: inline-flex; align-items: center; gap: 6px;
-  font-size: 0.75rem; font-weight: 600;
-  padding: 4px 10px; border-radius: 20px;
-  margin: 3px 3px 3px 0;
-}
+#sidebar-summary { margin: 0 16px 16px; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 16px; }
+#sidebar-summary h3 { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; color: rgba(200,208,224,0.5); margin-bottom: 10px; }
+.summary-chip { display: inline-flex; align-items: center; gap: 6px; font-size: 0.75rem; font-weight: 600; padding: 4px 10px; border-radius: 20px; margin: 3px 3px 3px 0; }
 .chip-green { background: rgba(26,158,92,0.2); color: #5dcea0; }
 .chip-yellow { background: rgba(212,136,10,0.2); color: #f0b840; }
 .chip-red { background: rgba(192,57,43,0.2); color: #e87d72; }
 .chip-blue { background: rgba(79,142,247,0.15); color: var(--sidebar-accent); }
-.sidebar-legal {
-  padding: 16px 24px;
-  border-top: 1px solid rgba(255,255,255,0.06);
-  font-size: 0.7rem; color: rgba(200,208,224,0.35);
-  line-height: 1.5; margin-top: auto;
-}
+.sidebar-legal { padding: 16px 24px; border-top: 1px solid rgba(255,255,255,0.06); font-size: 0.7rem; color: rgba(200,208,224,0.35); line-height: 1.5; margin-top: auto; }
 
-/* ===== MAIN CONTENT ===== */
+/* MAIN */
 #main { margin-left: 280px; flex: 1; display: flex; flex-direction: column; min-height: 100vh; }
-
-/* ===== PROGRESS BAR ===== */
-#progress-bar-wrap {
-  background: var(--surface); border-bottom: 1px solid var(--border);
-  padding: 14px 40px; position: sticky; top: 0; z-index: 50;
-  display: flex; align-items: center; gap: 16px;
-}
+#progress-bar-wrap { background: var(--surface); border-bottom: 1px solid var(--border); padding: 14px 40px; position: sticky; top: 0; z-index: 50; display: flex; align-items: center; gap: 16px; }
 #progress-label { font-size: 0.78rem; color: var(--text-muted); white-space: nowrap; min-width: 100px; }
 #progress-bar-track { flex: 1; height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; }
-#progress-bar-fill {
-  height: 100%; background: linear-gradient(90deg, var(--primary), var(--accent));
-  border-radius: 3px; transition: width 0.4s ease;
-}
+#progress-bar-fill { height: 100%; background: linear-gradient(90deg, var(--primary), var(--accent)); border-radius: 3px; transition: width 0.4s ease; }
 #progress-pct { font-size: 0.78rem; font-weight: 600; color: var(--primary); min-width: 36px; text-align: right; }
 
-/* ===== SECTIONS ===== */
 #content { flex: 1; padding: 40px; max-width: 900px; }
 .section { display: none; }
 .section.active { display: block; }
-.section-header { margin-bottom: 32px; }
-.section-tag {
-  font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.12em;
-  color: var(--primary); font-weight: 700; margin-bottom: 8px;
-}
-.section-header h2 { font-size: 1.7rem; font-weight: 700; color: var(--text); line-height: 1.2; }
-.section-header p { font-size: 0.92rem; color: var(--text-muted); margin-top: 8px; line-height: 1.6; }
-.legal-ref {
-  display: inline-block; background: #eef2ff; color: var(--primary);
-  font-size: 0.72rem; font-weight: 600; padding: 3px 10px;
-  border-radius: 4px; margin-top: 10px;
-}
+.section-header { margin-bottom: 28px; }
+.section-tag { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--primary); font-weight: 700; margin-bottom: 8px; }
+.section-header h2 { font-size: 1.5rem; font-weight: 700; color: var(--text); line-height: 1.2; }
+.section-header p { font-size: 0.88rem; color: var(--text-muted); margin-top: 8px; line-height: 1.6; }
+.legal-ref { display: inline-block; background: #eef2ff; color: var(--primary); font-size: 0.72rem; font-weight: 600; padding: 3px 10px; border-radius: 4px; margin-top: 10px; }
 
-/* ===== CARDS ===== */
-.card {
-  background: var(--surface); border: 1px solid var(--border);
-  border-radius: var(--radius); padding: 24px;
-  margin-bottom: 20px; box-shadow: var(--shadow);
-}
-.card-title {
-  font-size: 0.82rem; font-weight: 700;
-  text-transform: uppercase; letter-spacing: 0.08em;
-  color: var(--text-muted); margin-bottom: 16px;
-}
-.card-subtitle {
-  font-size: 0.78rem; color: var(--text-muted);
-  margin: -10px 0 16px; line-height: 1.5; font-style: italic;
-}
-
-/* ===== FORM FIELDS ===== */
-.field-group { margin-bottom: 20px; }
-.field-group label {
-  display: block; font-size: 0.82rem; font-weight: 600;
-  color: var(--text); margin-bottom: 6px;
-}
-.field-group .field-note {
-  font-size: 0.75rem; color: var(--text-muted); margin-bottom: 6px; line-height: 1.4;
-}
-.field-group input[type="text"],
-.field-group input[type="date"],
-.field-group textarea,
-.field-group select {
-  width: 100%; padding: 10px 14px;
-  border: 1.5px solid var(--border); border-radius: 6px;
-  font-size: 0.88rem; color: var(--text);
-  font-family: inherit; background: #fafbfd;
-  transition: border-color 0.15s;
-}
-.field-group input:focus, .field-group textarea:focus, .field-group select:focus {
-  outline: none; border-color: var(--primary); background: #fff;
-}
+/* CARDS & FORM */
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; margin-bottom: 20px; box-shadow: var(--shadow); }
+.card-title { font-size: 0.82rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); margin-bottom: 16px; }
+.field-group { margin-bottom: 18px; }
+.field-group label { display: block; font-size: 0.82rem; font-weight: 600; color: var(--text); margin-bottom: 6px; }
+.field-group .field-note { font-size: 0.75rem; color: var(--text-muted); margin-bottom: 6px; line-height: 1.4; }
+.field-group input[type="text"], .field-group textarea, .field-group select { width: 100%; padding: 10px 14px; border: 1.5px solid var(--border); border-radius: 6px; font-size: 0.88rem; color: var(--text); font-family: inherit; background: #fafbfd; transition: border-color 0.15s; }
+.field-group input:focus, .field-group textarea:focus, .field-group select:focus { outline: none; border-color: var(--primary); background: #fff; }
 .field-group textarea { min-height: 80px; resize: vertical; }
-.field-group select { cursor: pointer; }
 .field-required::after { content: ' *'; color: var(--red); }
 
-/* ===== DYNAMIC TABLES ===== */
+/* CHECKBOXES */
+.check-group label { display: flex; align-items: flex-start; gap: 8px; font-size: 0.85rem; line-height: 1.5; cursor: pointer; padding: 4px 0; }
+.check-group input[type="checkbox"], .check-group input[type="radio"] { margin-top: 3px; accent-color: var(--primary); min-width: 16px; }
+
+/* DYNAMIC TABLE */
 .dyn-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; margin-bottom: 12px; }
-.dyn-table th {
-  background: var(--bg); padding: 8px 10px;
-  text-align: left; font-size: 0.72rem; font-weight: 700;
-  text-transform: uppercase; letter-spacing: 0.07em;
-  color: var(--text-muted); border-bottom: 2px solid var(--border);
-}
-.dyn-table td {
-  padding: 8px 10px; border-bottom: 1px solid var(--border); vertical-align: top;
-}
-.dyn-table input[type="text"], .dyn-table textarea, .dyn-table select {
-  width: 100%; padding: 6px 8px; border: 1px solid var(--border);
-  border-radius: 4px; font-size: 0.82rem; font-family: inherit;
-  background: #fafbfd;
-}
-.dyn-table textarea { min-height: 50px; resize: vertical; }
-.btn-add-row {
-  display: inline-flex; align-items: center; gap: 6px;
-  padding: 6px 14px; border-radius: 6px; border: 1.5px dashed var(--border);
-  font-size: 0.78rem; font-weight: 600; cursor: pointer;
-  background: transparent; color: var(--primary); transition: all 0.15s;
-  font-family: inherit;
-}
+.dyn-table th { background: var(--bg); padding: 8px 10px; text-align: left; font-size: 0.72rem; font-weight: 700; text-transform: uppercase; color: var(--text-muted); border-bottom: 2px solid var(--border); }
+.dyn-table td { padding: 8px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
+.dyn-table input[type="text"], .dyn-table textarea, .dyn-table select { width: 100%; padding: 6px 8px; border: 1px solid var(--border); border-radius: 4px; font-size: 0.82rem; font-family: inherit; background: #fafbfd; }
+.dyn-table textarea { min-height: 45px; resize: vertical; }
+.btn-add-row { display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; border-radius: 6px; border: 1.5px dashed var(--border); font-size: 0.78rem; font-weight: 600; cursor: pointer; background: transparent; color: var(--primary); transition: all 0.15s; font-family: inherit; }
 .btn-add-row:hover { border-color: var(--primary); background: #f0f4ff; }
-.btn-remove-row {
-  padding: 4px 8px; border: none; border-radius: 4px;
-  font-size: 0.75rem; cursor: pointer; background: var(--red-bg);
-  color: var(--red); font-weight: 600;
-}
+.btn-remove-row { padding: 4px 8px; border: none; border-radius: 4px; font-size: 0.75rem; cursor: pointer; background: var(--red-bg); color: var(--red); font-weight: 600; }
 .btn-remove-row:hover { background: var(--red); color: #fff; }
 
-/* ===== CHECKBOXES & RADIOS ===== */
-.check-group { margin-bottom: 8px; }
-.check-group label {
-  display: flex; align-items: flex-start; gap: 8px;
-  font-size: 0.85rem; line-height: 1.5; cursor: pointer; padding: 4px 0;
-}
-.check-group input[type="checkbox"], .check-group input[type="radio"] {
-  margin-top: 3px; accent-color: var(--primary); min-width: 16px;
-}
-.impl-status { display: flex; gap: 16px; margin-top: 8px; }
-.impl-status label {
-  display: flex; align-items: center; gap: 6px;
-  font-size: 0.78rem; color: var(--text-muted); cursor: pointer;
-}
-
-/* ===== OUTCOME BOX ===== */
-.outcome-box {
-  border-radius: var(--radius); padding: 20px 24px;
-  margin-top: 24px; border: 2px solid transparent;
-}
+/* OUTCOME */
+.outcome-box { border-radius: var(--radius); padding: 20px 24px; margin-top: 20px; border: 2px solid transparent; }
 .outcome-box.green { background: var(--green-bg); border-color: var(--green); }
 .outcome-box.yellow { background: var(--yellow-bg); border-color: var(--yellow); }
 .outcome-box.orange { background: var(--orange-bg); border-color: var(--orange); }
@@ -251,114 +101,51 @@ body {
 .outcome-box.yellow h3 { color: var(--yellow); }
 .outcome-box.orange h3 { color: var(--orange); }
 .outcome-box.red h3 { color: var(--red); }
-.outcome-box p { font-size: 0.85rem; line-height: 1.6; color: var(--text); }
+.outcome-box p { font-size: 0.85rem; line-height: 1.6; }
 
-/* ===== RISK ITEMS ===== */
-.risk-item {
-  margin-bottom: 16px; padding: 16px;
-  border: 1.5px solid var(--border); border-radius: 6px; background: #fafbfd;
-}
-.risk-item-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; margin-bottom: 8px; }
-.risk-name { font-size: 0.9rem; font-weight: 700; color: var(--text); }
-.risk-score-badge {
-  min-width: 36px; height: 28px; border-radius: 6px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 0.85rem; font-weight: 800; white-space: nowrap; padding: 0 8px;
-}
+/* RISK CARDS */
+.risk-item { margin-bottom: 14px; padding: 16px; border: 1.5px solid var(--border); border-radius: 6px; background: #fafbfd; }
+.risk-item-header { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 10px; }
+.risk-score-badge { min-width: 36px; height: 28px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 0.85rem; font-weight: 800; padding: 0 8px; }
 .badge-low { background: var(--green-bg); color: var(--green); }
 .badge-med { background: var(--yellow-bg); color: var(--yellow); }
 .badge-high { background: var(--red-bg); color: var(--red); }
-.risk-desc { font-size: 0.78rem; color: var(--text-muted); margin-bottom: 12px; line-height: 1.4; }
 .risk-controls { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-.risk-ctrl label {
-  display: block; font-size: 0.72rem; font-weight: 700;
-  text-transform: uppercase; letter-spacing: 0.07em;
-  color: var(--text-muted); margin-bottom: 6px;
-}
-.risk-ctrl select {
-  width: 100%; padding: 7px 10px; border: 1.5px solid var(--border);
-  border-radius: 6px; font-size: 0.82rem; font-family: inherit;
-  background: #fff; cursor: pointer;
-}
+.risk-ctrl label { display: block; font-size: 0.72rem; font-weight: 700; text-transform: uppercase; color: var(--text-muted); margin-bottom: 6px; }
+.risk-ctrl select { width: 100%; padding: 7px 10px; border: 1.5px solid var(--border); border-radius: 6px; font-size: 0.82rem; font-family: inherit; background: #fff; cursor: pointer; }
 
-/* ===== COMPLIANCE TABLE ===== */
-.compliance-row {
-  padding: 16px; margin-bottom: 12px;
-  border: 1px solid var(--border); border-radius: 6px; background: #fafbfd;
-}
-.compliance-row h4 { font-size: 0.88rem; font-weight: 700; color: var(--text); margin-bottom: 10px; }
-
-/* ===== DECISION SECTION ===== */
-.decision-option {
-  padding: 14px 18px; margin-bottom: 10px;
-  border: 2px solid var(--border); border-radius: 8px;
-  cursor: pointer; transition: all 0.15s;
-}
+/* DECISION */
+.decision-option { padding: 14px 18px; margin-bottom: 10px; border: 2px solid var(--border); border-radius: 8px; cursor: pointer; transition: all 0.15s; }
 .decision-option:hover { border-color: var(--primary); }
 .decision-option.selected { border-color: var(--primary); background: #f0f4ff; }
 .decision-option label { display: flex; align-items: flex-start; gap: 10px; cursor: pointer; font-size: 0.9rem; }
-.decision-option input[type="radio"] { margin-top: 3px; accent-color: var(--primary); }
 
-/* ===== SEMAFORO ===== */
-.semaforo { display: flex; gap: 12px; margin: 20px 0; }
-.semaforo-light {
-  width: 40px; height: 40px; border-radius: 50%;
-  background: rgba(0,0,0,0.08);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 1.1rem; transition: all 0.3s;
-}
-.semaforo-light.active-green { background: var(--green); box-shadow: 0 0 0 4px rgba(26,158,92,0.2); }
-.semaforo-light.active-yellow { background: var(--yellow); box-shadow: 0 0 0 4px rgba(212,136,10,0.2); }
-.semaforo-light.active-red { background: var(--red); box-shadow: 0 0 0 4px rgba(192,57,43,0.2); }
+/* SCHEMA REFERENCE */
+.schema-section { margin-bottom: 20px; padding: 16px; border-left: 3px solid var(--primary); background: #fafbfd; border-radius: 0 6px 6px 0; }
+.schema-section h4 { font-size: 0.9rem; font-weight: 700; color: var(--primary); margin-bottom: 8px; }
+.schema-section ul { padding-left: 20px; font-size: 0.82rem; line-height: 1.7; color: var(--text); }
+.schema-section li { margin-bottom: 2px; }
 
-/* ===== REPORT ===== */
-#report-section {
-  background: var(--surface); border: 1px solid var(--border);
-  border-radius: var(--radius); padding: 32px;
-  margin-top: 24px; display: none;
-}
+/* REPORT */
+#report-section { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 32px; margin-top: 24px; display: none; }
 #report-section h2 { font-size: 1.1rem; font-weight: 700; border-bottom: 2px solid var(--primary); padding-bottom: 10px; margin-bottom: 20px; }
-#report-section h3 { font-size: 0.9rem; font-weight: 700; color: var(--primary); margin: 20px 0 8px; text-transform: uppercase; letter-spacing: 0.05em; }
-#report-section p, #report-section li { font-size: 0.85rem; line-height: 1.7; color: var(--text); }
+#report-section h3 { font-size: 0.9rem; font-weight: 700; color: var(--primary); margin: 20px 0 8px; text-transform: uppercase; }
+#report-section p, #report-section li { font-size: 0.85rem; line-height: 1.7; }
 #report-section ul { padding-left: 20px; margin: 8px 0; }
 #report-section table { width:100%; border-collapse:collapse; margin:8px 0; font-size:0.82rem; }
 #report-section th { background:var(--bg); padding:6px 10px; text-align:left; font-size:0.72rem; font-weight:700; text-transform:uppercase; border-bottom:2px solid var(--border); }
 #report-section td { padding:6px 10px; border-bottom:1px solid var(--border); }
-.report-meta { font-size: 0.78rem; color: var(--text-muted); margin-bottom: 24px; line-height: 1.6; }
-.report-disclaimer {
-  font-size: 0.75rem; color: var(--text-muted);
-  border-top: 1px solid var(--border); padding-top: 16px; margin-top: 24px;
-  font-style: italic; line-height: 1.5;
-}
 
-/* ===== NAVIGATION BUTTONS ===== */
-#nav-buttons {
-  padding: 24px 40px; border-top: 1px solid var(--border);
-  background: var(--surface);
-  display: flex; justify-content: space-between; align-items: center;
-  position: sticky; bottom: 0; z-index: 50;
-}
-.btn {
-  padding: 11px 24px; border-radius: 7px;
-  font-size: 0.88rem; font-weight: 600;
-  cursor: pointer; border: none; transition: all 0.15s; font-family: inherit;
-}
+/* NAV BUTTONS */
+#nav-buttons { padding: 24px 40px; border-top: 1px solid var(--border); background: var(--surface); display: flex; justify-content: space-between; align-items: center; position: sticky; bottom: 0; z-index: 50; }
+.btn { padding: 11px 24px; border-radius: 7px; font-size: 0.88rem; font-weight: 600; cursor: pointer; border: none; transition: all 0.15s; font-family: inherit; }
 .btn-secondary { background: transparent; border: 1.5px solid var(--border); color: var(--text-muted); }
 .btn-secondary:hover { border-color: var(--primary); color: var(--primary); }
 .btn-primary { background: var(--primary); color: #fff; }
 .btn-primary:hover { background: var(--primary-hover); }
 .btn-success { background: var(--green); color: #fff; }
-.btn-success:hover { opacity: 0.9; }
 .btn-print { background: var(--sidebar-bg); color: #fff; margin-left: 12px; }
-.btn-print:hover { opacity: 0.85; }
-
-/* ===== INFO NOTE ===== */
-.info-note {
-  background: #eef2ff; border-left: 3px solid var(--primary);
-  padding: 12px 16px; border-radius: 0 6px 6px 0;
-  font-size: 0.8rem; color: var(--text); line-height: 1.5; margin-bottom: 16px;
-}
-
+.info-note { background: #eef2ff; border-left: 3px solid var(--primary); padding: 12px 16px; border-radius: 0 6px 6px 0; font-size: 0.8rem; line-height: 1.5; margin-bottom: 16px; }
 .hidden { display: none !important; }
 
 @media print {
@@ -367,779 +154,315 @@ body {
   #content { padding: 20px; max-width: 100%; }
   #report-section { display: block !important; border: none; box-shadow: none; }
   .section { display: none !important; }
-  .btn, #btn-send, .btn-print, .btn-success { display: none !important; }
+  .btn, #btn-send { display: none !important; }
   #send-feedback { display: none !important; }
 }
 </style>
 </head>
 <body>
 
-<!-- ===== SIDEBAR ===== -->
 <nav id="sidebar">
   <div id="sidebar-header">
     <div class="logo">Clinica Legale &middot; GDPR</div>
-    <h1>DPIA Template EDPB</h1>
-    <p>Template per la Valutazione d'Impatto &mdash; EDPB 2026, Art. 35 GDPR</p>
+    <h1>DPIA Path</h1>
+    <p>Esercitazione DPIA &mdash; Template EDPB 2026</p>
   </div>
-
   <div id="sidebar-nav">
     <div class="nav-item active" onclick="goTo(0)" id="nav0">
-      <div class="nav-num">0</div>
-      <div class="nav-text">
-        <div class="nav-label">Panoramica</div>
-        <div class="nav-sublabel">Titolare, responsabili, scheda DPIA</div>
-      </div>
+      <div class="nav-num">1</div>
+      <div class="nav-text"><div class="nav-label">Panoramica e Precheck</div><div class="nav-sublabel">Titolare, motivi della DPIA</div></div>
     </div>
     <div class="nav-item" onclick="goTo(1)" id="nav1">
-      <div class="nav-num">1</div>
-      <div class="nav-text">
-        <div class="nav-label">Descrizione Sistematica</div>
-        <div class="nav-sublabel">Dati, finalit&agrave;, flussi, architettura</div>
-      </div>
+      <div class="nav-num">2</div>
+      <div class="nav-text"><div class="nav-label">Descrizione del Trattamento</div><div class="nav-sublabel">Dati, finalit&agrave;, base giuridica</div></div>
     </div>
     <div class="nav-item" onclick="goTo(2)" id="nav2">
-      <div class="nav-num">2</div>
-      <div class="nav-text">
-        <div class="nav-label">Analisi del Trattamento</div>
-        <div class="nav-sublabel">Liceit&agrave;, minimizzazione, compliance</div>
-      </div>
+      <div class="nav-num">3</div>
+      <div class="nav-text"><div class="nav-label">Necessit&agrave; e Proporzionalit&agrave;</div><div class="nav-sublabel">Impatti, necessit&agrave;, bilanciamento</div></div>
     </div>
     <div class="nav-item" onclick="goTo(3)" id="nav3">
-      <div class="nav-num">3</div>
-      <div class="nav-text">
-        <div class="nav-label">Necessit&agrave; e Proporzionalit&agrave;</div>
-        <div class="nav-sublabel">Impatti, necessit&agrave;, bilanciamento</div>
-      </div>
+      <div class="nav-num">4</div>
+      <div class="nav-text"><div class="nav-label">Rischi e Misure</div><div class="nav-sublabel">Rischio inerente, misure, residuo</div></div>
     </div>
     <div class="nav-item" onclick="goTo(4)" id="nav4">
-      <div class="nav-num">4</div>
-      <div class="nav-text">
-        <div class="nav-label">Rischi e Misure</div>
-        <div class="nav-sublabel">Rischio inerente, piano d'azione, residuo</div>
-      </div>
+      <div class="nav-num">5</div>
+      <div class="nav-text"><div class="nav-label">Conclusione e Decisione</div><div class="nav-sublabel">DPO, decisione finale, report</div></div>
     </div>
     <div class="nav-item" onclick="goTo(5)" id="nav5">
-      <div class="nav-num">5</div>
-      <div class="nav-text">
-        <div class="nav-label">Parti Interessate</div>
-        <div class="nav-sublabel">Parere DPO, opinione interessati</div>
-      </div>
-    </div>
-    <div class="nav-item" onclick="goTo(6)" id="nav6">
-      <div class="nav-num">6</div>
-      <div class="nav-text">
-        <div class="nav-label">Conclusione e Decisione</div>
-        <div class="nav-sublabel">Esito finale e report</div>
-      </div>
+      <div class="nav-num">&#9737;</div>
+      <div class="nav-text"><div class="nav-label">Schema Template EDPB</div><div class="nav-sublabel">Riferimento completo</div></div>
     </div>
   </div>
-
   <div id="sidebar-summary">
     <h3>Riepilogo</h3>
-    <div id="summary-content">
-      <div style="color:rgba(200,208,224,0.4); font-style:italic; font-size:0.75rem;">
-        Compila le sezioni per vedere il riepilogo.
-      </div>
-    </div>
+    <div id="summary-content"><div style="color:rgba(200,208,224,0.4); font-style:italic; font-size:0.75rem;">Compila le sezioni per vedere il riepilogo.</div></div>
   </div>
-
-  <div class="sidebar-legal">
-    Rif.: Template EDPB 2026 &middot; Art. 35 Reg. (UE) 2016/679<br>
-    Uso didattico &mdash; Clinica Legale AI &amp; DPIA
-  </div>
+  <div class="sidebar-legal">Template EDPB 2026 &middot; Art. 35 Reg. (UE) 2016/679<br>Uso didattico &mdash; Clinica Legale AI &amp; DPIA</div>
 </nav>
 
-<!-- ===== MAIN ===== -->
 <div id="main">
   <div id="progress-bar-wrap">
-    <div id="progress-label">Sezione 0 di 7</div>
-    <div id="progress-bar-track">
-      <div id="progress-bar-fill" style="width:14.3%"></div>
-    </div>
-    <div id="progress-pct">14%</div>
+    <div id="progress-label">Sezione 1 di 6</div>
+    <div id="progress-bar-track"><div id="progress-bar-fill" style="width:16.7%"></div></div>
+    <div id="progress-pct">17%</div>
   </div>
 
   <div id="content">
 
-    <!-- ==================== SEZIONE 0: PANORAMICA ==================== -->
+    <!-- ===== SEZ 1: PANORAMICA E PRECHECK ===== -->
     <div class="section active" id="sec0">
       <div class="section-header">
-        <div class="section-tag">Sezione 0 &mdash; Panoramica del Trattamento</div>
-        <h2>Overview of the Processing</h2>
-        <p>Informazioni generali sul titolare, i responsabili del trattamento e la scheda tecnica della DPIA.</p>
-        <span class="legal-ref">EDPB Template 2026 &middot; Sezione 0</span>
+        <div class="section-tag">Sezione 1 &mdash; Panoramica e Precheck</div>
+        <h2>Chi &egrave; il titolare e perch&eacute; serve una DPIA?</h2>
+        <p>Identificare il titolare del trattamento e verificare se ricorrono i presupposti per una DPIA obbligatoria o raccomandata.</p>
+        <span class="legal-ref">Template EDPB 2026, Sez. 0 &middot; Art. 35 par. 1 e 3 GDPR</span>
       </div>
 
-      <!-- 0.1 Controller -->
       <div class="card">
-        <div class="card-title">0.1 &mdash; Titolare del trattamento (Controller)</div>
+        <div class="card-title">Titolare del trattamento</div>
         <div class="field-group">
           <label class="field-required">Titolare</label>
-          <input type="text" id="ctrl_name" placeholder="Denominazione completa del titolare">
+          <input type="text" id="ctrl_name" placeholder="Es: Comune di Torino &mdash; Servizi Sociali">
         </div>
         <div class="field-group">
-          <label>Unit&agrave; organizzative responsabili</label>
-          <input type="text" id="ctrl_units" placeholder="Es: Servizio Politiche Sociali, Ufficio IT">
+          <label>DPO (se nominato)</label>
+          <input type="text" id="ctrl_dpo" placeholder="Nome e contatto del DPO">
         </div>
         <div class="field-group">
-          <label>Stabilimento principale / punto di contatto</label>
-          <input type="text" id="ctrl_contact" placeholder="Indirizzo, email, telefono">
-        </div>
-        <div class="field-group">
-          <label>DPO o funzione analoga</label>
-          <input type="text" id="ctrl_dpo" placeholder="Nome, contatto del DPO se nominato">
+          <label class="field-required">Nome del trattamento</label>
+          <input type="text" id="proc_name" placeholder="Es: Sistema FamigliaSafe &mdash; Predizione rischio minori">
         </div>
       </div>
 
-      <!-- 0.2 Processors -->
       <div class="card">
-        <div class="card-title">0.2 &mdash; Responsabili e sub-responsabili del trattamento</div>
-        <table class="dyn-table" id="tbl_processors">
-          <thead><tr><th>#</th><th>Responsabile (Processor)</th><th>Obblighi e compiti</th><th></th></tr></thead>
-          <tbody></tbody>
-        </table>
-        <button class="btn-add-row" onclick="addProcessorRow()">+ Aggiungi responsabile</button>
+        <div class="card-title">Perch&eacute; &egrave; necessaria la DPIA?</div>
+        <div class="info-note">Selezionare tutti i criteri applicabili. I criteri dell'art. 35(3) rendono la DPIA obbligatoria. Se ricorrono almeno 2 criteri EDPB, la DPIA &egrave; fortemente raccomandata.</div>
+
+        <div style="margin-bottom:16px;">
+          <strong style="font-size:0.82rem; color:var(--red);">Criteri obbligatori &mdash; Art. 35(3) GDPR:</strong>
+          <div class="check-group" style="margin-top:6px;">
+            <label><input type="checkbox" id="r35a" onchange="computePrecheck()"> <strong>a)</strong> Profilazione sistematica con effetti giuridici o analoghi significativi</label>
+            <label><input type="checkbox" id="r35b" onchange="computePrecheck()"> <strong>b)</strong> Trattamento su larga scala di dati particolari (art. 9) o penali (art. 10)</label>
+            <label><input type="checkbox" id="r35c" onchange="computePrecheck()"> <strong>c)</strong> Sorveglianza sistematica su larga scala di zona accessibile al pubblico</label>
+          </div>
+        </div>
+
+        <div>
+          <strong style="font-size:0.82rem; color:var(--orange);">Criteri EDPB di rischio elevato (Linee guida WP248):</strong>
+          <div class="check-group" style="margin-top:6px;">
+            <label><input type="checkbox" class="edpb-check" onchange="computePrecheck()"> Valutazione o scoring (profilazione, previsione)</label>
+            <label><input type="checkbox" class="edpb-check" onchange="computePrecheck()"> Decisioni automatizzate con effetti significativi</label>
+            <label><input type="checkbox" class="edpb-check" onchange="computePrecheck()"> Monitoraggio sistematico</label>
+            <label><input type="checkbox" class="edpb-check" onchange="computePrecheck()"> Dati sensibili o altamente personali</label>
+            <label><input type="checkbox" class="edpb-check" onchange="computePrecheck()"> Trattamento su larga scala</label>
+            <label><input type="checkbox" class="edpb-check" onchange="computePrecheck()"> Abbinamento o combinazione di dataset</label>
+            <label><input type="checkbox" class="edpb-check" onchange="computePrecheck()"> Soggetti vulnerabili (minori, anziani, dipendenti...)</label>
+            <label><input type="checkbox" class="edpb-check" onchange="computePrecheck()"> Uso innovativo / nuove tecnologie (AI, IoT, biometria)</label>
+            <label><input type="checkbox" class="edpb-check" onchange="computePrecheck()"> Impedimento all'esercizio di un diritto o all'uso di un servizio</label>
+          </div>
+        </div>
+
+        <div id="precheck-outcome"></div>
       </div>
-
-      <!-- 0.3 Name -->
-      <div class="card">
-        <div class="card-title">0.3 &mdash; Nome del trattamento</div>
-        <div class="field-group">
-          <label class="field-required">Nome interno del trattamento</label>
-          <div class="field-note">Il nome assegnato nel registro dei trattamenti</div>
-          <input type="text" id="proc_name" placeholder="Es: Sistema FamigliaSafe - Predizione rischio minori">
-        </div>
-        <div class="field-group">
-          <label>Versione attuale</label>
-          <div class="field-note">Indicare la storia delle modifiche al trattamento, se presenti</div>
-          <textarea id="proc_version" placeholder="Es: v1.0 - Prima implementazione"></textarea>
-        </div>
-      </div>
-
-      <!-- 0.4 Planning -->
-      <div class="card">
-        <div class="card-title">0.4 &mdash; Pianificazione del trattamento</div>
-        <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
-          <div class="field-group">
-            <label>Data di avvio stimata</label>
-            <input type="date" id="plan_start">
-          </div>
-          <div class="field-group">
-            <label>Data di fine stimata o condizioni di scadenza</label>
-            <input type="text" id="plan_end" placeholder="Es: A tempo indeterminato / 31/12/2027">
-          </div>
-        </div>
-      </div>
-
-      <!-- 0.5 DPIA Technical Sheet -->
-      <div class="card">
-        <div class="card-title">0.5 &mdash; Scheda tecnica della DPIA</div>
-
-        <div class="field-group">
-          <label>Versione della DPIA e registro modifiche</label>
-          <textarea id="dpia_version" placeholder="Es: v1.0 - Prima stesura, 17/04/2026"></textarea>
-        </div>
-        <div class="field-group">
-          <label>Team coinvolto nella DPIA</label>
-          <div class="field-note">Indicare ruoli, compiti e responsabilit&agrave;</div>
-          <textarea id="dpia_team" placeholder="Es: DPO (Dr. Serra), Responsabile IT (Prof.ssa Volpe), Dirigente (Dr.ssa Baldi)"></textarea>
-        </div>
-        <div class="field-group">
-          <label>Linee guida, standard e codici di riferimento</label>
-          <textarea id="dpia_refs" placeholder="Es: Linee guida EDPB WP248, ISO 27001, AI Act"></textarea>
-        </div>
-
-        <!-- Reasons to conduct DPIA -->
-        <div class="field-group">
-          <label style="font-size:0.88rem; margin-bottom:12px;">Ragioni per condurre la DPIA</label>
-
-          <div style="margin-bottom:12px;">
-            <strong style="font-size:0.8rem; color:var(--red);">1. Nuova attivit&agrave; &mdash; DPIA probabilmente necessaria per rischio elevato (Art. 35.3 GDPR):</strong>
-            <div class="check-group" style="margin-left:12px; margin-top:6px;">
-              <label><input type="checkbox" id="reason_35_3_a"> Valutazione sistematica ed estensiva di aspetti personali basata su trattamento automatizzato, inclusa la profilazione, su cui si fondano decisioni con effetti giuridici o analoghi significativi</label>
-              <label><input type="checkbox" id="reason_35_3_b"> Trattamento su larga scala di categorie particolari di dati (art. 9.1) o dati relativi a condanne penali (art. 10)</label>
-              <label><input type="checkbox" id="reason_35_3_c"> Sorveglianza sistematica su larga scala di una zona accessibile al pubblico</label>
-            </div>
-          </div>
-
-          <div style="margin-bottom:12px;">
-            <strong style="font-size:0.8rem; color:var(--orange);">2. Nuova attivit&agrave; &mdash; DPIA richiesta da normativa nazionale:</strong>
-            <div class="check-group" style="margin-left:12px; margin-top:6px;">
-              <label><input type="checkbox" id="reason_national"> Obbligo previsto dalla normativa nazionale</label>
-            </div>
-            <div class="field-group" style="margin-left:12px; margin-top:4px;">
-              <input type="text" id="reason_national_detail" placeholder="Specificare la normativa...">
-            </div>
-          </div>
-
-          <div style="margin-bottom:12px;">
-            <strong style="font-size:0.8rem; color:var(--yellow);">3. Nuova attivit&agrave; &mdash; Criteri EDPB di rischio elevato:</strong>
-            <div class="check-group" style="margin-left:12px; margin-top:6px;">
-              <label><input type="checkbox" id="reason_edpb_1"> Valutazione o scoring, inclusa profilazione e previsione</label>
-              <label><input type="checkbox" id="reason_edpb_2"> Decisioni automatizzate con effetti giuridici o analoghi significativi</label>
-              <label><input type="checkbox" id="reason_edpb_3"> Monitoraggio sistematico</label>
-              <label><input type="checkbox" id="reason_edpb_4"> Dati sensibili o di natura altamente personale</label>
-              <label><input type="checkbox" id="reason_edpb_5"> Dati trattati su larga scala</label>
-              <label><input type="checkbox" id="reason_edpb_6"> Abbinamento o combinazione di dataset</label>
-              <label><input type="checkbox" id="reason_edpb_7"> Dati relativi a soggetti vulnerabili</label>
-              <label><input type="checkbox" id="reason_edpb_8"> Uso innovativo o applicazione di nuove soluzioni tecnologiche</label>
-              <label><input type="checkbox" id="reason_edpb_9"> Trattamento che impedisce l'esercizio di un diritto o l'utilizzo di un servizio o contratto</label>
-            </div>
-          </div>
-
-          <div style="margin-bottom:12px;">
-            <strong style="font-size:0.8rem;">4. DPIA necessaria o opportuna per altre ragioni:</strong>
-            <div class="check-group" style="margin-left:12px; margin-top:6px;">
-              <label><input type="checkbox" id="reason_dpo_rec"> Parere o raccomandazione del DPO</label>
-              <label><input type="checkbox" id="reason_subjects_rec"> Parere o raccomandazione degli interessati</label>
-              <label><input type="checkbox" id="reason_code"> Richiesta da codice di condotta, standard, best practice</label>
-              <label><input type="checkbox" id="reason_other"> Altra ragione</label>
-            </div>
-            <div class="field-group" style="margin-left:12px; margin-top:4px;">
-              <input type="text" id="reason_other_detail" placeholder="Specificare...">
-            </div>
-          </div>
-
-          <div style="margin-bottom:12px;">
-            <strong style="font-size:0.8rem;">5. Trattamento esistente ad alto rischio con variazione dei rischi:</strong>
-            <div class="check-group" style="margin-left:12px; margin-top:6px;">
-              <label><input type="checkbox" id="reason_change_proc"> Il trattamento &egrave; cambiato</label>
-              <label><input type="checkbox" id="reason_change_ctx"> Il contesto organizzativo o sociale &egrave; cambiato</label>
-            </div>
-            <div class="field-group" style="margin-left:12px; margin-top:4px;">
-              <textarea id="reason_change_detail" placeholder="Descrivere le variazioni..."></textarea>
-            </div>
-          </div>
-        </div>
-
-        <!-- Scope, dates, publication -->
-        <div class="field-group">
-          <label>Ambito della DPIA</label>
-          <div class="field-note">Cosa &egrave; stato considerato e cosa escluso dalla valutazione, e perch&eacute;</div>
-          <textarea id="dpia_scope" placeholder="Es: La DPIA copre il sistema FamigliaSafe nella sua interezza. Non copre i processi manuali..."></textarea>
-        </div>
-        <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
-          <div class="field-group">
-            <label>Data di completamento</label>
-            <input type="date" id="dpia_completion_date">
-          </div>
-          <div class="field-group">
-            <label>Data di validazione formale</label>
-            <input type="date" id="dpia_validation_date">
-          </div>
-        </div>
-        <div class="field-group">
-          <label>La DPIA sar&agrave; pubblicata o condivisa esternamente?</label>
-          <div class="check-group">
-            <label><input type="radio" name="dpia_publish" value="no" checked> No</label>
-            <label><input type="radio" name="dpia_publish" value="publish"> S&igrave;, sar&agrave; pubblicata</label>
-            <label><input type="radio" name="dpia_publish" value="share"> S&igrave;, sar&agrave; condivisa esternamente</label>
-          </div>
-          <div class="field-group" style="margin-top:6px;">
-            <input type="text" id="dpia_publish_detail" placeholder="Specificare come...">
-          </div>
-        </div>
-      </div>
-
-      <div id="precheck-outcome"></div>
     </div>
 
-    <!-- ==================== SEZIONE 1: DESCRIZIONE SISTEMATICA ==================== -->
+    <!-- ===== SEZ 2: DESCRIZIONE ===== -->
     <div class="section" id="sec1">
       <div class="section-header">
-        <div class="section-tag">Sezione 1 &mdash; Descrizione Sistematica del Trattamento</div>
-        <h2>Systematic Description of the Processing</h2>
-        <p>Descrizione dettagliata dei dati personali trattati, delle finalit&agrave;, dei flussi e dell'architettura del trattamento.</p>
-        <span class="legal-ref">EDPB Template 2026 &middot; Sezione 1</span>
+        <div class="section-tag">Sezione 2 &mdash; Descrizione del Trattamento</div>
+        <h2>Cosa viene trattato e perch&eacute;?</h2>
+        <p>Descrivere i dati personali, le finalit&agrave;, il contesto e la base giuridica del trattamento.</p>
+        <span class="legal-ref">Template EDPB 2026, Sez. 1-2 &middot; Art. 35(7)(a) GDPR</span>
       </div>
 
-      <!-- 1.1.a Processed personal data -->
       <div class="card">
-        <div class="card-title">1.1.a &mdash; Dati personali trattati</div>
-        <div class="card-subtitle">Per ciascun elemento, indicare se si tratta di una categoria particolare di dati (art. 9 GDPR)</div>
-        <table class="dyn-table" id="tbl_data_items">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Dato personale</th>
-              <th>Spiegazione (tipo, categoria interessati, dettagli)</th>
-              <th>Categoria particolare?</th>
-              <th></th>
-            </tr>
-          </thead>
+        <div class="card-title">Dati personali trattati</div>
+        <table class="dyn-table" id="tbl_data">
+          <thead><tr><th>Dato personale</th><th>Spiegazione</th><th>Cat. particolare (art. 9)?</th><th></th></tr></thead>
           <tbody></tbody>
         </table>
-        <button class="btn-add-row" onclick="addDataItemRow()">+ Aggiungi dato personale</button>
+        <button class="btn-add-row" onclick="addDataRow()">+ Aggiungi dato</button>
       </div>
 
-      <!-- 1.1.b Purposes -->
       <div class="card">
-        <div class="card-title">1.1.b &mdash; Finalit&agrave; del trattamento</div>
-        <div class="card-subtitle">Ragioni specifiche ed esplicite per il trattamento dei dati personali</div>
-        <table class="dyn-table" id="tbl_purposes">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Finalit&agrave;</th>
-              <th>Dati personali coinvolti e giustificazione</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody></tbody>
-        </table>
-        <button class="btn-add-row" onclick="addPurposeRow()">+ Aggiungi finalit&agrave;</button>
-      </div>
-
-      <!-- 1.1.c Secondary uses -->
-      <div class="card">
-        <div class="card-title">1.1.c &mdash; Usi secondari o compatibili</div>
-        <table class="dyn-table" id="tbl_secondary">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Uso secondario o compatibile</th>
-              <th>Dati coinvolti, condizioni e valutazione di compatibilit&agrave;</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody></tbody>
-        </table>
-        <button class="btn-add-row" onclick="addSecondaryRow()">+ Aggiungi uso secondario</button>
-      </div>
-
-      <!-- 1.1.d Nature, scope, context -->
-      <div class="card">
-        <div class="card-title">1.1.d &mdash; Natura, ambito e contesto del trattamento</div>
+        <div class="card-title">Finalit&agrave; del trattamento</div>
         <div class="field-group">
-          <label>Natura del trattamento</label>
-          <div class="field-note">Come i dati personali saranno gestiti: operazioni coinvolte, tecnologie utilizzate, ecc.</div>
-          <textarea id="proc_nature" placeholder="Descrivere le operazioni e le tecnologie..."></textarea>
+          <label class="field-required">Finalit&agrave; principali</label>
+          <textarea id="purposes" placeholder="Descrivere le finalit&agrave; specifiche ed esplicite per cui i dati vengono trattati..."></textarea>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Contesto del trattamento</div>
+        <div class="field-group">
+          <label class="field-required">Natura, ambito e contesto</label>
+          <div class="field-note">Descrivere: tecnologie usate, scala del trattamento, categorie di interessati, gruppi vulnerabili, trasferimenti verso paesi terzi</div>
+          <textarea id="context" placeholder="Es: Il sistema utilizza un modello ML per analizzare dati di 50.000 famiglie. Gli interessati includono minori e nuclei in situazione di vulnerabilit&agrave; economica..."></textarea>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Base giuridica</div>
+        <div class="field-group">
+          <label class="field-required">Base giuridica (Art. 6(1) GDPR)</label>
+          <select id="legal_basis">
+            <option value="">-- Selezionare --</option>
+            <option value="a">a) Consenso dell'interessato</option>
+            <option value="b">b) Esecuzione di un contratto</option>
+            <option value="c">c) Obbligo legale</option>
+            <option value="d">d) Interessi vitali</option>
+            <option value="e">e) Interesse pubblico / autorit&agrave; pubblica</option>
+            <option value="f">f) Legittimo interesse</option>
+          </select>
         </div>
         <div class="field-group">
-          <label>Ambito del trattamento</label>
-          <div class="field-note">Estensione e portata: volume, scala, numero di interessati, estensione geografica, frequenza, durata</div>
-          <textarea id="proc_scope" placeholder="Descrivere volume, scala, durata..."></textarea>
+          <label>Giustificazione della base giuridica</label>
+          <textarea id="legal_justification" placeholder="Spiegare perch&eacute; questa base giuridica &egrave; applicabile. Se art. 6(1)(f), condurre il balancing test..."></textarea>
         </div>
         <div class="field-group">
-          <label>Contesto del trattamento</label>
-          <div class="field-note">Circostanze e ambiente: casi d'uso, processi supportati, rapporto con gli interessati, gruppi vulnerabili, trasferimenti</div>
-          <textarea id="proc_context" placeholder="Descrivere il contesto organizzativo e sociale..."></textarea>
+          <label>Se dati particolari (art. 9): condizione per il sollevamento del divieto</label>
+          <select id="art9_exception">
+            <option value="">-- Non applicabile --</option>
+            <option value="a">a) Consenso esplicito</option>
+            <option value="b">b) Lavoro / sicurezza sociale</option>
+            <option value="e">e) Dati resi pubblici</option>
+            <option value="g">g) Interesse pubblico rilevante</option>
+            <option value="h">h) Medicina / sanit&agrave;</option>
+            <option value="j">j) Archiviazione / ricerca / statistica</option>
+          </select>
         </div>
-        <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
-          <div class="field-group">
-            <label>Trattamento transfrontaliero?</label>
-            <div class="check-group">
-              <label><input type="radio" name="cross_border" value="no" checked> No</label>
-              <label><input type="radio" name="cross_border" value="yes"> S&igrave;</label>
-            </div>
-            <input type="text" id="cross_border_detail" placeholder="Dettagli e giustificazione...">
-          </div>
-          <div class="field-group">
-            <label>Trasferimento verso paesi terzi?</label>
-            <div class="check-group">
-              <label><input type="radio" name="third_country" value="no" checked> No</label>
-              <label><input type="radio" name="third_country" value="yes"> S&igrave;</label>
-            </div>
-            <input type="text" id="third_country_detail" placeholder="Paese, meccanismo di garanzia...">
-          </div>
-        </div>
-      </div>
-
-      <!-- 1.2 Functional description -->
-      <div class="card">
-        <div class="card-title">1.2 &mdash; Descrizione funzionale</div>
-        <div class="card-subtitle">Descrivere le fasi del trattamento. Idealmente, integrare con uno o pi&ugrave; diagrammi dei flussi di dati.</div>
-        <table class="dyn-table" id="tbl_phases">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Fase del trattamento</th>
-              <th>Tipo di operazioni</th>
-              <th>Spiegazione</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody></tbody>
-        </table>
-        <button class="btn-add-row" onclick="addPhaseRow()">+ Aggiungi fase</button>
-      </div>
-
-      <!-- 1.3 Means of processing -->
-      <div class="card">
-        <div class="card-title">1.3 &mdash; Mezzi di trattamento, asset di supporto e architettura</div>
-        <table class="dyn-table" id="tbl_means">
-          <thead>
-            <tr>
-              <th>Fase</th>
-              <th>Mezzi di trattamento e asset</th>
-              <th>Spiegazione</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody></tbody>
-        </table>
-        <button class="btn-add-row" onclick="addMeansRow()">+ Aggiungi mezzo</button>
-      </div>
-
-      <!-- 1.4 Codes of conduct -->
-      <div class="card">
-        <div class="card-title">1.4 &mdash; Conformit&agrave; a codici di condotta approvati</div>
-        <table class="dyn-table" id="tbl_codes">
-          <thead>
-            <tr>
-              <th>Codice di condotta</th>
-              <th>Spiegazione</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody></tbody>
-        </table>
-        <button class="btn-add-row" onclick="addCodeRow()">+ Aggiungi codice di condotta</button>
       </div>
     </div>
 
-    <!-- ==================== SEZIONE 2: ANALISI ==================== -->
+    <!-- ===== SEZ 3: NECESSITA E PROPORZIONALITA ===== -->
     <div class="section" id="sec2">
       <div class="section-header">
-        <div class="section-tag">Sezione 2 &mdash; Analisi del Trattamento</div>
-        <h2>Analysis of the Processing</h2>
-        <p>Liceit&agrave;, minimizzazione dei dati, periodi di conservazione e misure di conformit&agrave;.</p>
-        <span class="legal-ref">EDPB Template 2026 &middot; Sezione 2</span>
+        <div class="section-tag">Sezione 3 &mdash; Necessit&agrave; e Proporzionalit&agrave;</div>
+        <h2>Il trattamento &egrave; necessario e proporzionato?</h2>
+        <p>Valutare se il trattamento &egrave; il meno intrusivo possibile e se i benefici giustificano gli impatti sui diritti degli interessati.</p>
+        <span class="legal-ref">Template EDPB 2026, Sez. 3 &middot; Art. 35(7)(b) GDPR</span>
       </div>
 
-      <!-- 2.1.a Legal basis -->
       <div class="card">
-        <div class="card-title">2.1.a &mdash; Base giuridica</div>
-        <div class="card-subtitle">Per ciascuna finalit&agrave;, indicare la base giuridica ai sensi dell'art. 6(1) GDPR</div>
-        <div id="legal_basis_container"></div>
+        <div class="card-title">Valutazione della necessit&agrave;</div>
+        <div class="field-note" style="margin-bottom:12px;">Il trattamento &egrave; efficace e il meno intrusivo? Esistono alternative meno invasive? Fornire evidenze.</div>
+        <div class="field-group">
+          <textarea id="necessity" rows="5" placeholder="Valutare se il trattamento &egrave; strettamente necessario. Descrivere le alternative considerate e perch&eacute; sono state scartate..."></textarea>
+        </div>
       </div>
 
-      <!-- 2.1.b Reasons to lift prohibition -->
       <div class="card">
-        <div class="card-title">2.1.b &mdash; Motivi per il sollevamento del divieto di trattamento</div>
-        <div class="card-subtitle">Se sono trattati dati particolari (art. 9), indicare la condizione ex art. 9(2) GDPR</div>
-        <div id="art9_container"></div>
+        <div class="card-title">Valutazione della proporzionalit&agrave;</div>
+        <div class="field-note" style="margin-bottom:12px;">Bilanciare gli impatti sui diritti degli interessati con i benefici del trattamento. Il trattamento &egrave; proporzionato e bilanciato?</div>
+        <div class="field-group">
+          <textarea id="proportionality" rows="5" placeholder="Discutere l'importanza del trattamento, i benefici per gli interessati e per la collettivit&agrave;, confrontandoli con i potenziali impatti negativi sui diritti..."></textarea>
+        </div>
       </div>
 
-      <!-- 2.2.a Data minimisation -->
       <div class="card">
-        <div class="card-title">2.2.a &mdash; Minimizzazione dei dati e periodi di conservazione</div>
-        <table class="dyn-table" id="tbl_minimisation">
-          <thead>
-            <tr>
-              <th>Dato personale</th>
-              <th>Giustificazione necessit&agrave;</th>
-              <th>Destinatari</th>
-              <th>Periodo conservazione</th>
-              <th>Giustificazione</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody></tbody>
-        </table>
-        <button class="btn-add-row" onclick="addMinimisationRow()">+ Aggiungi riga</button>
-      </div>
-
-      <!-- 2.2.b Data quality -->
-      <div class="card">
-        <div class="card-title">2.2.b &mdash; Qualit&agrave; dei dati</div>
-        <table class="dyn-table" id="tbl_quality">
-          <thead>
-            <tr>
-              <th>Dato personale</th>
-              <th>Metriche/requisiti di qualit&agrave;</th>
-              <th>Giustificazione</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody></tbody>
-        </table>
-        <button class="btn-add-row" onclick="addQualityRow()">+ Aggiungi riga</button>
-      </div>
-
-      <!-- 2.3.a Art 5(1) compliance -->
-      <div class="card">
-        <div class="card-title">2.3.a &mdash; Misure di conformit&agrave; ai principi dell'art. 5(1)(a-f) GDPR</div>
-        <div id="compliance_5_container"></div>
-      </div>
-
-      <!-- 2.3.b Data subject rights -->
-      <div class="card">
-        <div class="card-title">2.3.b &mdash; Misure a supporto dei diritti degli interessati</div>
-        <div id="compliance_rights_container"></div>
-      </div>
-
-      <!-- 2.3.c Other GDPR -->
-      <div class="card">
-        <div class="card-title">2.3.c &mdash; Misure di conformit&agrave; ad altri requisiti GDPR</div>
-        <div id="compliance_other_container"></div>
-      </div>
-
-      <!-- 2.3.d Privacy by design -->
-      <div class="card">
-        <div class="card-title">2.3.d &mdash; Protezione dei dati fin dalla progettazione e per impostazione predefinita</div>
-        <div class="card-subtitle">Art. 25 GDPR</div>
-        <div id="compliance_bydesign_container"></div>
-      </div>
-
-      <!-- 2.3.e Security -->
-      <div class="card">
-        <div class="card-title">2.3.e &mdash; Misure di sicurezza del trattamento</div>
-        <div class="card-subtitle">Art. 32 GDPR</div>
-        <div id="compliance_security_container"></div>
+        <div class="card-title">Misure di conformit&agrave; principali</div>
+        <div class="field-note" style="margin-bottom:12px;">Descrivere le misure gi&agrave; adottate o pianificate a supporto dei principi GDPR (trasparenza, minimizzazione, sicurezza, diritti degli interessati)</div>
+        <div class="field-group">
+          <textarea id="compliance_measures" rows="5" placeholder="Es: Informativa rafforzata con sezione dedicata all'AI, pseudonimizzazione dei dati, controllo umano sulle decisioni, meccanismo di reclamo accessibile, audit periodici del sistema..."></textarea>
+        </div>
       </div>
     </div>
 
-    <!-- ==================== SEZIONE 3: NECESSITA E PROPORZIONALITA ==================== -->
+    <!-- ===== SEZ 4: RISCHI E MISURE ===== -->
     <div class="section" id="sec3">
       <div class="section-header">
-        <div class="section-tag">Sezione 3 &mdash; Necessit&agrave; e Proporzionalit&agrave;</div>
-        <h2>Considerations on Necessity and Proportionality</h2>
-        <p>Valutare gli impatti del trattamento sui diritti e le libert&agrave; degli interessati, la necessit&agrave; e la proporzionalit&agrave;.</p>
-        <span class="legal-ref">EDPB Template 2026 &middot; Sezione 3</span>
+        <div class="section-tag">Sezione 4 &mdash; Rischi e Misure</div>
+        <h2>Quali sono i rischi e come mitigarli?</h2>
+        <p>Identificare i rischi per i diritti degli interessati, valutarli e definire le misure di mitigazione. Rivalutare il rischio residuo.</p>
+        <span class="legal-ref">Template EDPB 2026, Sez. 4 &middot; Art. 35(7)(c-d) GDPR</span>
       </div>
 
-      <!-- 3.1 Impacts -->
+      <div class="info-note">
+        <strong>Metodo:</strong> Probabilit&agrave; (1-3) &times; Gravit&agrave; (1-3). Score: 1-2 = Basso, 3-4 = Medio, 6-9 = Alto.<br>
+        Un rischio pu&ograve; essere non accettabile anche con bassa probabilit&agrave; se la gravit&agrave; &egrave; molto elevata.
+      </div>
+
+      <!-- Inherent risk -->
       <div class="card">
-        <div class="card-title">3.1 &mdash; Impatti del trattamento sui diritti e le libert&agrave;</div>
-        <div class="card-subtitle">Minacce poste dal trattamento cos&igrave; come progettato e pianificato (incluse misure tecniche, legali e organizzative)</div>
-        <table class="dyn-table" id="tbl_impacts">
-          <thead>
-            <tr>
-              <th>Minaccia e come pu&ograve; materializzarsi</th>
-              <th>Fonti di rischio</th>
-              <th>Impatto su diritti e libert&agrave;</th>
-              <th></th>
-            </tr>
-          </thead>
+        <div class="card-title">4.1 &mdash; Rischio inerente (prima delle misure aggiuntive)</div>
+        <div id="inherent-risks"></div>
+        <button class="btn-add-row" onclick="addRisk('inherent')" style="margin-top:8px">+ Aggiungi rischio</button>
+        <div id="risk-aggregate" class="hidden" style="margin-top:16px"></div>
+      </div>
+
+      <!-- Measures -->
+      <div class="card">
+        <div class="card-title">4.2 &mdash; Misure di mitigazione aggiuntive</div>
+        <table class="dyn-table" id="tbl_measures">
+          <thead><tr><th>Misura</th><th>Rischi mitigati</th><th>Stato</th><th></th></tr></thead>
           <tbody></tbody>
         </table>
-        <button class="btn-add-row" onclick="addImpactRow()">+ Aggiungi minaccia</button>
+        <button class="btn-add-row" onclick="addMeasureRow()">+ Aggiungi misura</button>
       </div>
 
-      <!-- 3.2 Necessity -->
+      <!-- Residual risk -->
       <div class="card">
-        <div class="card-title">3.2 &mdash; Valutazione della necessit&agrave; del trattamento</div>
-        <div class="card-subtitle">Valutare se il trattamento previsto &egrave; efficace e il meno intrusivo per i diritti degli interessati. Fornire evidenze e giustificazione.</div>
-        <div class="field-group">
-          <textarea id="necessity_assessment" rows="6" placeholder="Valutare se il trattamento &egrave; efficace e il meno intrusivo possibile. Descrivere le alternative considerate e perch&eacute; sono state scartate..."></textarea>
-        </div>
-      </div>
-
-      <!-- 3.3 Proportionality -->
-      <div class="card">
-        <div class="card-title">3.3 &mdash; Valutazione della proporzionalit&agrave; del trattamento</div>
-        <div class="card-subtitle">Discutere l'importanza del trattamento e i suoi potenziali benefici. Condurre una valutazione comparativa tra impatti sui diritti e vantaggi del trattamento.</div>
-        <div class="field-group">
-          <textarea id="proportionality_assessment" rows="6" placeholder="Bilanciare i potenziali impatti sui diritti degli interessati con i vantaggi risultanti dal trattamento. Fornire evidenze e giustificazione..."></textarea>
-        </div>
+        <div class="card-title">4.3 &mdash; Rischio residuo (dopo le misure)</div>
+        <div id="residual-risks"></div>
+        <button class="btn-add-row" onclick="addRisk('residual')" style="margin-top:8px">+ Aggiungi rischio residuo</button>
       </div>
     </div>
 
-    <!-- ==================== SEZIONE 4: RISCHI E MISURE ==================== -->
+    <!-- ===== SEZ 5: CONCLUSIONE ===== -->
     <div class="section" id="sec4">
       <div class="section-header">
-        <div class="section-tag">Sezione 4 &mdash; Valutazione e Gestione dei Rischi</div>
-        <h2>Risk Assessment and Management</h2>
-        <p>Identificazione delle minacce, valutazione del rischio inerente, piano d'azione con misure aggiuntive e valutazione del rischio residuo.</p>
-        <span class="legal-ref">EDPB Template 2026 &middot; Sezione 4</span>
+        <div class="section-tag">Sezione 5 &mdash; Conclusione e Decisione</div>
+        <h2>Qual &egrave; la decisione finale?</h2>
+        <p>Parere del DPO, coinvolgimento degli interessati e decisione sul trattamento.</p>
+        <span class="legal-ref">Template EDPB 2026, Sez. 5-6 &middot; Art. 35-36 GDPR</span>
       </div>
 
-      <!-- 4.1.a Threats -->
       <div class="card">
-        <div class="card-title">4.1.a &mdash; Impatti causati da eventi non previsti, accidentali o illeciti</div>
-        <div class="card-subtitle">Identificare almeno le minacce che possono portare ad accesso illegittimo, modifica indesiderata e scomparsa dei dati</div>
-        <table class="dyn-table" id="tbl_threats">
-          <thead>
-            <tr>
-              <th>Minaccia (confidenzialit&agrave;, integrit&agrave;, disponibilit&agrave;)</th>
-              <th>Come pu&ograve; materializzarsi?</th>
-              <th>Fonti di rischio</th>
-              <th>Impatti su diritti e libert&agrave;</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody></tbody>
-        </table>
-        <button class="btn-add-row" onclick="addThreatRow()">+ Aggiungi minaccia</button>
-      </div>
-
-      <!-- 4.1.b Method -->
-      <div class="card">
-        <div class="card-title">4.1.b &mdash; Metodo di valutazione del rischio</div>
-        <div class="card-subtitle">Spiegare il metodo utilizzato: livelli di probabilit&agrave; e gravit&agrave;, metriche, priorit&agrave;, livelli di accettabilit&agrave;</div>
+        <div class="card-title">Parere del DPO e degli interessati</div>
         <div class="field-group">
-          <textarea id="risk_method" rows="5" placeholder="Descrivere il metodo: scala di probabilit&agrave; (es. 1-3), scala di gravit&agrave; (es. 1-3), formula di rischio (P x G), soglie di accettabilit&agrave;..."></textarea>
-        </div>
-        <div class="info-note">
-          <strong>Metodo suggerito:</strong> Probabilit&agrave; (1=Bassa, 2=Media, 3=Alta) &times; Gravit&agrave; (1=Bassa, 2=Media, 3=Alta). Punteggio: 1-2 = Basso, 3-4 = Medio, 6-9 = Alto. Un rischio pu&ograve; essere non accettabile anche con bassa probabilit&agrave; se la gravit&agrave; &egrave; molto elevata.
-        </div>
-      </div>
-
-      <!-- 4.1.c Inherent risk assessment -->
-      <div class="card">
-        <div class="card-title">4.1.c &mdash; Valutazione del rischio inerente</div>
-        <div class="card-subtitle">Valutare ciascun rischio prima dell'applicazione delle misure aggiuntive</div>
-        <div id="inherent-risk-container"></div>
-        <button class="btn-add-row" onclick="addInherentRiskRow()" style="margin-top:12px">+ Aggiungi rischio</button>
-        <div id="risk-aggregate-box" class="hidden" style="margin-top:20px"></div>
-      </div>
-
-      <!-- 4.2.a Additional measures -->
-      <div class="card">
-        <div class="card-title">4.2.a &mdash; Misure di mitigazione aggiuntive</div>
-        <table class="dyn-table" id="tbl_add_measures">
-          <thead>
-            <tr>
-              <th>Misura (tecnica, legale, organizzativa)</th>
-              <th>Rischi mitigati</th>
-              <th>Adeguatezza ed efficacia</th>
-              <th>Stato</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody></tbody>
-        </table>
-        <button class="btn-add-row" onclick="addAdditionalMeasureRow()">+ Aggiungi misura</button>
-      </div>
-
-      <!-- 4.2.b Residual risk -->
-      <div class="card">
-        <div class="card-title">4.2.b &mdash; Valutazione del rischio residuo</div>
-        <div class="card-subtitle">Rivalutare i rischi dopo l'applicazione delle misure aggiuntive</div>
-        <div id="residual-risk-container"></div>
-        <button class="btn-add-row" onclick="addResidualRiskRow()" style="margin-top:12px">+ Aggiungi rischio residuo</button>
-      </div>
-
-      <!-- 4.2.c Plan -->
-      <div class="card">
-        <div class="card-title">4.2.c &mdash; Piano di implementazione</div>
-        <div class="card-subtitle">Attivit&agrave; necessarie per implementare le misure, monitorare e aggiornare nel tempo</div>
-        <div class="field-group">
-          <textarea id="action_plan" rows="5" placeholder="Descrivere: attivit&agrave; specifiche, team responsabile, tempistiche, collegamenti a documentazione esterna..."></textarea>
-        </div>
-      </div>
-    </div>
-
-    <!-- ==================== SEZIONE 5: PARTI INTERESSATE ==================== -->
-    <div class="section" id="sec5">
-      <div class="section-header">
-        <div class="section-tag">Sezione 5 &mdash; Coinvolgimento delle Parti Interessate</div>
-        <h2>Involvement of Interested Parties</h2>
-        <p>Parere del DPO e opinione degli interessati o dei loro rappresentanti.</p>
-        <span class="legal-ref">EDPB Template 2026 &middot; Sezione 5 &middot; Art. 35 par. 2 e 9 GDPR</span>
-      </div>
-
-      <!-- 5.1 DPO advice -->
-      <div class="card">
-        <div class="card-title">5.1 &mdash; Parere del DPO</div>
-        <div class="card-subtitle">Se presente un DPO (o funzione analoga), riportare il suo parere, conclusioni e raccomandazioni. Spiegare come il parere &egrave; stato recepito.</div>
-        <div class="field-group">
-          <label>Parere, conclusioni e raccomandazioni del DPO</label>
-          <textarea id="dpo_advice" rows="5" placeholder="Riportare il parere del DPO sul trattamento previsto..."></textarea>
+          <label>Parere del DPO</label>
+          <textarea id="dpo_advice" rows="3" placeholder="Riportare il parere del DPO sul trattamento..."></textarea>
         </div>
         <div class="field-group">
-          <label>Come il parere del DPO &egrave; stato recepito</label>
-          <textarea id="dpo_implementation" rows="3" placeholder="Spiegare come le raccomandazioni del DPO sono state implementate..."></textarea>
+          <label>Opinione degli interessati o loro rappresentanti</label>
+          <textarea id="subjects_views" rows="3" placeholder="Riportare l'opinione degli interessati, o spiegare perch&eacute; non sono stati coinvolti..."></textarea>
         </div>
-      </div>
-
-      <!-- 5.2 Data subjects views -->
-      <div class="card">
-        <div class="card-title">5.2 &mdash; Opinione degli interessati o dei loro rappresentanti</div>
-        <div class="card-subtitle">Ove opportuno, riportare l'opinione degli interessati. Spiegare la loro partecipazione al processo di DPIA.</div>
-        <div class="field-group">
-          <label>Opinione, conclusioni e raccomandazioni degli interessati</label>
-          <textarea id="subjects_views" rows="5" placeholder="Riportare il parere degli interessati o dei loro rappresentanti..."></textarea>
-        </div>
-        <div class="field-group">
-          <label>Partecipazione al processo di DPIA</label>
-          <textarea id="subjects_participation" rows="3" placeholder="Spiegare come gli interessati hanno partecipato, o perch&eacute; non &egrave; stato ritenuto opportuno/possibile coinvolgerli..."></textarea>
-        </div>
-      </div>
-    </div>
-
-    <!-- ==================== SEZIONE 6: CONCLUSIONE ==================== -->
-    <div class="section" id="sec6">
-      <div class="section-header">
-        <div class="section-tag">Sezione 6 &mdash; Conclusione e Decisione</div>
-        <h2>Conclusion and Decision</h2>
-        <p>Sulla base della valutazione dei rischi e dei diritti, selezionare la decisione finale.</p>
-        <span class="legal-ref">EDPB Template 2026 &middot; Sezione 6 &middot; Art. 35-36 GDPR</span>
       </div>
 
       <div class="card">
         <div class="card-title">Decisione finale</div>
         <div id="decision-options">
           <div class="decision-option" onclick="selectDecision('rejected')">
-            <label>
-              <input type="radio" name="final_decision" value="rejected">
-              <div>
-                <strong style="color:var(--red)">RESPINTO (REJECTED)</strong>
-                <div style="font-size:0.82rem; color:var(--text-muted); margin-top:4px;">Il trattamento deve essere abbandonato.</div>
-              </div>
+            <label><input type="radio" name="decision" value="rejected">
+              <div><strong style="color:var(--red)">RESPINTO</strong><br><span style="font-size:0.82rem; color:var(--text-muted)">Il trattamento deve essere abbandonato.</span></div>
             </label>
           </div>
           <div class="decision-option" onclick="selectDecision('consultation')">
-            <label>
-              <input type="radio" name="final_decision" value="consultation">
-              <div>
-                <strong style="color:var(--orange)">CONSULTAZIONE (CONSULTATION)</strong>
-                <div style="font-size:0.82rem; color:var(--text-muted); margin-top:4px;">Il trattamento sar&agrave; sottoposto a consultazione preventiva con l'Autorit&agrave; di controllo.</div>
-              </div>
+            <label><input type="radio" name="decision" value="consultation">
+              <div><strong style="color:var(--orange)">CONSULTAZIONE PREVENTIVA</strong><br><span style="font-size:0.82rem; color:var(--text-muted)">I rischi residui restano alti &mdash; consultazione con l'Autorit&agrave; di controllo (art. 36 GDPR).</span></div>
             </label>
           </div>
           <div class="decision-option" onclick="selectDecision('approved')">
-            <label>
-              <input type="radio" name="final_decision" value="approved">
-              <div>
-                <strong style="color:var(--green)">APPROVATO (APPROVED)</strong>
-                <div style="font-size:0.82rem; color:var(--text-muted); margin-top:4px;">Il trattamento pu&ograve; procedere. I rischi residui sono accettabili e non &egrave; richiesta consultazione preventiva (art. 36(5) GDPR).</div>
-              </div>
+            <label><input type="radio" name="decision" value="approved">
+              <div><strong style="color:var(--green)">APPROVATO</strong><br><span style="font-size:0.82rem; color:var(--text-muted)">I rischi residui sono accettabili. Il trattamento pu&ograve; procedere.</span></div>
             </label>
           </div>
           <div class="decision-option" onclick="selectDecision('conditional')">
-            <label>
-              <input type="radio" name="final_decision" value="conditional">
-              <div>
-                <strong style="color:var(--yellow)">APPROVATO CON CONDIZIONI (CONDITIONALLY APPROVED)</strong>
-                <div style="font-size:0.82rem; color:var(--text-muted); margin-top:4px;">Il trattamento pu&ograve; procedere solo dopo il soddisfacimento delle condizioni sotto indicate.</div>
-              </div>
+            <label><input type="radio" name="decision" value="conditional">
+              <div><strong style="color:var(--yellow)">APPROVATO CON CONDIZIONI</strong><br><span style="font-size:0.82rem; color:var(--text-muted)">Il trattamento pu&ograve; procedere solo dopo il soddisfacimento delle condizioni indicate.</span></div>
             </label>
           </div>
         </div>
-
-        <!-- Consultation details -->
-        <div id="consultation-details" class="hidden" style="margin-top:16px;">
-          <div class="field-group">
-            <label>Motivazione della consultazione preventiva</label>
-            <div class="check-group">
-              <label><input type="checkbox" id="consult_high_risk"> Il titolare non riesce a trovare misure sufficienti per ridurre i rischi a un livello accettabile e non intende abbandonare il trattamento</label>
-              <label><input type="checkbox" id="consult_national"> La normativa nazionale richiede la consultazione/autorizzazione preventiva dell'Autorit&agrave; (art. 36(5) GDPR)</label>
-            </div>
-          </div>
-        </div>
-
-        <!-- Conditions for conditional approval -->
-        <div id="conditions-details" class="hidden" style="margin-top:16px;">
-          <div class="field-group">
-            <label>Condizioni per l'approvazione</label>
-            <table class="dyn-table" id="tbl_conditions">
-              <thead><tr><th>#</th><th>Condizione</th><th></th></tr></thead>
-              <tbody></tbody>
-            </table>
-            <button class="btn-add-row" onclick="addConditionRow()">+ Aggiungi condizione</button>
-          </div>
-        </div>
-
-        <!-- Justification -->
         <div class="field-group" style="margin-top:16px;">
           <label>Motivazione della decisione</label>
-          <textarea id="decision_justification" rows="4" placeholder="Giustificare la decisione presa..."></textarea>
+          <textarea id="decision_justification" rows="3" placeholder="Giustificare la decisione presa..."></textarea>
+        </div>
+        <div id="conditions-box" class="hidden field-group" style="margin-top:8px;">
+          <label>Condizioni da soddisfare</label>
+          <textarea id="conditions_text" rows="3" placeholder="Elencare le condizioni..."></textarea>
         </div>
       </div>
 
-      <!-- Student / group name -->
       <div class="card">
         <div class="card-title">Identificazione</div>
         <div class="field-group">
@@ -1148,588 +471,238 @@ body {
         </div>
       </div>
 
-      <!-- Action buttons -->
-      <div style="margin-top:24px; display:flex; gap:12px; align-items:center; flex-wrap:wrap;">
+      <div style="margin-top:24px; display:flex; gap:12px; flex-wrap:wrap;">
         <button class="btn btn-success" onclick="generateReport()">Genera Report DPIA</button>
         <button class="btn btn-primary" onclick="sendToDocente()" id="btn-send" style="background:#6a3fbf">&#10148; Invia al docente</button>
-        <button class="btn btn-print" onclick="generateReport(); setTimeout(()=>window.print(), 300)">Stampa / Salva PDF</button>
+        <button class="btn btn-print" onclick="generateReport(); setTimeout(()=>window.print(), 300)">Stampa / PDF</button>
       </div>
       <div id="send-feedback" style="margin-top:10px; font-size:0.85rem; display:none;"></div>
+      <div id="report-section"><div id="report-content"></div></div>
+    </div>
 
-      <div id="report-section">
-        <div id="report-content"></div>
+    <!-- ===== SEZ 6: SCHEMA TEMPLATE EDPB ===== -->
+    <div class="section" id="sec5">
+      <div class="section-header">
+        <div class="section-tag">Riferimento</div>
+        <h2>Schema completo del Template EDPB 2026</h2>
+        <p>Struttura integrale del template DPIA adottato dall'European Data Protection Board il 10 marzo 2026. Le sezioni dell'esercitazione coprono i punti essenziali di questo schema.</p>
+        <span class="legal-ref">Template EDPB 2026 &middot; Art. 35 Reg. (UE) 2016/679</span>
+      </div>
+
+      <div class="schema-section">
+        <h4>0. Panoramica del Trattamento</h4>
+        <ul>
+          <li><strong>0.1</strong> Titolare/i del trattamento (denominazione, unit&agrave; responsabili, DPO)</li>
+          <li><strong>0.2</strong> Responsabili e sub-responsabili del trattamento (obblighi e compiti)</li>
+          <li><strong>0.3</strong> Nome del trattamento (nome nel registro, versione corrente)</li>
+          <li><strong>0.4</strong> Pianificazione (data avvio, data fine o condizioni di scadenza)</li>
+          <li><strong>0.5</strong> Scheda tecnica DPIA (versione, team, linee guida, ragioni per la DPIA, ambito, date, pubblicazione)</li>
+        </ul>
+      </div>
+
+      <div class="schema-section">
+        <h4>1. Descrizione Sistematica del Trattamento</h4>
+        <ul>
+          <li><strong>1.1.a</strong> Dati personali trattati (tabella: dato, spiegazione, categoria particolare art. 9)</li>
+          <li><strong>1.1.b</strong> Finalit&agrave; del trattamento (finalit&agrave; specifica, dati coinvolti, giustificazione)</li>
+          <li><strong>1.1.c</strong> Usi secondari o compatibili</li>
+          <li><strong>1.1.d</strong> Natura, ambito e contesto (tecnologie, scala, interessati, gruppi vulnerabili, transfrontaliero, trasferimenti)</li>
+          <li><strong>1.2</strong> Descrizione funzionale (fasi: raccolta, uso, conservazione, condivisione, cancellazione)</li>
+          <li><strong>1.3</strong> Mezzi di trattamento, asset di supporto e architettura</li>
+          <li><strong>1.4</strong> Conformit&agrave; a codici di condotta approvati</li>
+        </ul>
+      </div>
+
+      <div class="schema-section">
+        <h4>2. Analisi del Trattamento</h4>
+        <ul>
+          <li><strong>2.1.a</strong> Base giuridica (art. 6(1) GDPR per ciascuna finalit&agrave;)</li>
+          <li><strong>2.1.b</strong> Motivi per il sollevamento del divieto (art. 9(2) se dati particolari)</li>
+          <li><strong>2.2.a</strong> Minimizzazione dei dati e periodi di conservazione</li>
+          <li><strong>2.2.b</strong> Qualit&agrave; dei dati</li>
+          <li><strong>2.3.a</strong> Misure di conformit&agrave; ai principi art. 5(1): equit&agrave;, trasparenza, limitazione finalit&agrave;, minimizzazione, esattezza, limitazione conservazione, integrit&agrave;/riservatezza, accountability</li>
+          <li><strong>2.3.b</strong> Misure a supporto dei diritti degli interessati (artt. 12-22 GDPR)</li>
+          <li><strong>2.3.c</strong> Conformit&agrave; ad altri requisiti GDPR (consenso, responsabili, trasferimenti internazionali)</li>
+          <li><strong>2.3.d</strong> Protezione dei dati by design e by default (art. 25)</li>
+          <li><strong>2.3.e</strong> Sicurezza del trattamento (art. 32)</li>
+        </ul>
+      </div>
+
+      <div class="schema-section">
+        <h4>3. Considerazioni su Necessit&agrave; e Proporzionalit&agrave;</h4>
+        <ul>
+          <li><strong>3.1</strong> Impatti del trattamento sui diritti e le libert&agrave; (minacce, fonti, impatti)</li>
+          <li><strong>3.2</strong> Valutazione della necessit&agrave; (trattamento efficace e meno intrusivo, alternative)</li>
+          <li><strong>3.3</strong> Valutazione della proporzionalit&agrave; (bilanciamento impatti vs. benefici)</li>
+        </ul>
+      </div>
+
+      <div class="schema-section">
+        <h4>4. Valutazione e Gestione dei Rischi</h4>
+        <ul>
+          <li><strong>4.1.a</strong> Impatti da eventi non previsti/accidentali/illeciti (accesso illegittimo, modifica indesiderata, perdita dati)</li>
+          <li><strong>4.1.b</strong> Metodo di valutazione (livelli probabilit&agrave;/gravit&agrave;, metriche, priorit&agrave;, accettabilit&agrave;)</li>
+          <li><strong>4.1.c</strong> Valutazione del rischio inerente (probabilit&agrave;, gravit&agrave;, fattori modulanti, livello, accettabilit&agrave;)</li>
+          <li><strong>4.2.a</strong> Misure di mitigazione aggiuntive (misura, rischi mitigati, efficacia, stato implementazione)</li>
+          <li><strong>4.2.b</strong> Valutazione del rischio residuo (rischio rivalutato dopo le misure)</li>
+          <li><strong>4.2.c</strong> Piano di implementazione (attivit&agrave;, responsabili, tempistiche)</li>
+        </ul>
+      </div>
+
+      <div class="schema-section">
+        <h4>5. Coinvolgimento delle Parti Interessate</h4>
+        <ul>
+          <li><strong>5.1</strong> Parere del DPO (opinione, conclusioni, raccomandazioni e come sono state recepite)</li>
+          <li><strong>5.2</strong> Opinione degli interessati o loro rappresentanti (partecipazione al processo)</li>
+        </ul>
+      </div>
+
+      <div class="schema-section">
+        <h4>6. Conclusione e Decisione</h4>
+        <ul>
+          <li><strong>RESPINTO</strong> &mdash; il trattamento deve essere abbandonato</li>
+          <li><strong>CONSULTAZIONE</strong> &mdash; consultazione preventiva con l'Autorit&agrave; di controllo (art. 36)</li>
+          <li><strong>APPROVATO</strong> &mdash; rischi residui accettabili, il trattamento pu&ograve; procedere</li>
+          <li><strong>APPROVATO CON CONDIZIONI</strong> &mdash; il trattamento pu&ograve; procedere solo dopo il soddisfacimento delle condizioni</li>
+        </ul>
+      </div>
+
+      <div class="info-note" style="margin-top:20px;">
+        <strong>Nota:</strong> Per ciascuna misura di conformit&agrave; (sez. 2.3), il template EDPB prevede: elenco delle misure adottate, valutazione di adeguatezza ed efficacia, stato di implementazione (pianificata / parzialmente implementata / implementata).
       </div>
     </div>
 
   </div><!-- end #content -->
 
-  <!-- ===== NAVIGATION BUTTONS ===== -->
   <div id="nav-buttons">
     <button class="btn btn-secondary" id="btn-back" onclick="navigate(-1)" style="visibility:hidden">&larr; Indietro</button>
     <div style="font-size:0.8rem; color:var(--text-muted)" id="nav-hint"></div>
     <button class="btn btn-primary" id="btn-next" onclick="navigate(1)">Avanti &rarr;</button>
   </div>
-
-</div><!-- end #main -->
+</div>
 
 <script>
 const DPIA_CONFIG = {
   APPS_SCRIPT_URL: "https://script.google.com/macros/s/AKfycbxC5cpOpFBY-RhfzZyEQck6ED6_dXBd6SPNMkFlINcC3Zeo5y-AvpODkVgWnjPbdWH-UA/exec",
-  SESSION_NAME: "DPIA Template EDPB — Clinica Legale",
-  REFRESH_INTERVAL: 10
+  SESSION_NAME: "DPIA Path — Clinica Legale"
 };
 
-// ===== STATE =====
-const state = {
-  current: 0,
-  total: 7,
-  decision: null // 'rejected'|'consultation'|'approved'|'conditional'
-};
+const state = { current: 0, total: 6, decision: null };
 
-// ===== DYNAMIC TABLE HELPERS =====
-let rowCounters = {};
-function nextRowId(prefix) {
-  if (!rowCounters[prefix]) rowCounters[prefix] = 0;
-  return prefix + '_' + (++rowCounters[prefix]);
-}
-
-function removeRow(btn) {
-  btn.closest('tr').remove();
-  autoSave();
-}
-
-function removeRiskDiv(btn) {
-  btn.closest('.risk-item').remove();
-  computeRiskAggregate();
-  autoSave();
-}
-
-// ===== ADD ROW FUNCTIONS =====
-
-function addProcessorRow(data) {
-  const id = nextRowId('proc');
-  const tb = document.querySelector('#tbl_processors tbody');
-  const n = tb.rows.length + 1;
-  const tr = document.createElement('tr');
-  tr.id = id;
-  tr.innerHTML = `<td>${n}</td>
-    <td><input type="text" data-field="name" placeholder="Nome del responsabile" value="${(data&&data.name)||''}"></td>
-    <td><textarea data-field="tasks" placeholder="Obblighi e compiti">${(data&&data.tasks)||''}</textarea></td>
-    <td><button class="btn-remove-row" onclick="removeRow(this)">X</button></td>`;
-  tb.appendChild(tr);
-  wireAutoSave(tr);
-}
-
-function addDataItemRow(data) {
-  const id = nextRowId('di');
-  const tb = document.querySelector('#tbl_data_items tbody');
-  const n = tb.rows.length + 1;
-  const tr = document.createElement('tr');
-  tr.id = id;
-  tr.innerHTML = `<td>${n}</td>
-    <td><input type="text" data-field="item" placeholder="Es: Nome completo" value="${(data&&data.item)||''}"></td>
-    <td><textarea data-field="explanation" placeholder="Tipo di dato, categoria di interessati, dettagli">${(data&&data.explanation)||''}</textarea></td>
-    <td><select data-field="special">
-      <option value="no" ${(data&&data.special!=='no')?'':'selected'}>No</option>
-      <option value="racial" ${(data&&data.special==='racial')?'selected':''}>Origine razziale/etnica, opinioni politiche, convinzioni religiose, appartenenza sindacale</option>
-      <option value="genetic" ${(data&&data.special==='genetic')?'selected':''}>Dati genetici</option>
-      <option value="biometric" ${(data&&data.special==='biometric')?'selected':''}>Dati biometrici per identificazione</option>
-      <option value="health" ${(data&&data.special==='health')?'selected':''}>Dati relativi alla salute</option>
-      <option value="sexual" ${(data&&data.special==='sexual')?'selected':''}>Vita sessuale o orientamento sessuale</option>
-      <option value="criminal" ${(data&&data.special==='criminal')?'selected':''}>Condanne penali (art. 10)</option>
-    </select></td>
-    <td><button class="btn-remove-row" onclick="removeRow(this)">X</button></td>`;
-  tb.appendChild(tr);
-  wireAutoSave(tr);
-}
-
-function addPurposeRow(data) {
-  const id = nextRowId('purp');
-  const tb = document.querySelector('#tbl_purposes tbody');
-  const n = tb.rows.length + 1;
-  const tr = document.createElement('tr');
-  tr.id = id;
-  tr.innerHTML = `<td>${n}</td>
-    <td><textarea data-field="purpose" placeholder="Finalit&agrave; specifica ed esplicita">${(data&&data.purpose)||''}</textarea></td>
-    <td><textarea data-field="data_involved" placeholder="Dati personali coinvolti e giustificazione">${(data&&data.data_involved)||''}</textarea></td>
-    <td><button class="btn-remove-row" onclick="removeRow(this)">X</button></td>`;
-  tb.appendChild(tr);
-  wireAutoSave(tr);
-}
-
-function addSecondaryRow(data) {
-  const id = nextRowId('sec');
-  const tb = document.querySelector('#tbl_secondary tbody');
-  const n = tb.rows.length + 1;
-  const tr = document.createElement('tr');
-  tr.id = id;
-  tr.innerHTML = `<td>${n}</td>
-    <td><textarea data-field="use" placeholder="Uso secondario o compatibile">${(data&&data.use)||''}</textarea></td>
-    <td><textarea data-field="conditions" placeholder="Dati coinvolti, condizioni, valutazione di compatibilit&agrave;">${(data&&data.conditions)||''}</textarea></td>
-    <td><button class="btn-remove-row" onclick="removeRow(this)">X</button></td>`;
-  tb.appendChild(tr);
-  wireAutoSave(tr);
-}
-
-function addPhaseRow(data) {
-  const id = nextRowId('phase');
-  const tb = document.querySelector('#tbl_phases tbody');
-  const n = tb.rows.length + 1;
-  const tr = document.createElement('tr');
-  tr.id = id;
-  tr.innerHTML = `<td>${n}</td>
-    <td><input type="text" data-field="phase" placeholder="Es: Raccolta dati" value="${(data&&data.phase)||''}"></td>
-    <td><select data-field="ops" multiple style="min-height:60px">
-      <option value="collection" ${(data&&data.ops&&data.ops.includes('collection'))?'selected':''}>Raccolta</option>
-      <option value="use" ${(data&&data.ops&&data.ops.includes('use'))?'selected':''}>Utilizzo</option>
-      <option value="storage" ${(data&&data.ops&&data.ops.includes('storage'))?'selected':''}>Conservazione</option>
-      <option value="sharing" ${(data&&data.ops&&data.ops.includes('sharing'))?'selected':''}>Condivisione e trasferimento</option>
-      <option value="deletion" ${(data&&data.ops&&data.ops.includes('deletion'))?'selected':''}>Cancellazione e distruzione</option>
-    </select></td>
-    <td><textarea data-field="explanation" placeholder="Spiegazione">${(data&&data.explanation)||''}</textarea></td>
-    <td><button class="btn-remove-row" onclick="removeRow(this)">X</button></td>`;
-  tb.appendChild(tr);
-  wireAutoSave(tr);
-}
-
-function addMeansRow(data) {
-  const tb = document.querySelector('#tbl_means tbody');
-  const tr = document.createElement('tr');
-  tr.innerHTML = `<td><input type="text" data-field="phase" placeholder="Fase" value="${(data&&data.phase)||''}"></td>
-    <td><textarea data-field="means" placeholder="Mezzi e asset di supporto">${(data&&data.means)||''}</textarea></td>
-    <td><textarea data-field="explanation" placeholder="Spiegazione">${(data&&data.explanation)||''}</textarea></td>
-    <td><button class="btn-remove-row" onclick="removeRow(this)">X</button></td>`;
-  tb.appendChild(tr);
-  wireAutoSave(tr);
-}
-
-function addCodeRow(data) {
-  const tb = document.querySelector('#tbl_codes tbody');
-  const tr = document.createElement('tr');
-  tr.innerHTML = `<td><input type="text" data-field="code" placeholder="Nome del codice di condotta" value="${(data&&data.code)||''}"></td>
-    <td><textarea data-field="explanation" placeholder="Spiegazione">${(data&&data.explanation)||''}</textarea></td>
-    <td><button class="btn-remove-row" onclick="removeRow(this)">X</button></td>`;
-  tb.appendChild(tr);
-  wireAutoSave(tr);
-}
-
-function addMinimisationRow(data) {
-  const tb = document.querySelector('#tbl_minimisation tbody');
-  const tr = document.createElement('tr');
-  tr.innerHTML = `<td><input type="text" data-field="data" placeholder="Dato" value="${(data&&data.data)||''}"></td>
-    <td><textarea data-field="justification" placeholder="Giustificazione necessit&agrave;">${(data&&data.justification)||''}</textarea></td>
-    <td><input type="text" data-field="recipients" placeholder="Destinatari" value="${(data&&data.recipients)||''}"></td>
-    <td><input type="text" data-field="retention" placeholder="Periodo" value="${(data&&data.retention)||''}"></td>
-    <td><input type="text" data-field="ret_just" placeholder="Giustificazione" value="${(data&&data.ret_just)||''}"></td>
-    <td><button class="btn-remove-row" onclick="removeRow(this)">X</button></td>`;
-  tb.appendChild(tr);
-  wireAutoSave(tr);
-}
-
-function addQualityRow(data) {
-  const tb = document.querySelector('#tbl_quality tbody');
-  const tr = document.createElement('tr');
-  tr.innerHTML = `<td><input type="text" data-field="data" placeholder="Dato" value="${(data&&data.data)||''}"></td>
-    <td><textarea data-field="metrics" placeholder="Metriche di qualit&agrave;">${(data&&data.metrics)||''}</textarea></td>
-    <td><textarea data-field="justification" placeholder="Giustificazione">${(data&&data.justification)||''}</textarea></td>
-    <td><button class="btn-remove-row" onclick="removeRow(this)">X</button></td>`;
-  tb.appendChild(tr);
-  wireAutoSave(tr);
-}
-
-function addImpactRow(data) {
-  const tb = document.querySelector('#tbl_impacts tbody');
-  const tr = document.createElement('tr');
-  tr.innerHTML = `<td><textarea data-field="threat" placeholder="Minaccia e come pu&ograve; materializzarsi">${(data&&data.threat)||''}</textarea></td>
-    <td><textarea data-field="sources" placeholder="Fonti di rischio">${(data&&data.sources)||''}</textarea></td>
-    <td><textarea data-field="impact" placeholder="Impatto su diritti e libert&agrave;">${(data&&data.impact)||''}</textarea></td>
-    <td><button class="btn-remove-row" onclick="removeRow(this)">X</button></td>`;
-  tb.appendChild(tr);
-  wireAutoSave(tr);
-}
-
-function addThreatRow(data) {
-  const tb = document.querySelector('#tbl_threats tbody');
-  const tr = document.createElement('tr');
-  tr.innerHTML = `<td><textarea data-field="threat" placeholder="Es: Accesso illegittimo ai dati">${(data&&data.threat)||''}</textarea></td>
-    <td><textarea data-field="how" placeholder="Come pu&ograve; materializzarsi">${(data&&data.how)||''}</textarea></td>
-    <td><textarea data-field="sources" placeholder="Fonti: vulnerabilit&agrave;, errori, esposizioni">${(data&&data.sources)||''}</textarea></td>
-    <td><textarea data-field="impact" placeholder="Impatti su diritti e libert&agrave;">${(data&&data.impact)||''}</textarea></td>
-    <td><button class="btn-remove-row" onclick="removeRow(this)">X</button></td>`;
-  tb.appendChild(tr);
-  wireAutoSave(tr);
-}
-
-function addAdditionalMeasureRow(data) {
-  const tb = document.querySelector('#tbl_add_measures tbody');
-  const tr = document.createElement('tr');
-  tr.innerHTML = `<td><textarea data-field="measure" placeholder="Misura tecnica, legale o organizzativa">${(data&&data.measure)||''}</textarea></td>
-    <td><textarea data-field="mitigated" placeholder="Rischi mitigati">${(data&&data.mitigated)||''}</textarea></td>
-    <td><textarea data-field="effectiveness" placeholder="Adeguatezza ed efficacia">${(data&&data.effectiveness)||''}</textarea></td>
-    <td><select data-field="status">
-      <option value="planned" ${(data&&data.status==='planned')?'selected':''}>Pianificata</option>
-      <option value="partial" ${(data&&data.status==='partial')?'selected':''}>Parzialmente implementata</option>
-      <option value="implemented" ${(data&&data.status==='implemented')?'selected':''}>Implementata</option>
-    </select></td>
-    <td><button class="btn-remove-row" onclick="removeRow(this)">X</button></td>`;
-  tb.appendChild(tr);
-  wireAutoSave(tr);
-}
-
-function addConditionRow(data) {
-  const tb = document.querySelector('#tbl_conditions tbody');
-  const n = tb.rows.length + 1;
-  const tr = document.createElement('tr');
-  tr.innerHTML = `<td>${n}</td>
-    <td><input type="text" data-field="condition" placeholder="Condizione da soddisfare" value="${(data&&data.condition)||''}"></td>
-    <td><button class="btn-remove-row" onclick="removeRow(this)">X</button></td>`;
-  tb.appendChild(tr);
-  wireAutoSave(tr);
-}
-
-// ===== INHERENT & RESIDUAL RISK (interactive cards) =====
-let inherentRiskCount = 0;
-function addInherentRiskRow(data) {
-  inherentRiskCount++;
-  const id = 'ir_' + inherentRiskCount;
-  const container = document.getElementById('inherent-risk-container');
-  const div = document.createElement('div');
-  div.className = 'risk-item';
-  div.id = id;
-  div.innerHTML = `
-    <div class="risk-item-header">
-      <input type="text" data-field="name" placeholder="Nome/descrizione del rischio" value="${(data&&data.name)||''}" style="flex:1; font-weight:700; font-size:0.9rem; border:1px solid var(--border); border-radius:4px; padding:6px 8px;">
-      <div class="risk-score-badge badge-low" data-badge="${id}">—</div>
-      <button class="btn-remove-row" onclick="removeRiskDiv(this)" style="margin-left:8px">X</button>
-    </div>
-    <div class="risk-controls" style="margin-top:10px;">
-      <div class="risk-ctrl">
-        <label>Probabilit&agrave;</label>
-        <select data-field="likelihood" onchange="updateRiskBadge('${id}')">
-          <option value="">— Selezionare —</option>
-          <option value="1" ${(data&&data.likelihood==1)?'selected':''}>1 - Bassa</option>
-          <option value="2" ${(data&&data.likelihood==2)?'selected':''}>2 - Media</option>
-          <option value="3" ${(data&&data.likelihood==3)?'selected':''}>3 - Alta</option>
-        </select>
-      </div>
-      <div class="risk-ctrl">
-        <label>Gravit&agrave;</label>
-        <select data-field="severity" onchange="updateRiskBadge('${id}')">
-          <option value="">— Selezionare —</option>
-          <option value="1" ${(data&&data.severity==1)?'selected':''}>1 - Bassa</option>
-          <option value="2" ${(data&&data.severity==2)?'selected':''}>2 - Media</option>
-          <option value="3" ${(data&&data.severity==3)?'selected':''}>3 - Alta</option>
-        </select>
-      </div>
-    </div>
-    <div style="margin-top:10px;">
-      <div class="field-group" style="margin-bottom:8px;">
-        <label style="font-size:0.75rem;">Fattori modulanti</label>
-        <textarea data-field="modulating" placeholder="Fattori che influenzano la valutazione..." style="min-height:40px">${(data&&data.modulating)||''}</textarea>
-      </div>
-      <div class="field-group" style="margin-bottom:8px;">
-        <label style="font-size:0.75rem;">Livello di rischio</label>
-        <select data-field="level">
-          <option value="">— Automatico —</option>
-          <option value="low" ${(data&&data.level==='low')?'selected':''}>Basso</option>
-          <option value="medium" ${(data&&data.level==='medium')?'selected':''}>Medio</option>
-          <option value="high" ${(data&&data.level==='high')?'selected':''}>Alto</option>
-        </select>
-      </div>
-      <div class="field-group" style="margin-bottom:0;">
-        <label style="font-size:0.75rem;">Il rischio &egrave; accettabile?</label>
-        <select data-field="acceptable">
-          <option value="">— Selezionare —</option>
-          <option value="yes" ${(data&&data.acceptable==='yes')?'selected':''}>S&igrave;</option>
-          <option value="no" ${(data&&data.acceptable==='no')?'selected':''}>No</option>
-        </select>
-      </div>
-    </div>`;
-  container.appendChild(div);
-  wireAutoSave(div);
-  if (data && data.likelihood && data.severity) updateRiskBadge(id);
-}
-
-let residualRiskCount = 0;
-function addResidualRiskRow(data) {
-  residualRiskCount++;
-  const id = 'rr_' + residualRiskCount;
-  const container = document.getElementById('residual-risk-container');
-  const div = document.createElement('div');
-  div.className = 'risk-item';
-  div.id = id;
-  div.innerHTML = `
-    <div class="risk-item-header">
-      <input type="text" data-field="name" placeholder="Rischio rivalutato" value="${(data&&data.name)||''}" style="flex:1; font-weight:700; font-size:0.9rem; border:1px solid var(--border); border-radius:4px; padding:6px 8px;">
-      <div class="risk-score-badge badge-low" data-badge="${id}">—</div>
-      <button class="btn-remove-row" onclick="removeRiskDiv(this)" style="margin-left:8px">X</button>
-    </div>
-    <div class="field-group" style="margin-top:10px; margin-bottom:10px;">
-      <label style="font-size:0.75rem;">Misure aggiuntive applicate</label>
-      <textarea data-field="measures_applied" placeholder="Quali misure aggiuntive si applicano a questo rischio">${(data&&data.measures_applied)||''}</textarea>
-    </div>
-    <div class="risk-controls">
-      <div class="risk-ctrl">
-        <label>Probabilit&agrave; residua</label>
-        <select data-field="likelihood" onchange="updateRiskBadge('${id}')">
-          <option value="">— Selezionare —</option>
-          <option value="1" ${(data&&data.likelihood==1)?'selected':''}>1 - Bassa</option>
-          <option value="2" ${(data&&data.likelihood==2)?'selected':''}>2 - Media</option>
-          <option value="3" ${(data&&data.likelihood==3)?'selected':''}>3 - Alta</option>
-        </select>
-      </div>
-      <div class="risk-ctrl">
-        <label>Gravit&agrave; residua</label>
-        <select data-field="severity" onchange="updateRiskBadge('${id}')">
-          <option value="">— Selezionare —</option>
-          <option value="1" ${(data&&data.severity==1)?'selected':''}>1 - Bassa</option>
-          <option value="2" ${(data&&data.severity==2)?'selected':''}>2 - Media</option>
-          <option value="3" ${(data&&data.severity==3)?'selected':''}>3 - Alta</option>
-        </select>
-      </div>
-    </div>
-    <div style="margin-top:10px;">
-      <div class="field-group" style="margin-bottom:8px;">
-        <label style="font-size:0.75rem;">Livello di rischio residuo</label>
-        <select data-field="level">
-          <option value="">— Automatico —</option>
-          <option value="low" ${(data&&data.level==='low')?'selected':''}>Basso</option>
-          <option value="medium" ${(data&&data.level==='medium')?'selected':''}>Medio</option>
-          <option value="high" ${(data&&data.level==='high')?'selected':''}>Alto</option>
-        </select>
-      </div>
-      <div class="field-group" style="margin-bottom:0;">
-        <label style="font-size:0.75rem;">Il rischio residuo &egrave; accettabile?</label>
-        <select data-field="acceptable">
-          <option value="">— Selezionare —</option>
-          <option value="yes" ${(data&&data.acceptable==='yes')?'selected':''}>S&igrave;</option>
-          <option value="no" ${(data&&data.acceptable==='no')?'selected':''}>No</option>
-        </select>
-      </div>
-    </div>`;
-  container.appendChild(div);
-  wireAutoSave(div);
-  if (data && data.likelihood && data.severity) updateRiskBadge(id);
-}
-
-function updateRiskBadge(containerId) {
-  const el = document.getElementById(containerId);
-  if (!el) return;
-  const l = el.querySelector('[data-field="likelihood"]').value;
-  const s = el.querySelector('[data-field="severity"]').value;
-  const badge = el.querySelector('[data-badge]');
-  if (!l || !s) { badge.textContent = '—'; badge.className = 'risk-score-badge badge-low'; return; }
-  const score = parseInt(l) * parseInt(s);
-  badge.textContent = score + '/9';
-  badge.className = 'risk-score-badge ' + (score >= 6 ? 'badge-high' : score >= 3 ? 'badge-med' : 'badge-low');
-  // Auto-set level
-  const levelSel = el.querySelector('[data-field="level"]');
-  if (levelSel && !levelSel.value) {
-    // leave as automatic
-  }
-  computeRiskAggregate();
-  autoSave();
-}
-
-function computeRiskAggregate() {
-  const items = document.querySelectorAll('#inherent-risk-container .risk-item');
-  const scores = [];
-  items.forEach(item => {
-    const l = item.querySelector('[data-field="likelihood"]').value;
-    const s = item.querySelector('[data-field="severity"]').value;
-    if (l && s) scores.push(parseInt(l) * parseInt(s));
-  });
-  const box = document.getElementById('risk-aggregate-box');
-  if (scores.length === 0) { box.classList.add('hidden'); return; }
-  box.classList.remove('hidden');
-  const max = Math.max(...scores);
-  const avg = (scores.reduce((a, b) => a + b, 0) / scores.length).toFixed(1);
-  const high = scores.filter(s => s >= 6).length;
-  let color, label;
-  if (high >= 1) { color = 'red'; label = 'Rischio aggregato: ELEVATO'; }
-  else if (scores.filter(s => s >= 3).length >= 2 || avg >= 4) { color = 'orange'; label = 'Rischio aggregato: MEDIO-ALTO'; }
-  else if (avg >= 2) { color = 'yellow'; label = 'Rischio aggregato: MEDIO'; }
-  else { color = 'green'; label = 'Rischio aggregato: BASSO'; }
-  box.innerHTML = `<div class="outcome-box ${color}"><h3>${label}</h3><p>Media: ${avg}/9 | Punteggio max: ${max}/9 | Rischi alti: ${high} su ${scores.length}</p></div>`;
-}
-
-// ===== COMPLIANCE SECTIONS (2.3.a - 2.3.e) =====
-function initComplianceSections() {
-  // 2.3.a Art 5(1) principles
-  const principles = [
-    { name: 'Equit\u00e0 (Fairness)', key: 'fairness' },
-    { name: 'Trasparenza', key: 'transparency' },
-    { name: 'Limitazione della finalit\u00e0', key: 'purpose_limitation' },
-    { name: 'Minimizzazione dei dati', key: 'data_minimisation' },
-    { name: 'Esattezza', key: 'accuracy' },
-    { name: 'Limitazione della conservazione', key: 'storage_limitation' },
-    { name: 'Integrit\u00e0 e riservatezza', key: 'integrity' },
-    { name: 'Responsabilizzazione (Accountability)', key: 'accountability' }
-  ];
-  document.getElementById('compliance_5_container').innerHTML = principles.map(p => complianceBlock(p.name, 'c5_' + p.key)).join('');
-
-  // 2.3.b Data subject rights
-  const rights = [
-    { name: 'Informazione agli interessati (Artt. 12, 13, 14 GDPR)', key: 'information' },
-    { name: 'Diritto di accesso e portabilit\u00e0 (Artt. 15, 20 GDPR)', key: 'access' },
-    { name: 'Diritto di rettifica e cancellazione (Artt. 16, 17, 19 GDPR)', key: 'rectification' },
-    { name: 'Diritto di opposizione e limitazione (Artt. 18, 19, 21 GDPR)', key: 'objection' },
-    { name: 'Diritto a non essere sottoposto a decisioni automatizzate (Art. 22 GDPR)', key: 'automated' }
-  ];
-  document.getElementById('compliance_rights_container').innerHTML = rights.map(r => complianceBlock(r.name, 'cr_' + r.key)).join('');
-
-  // 2.3.c Other GDPR
-  const other = [
-    { name: 'Consenso e revoca (Art. 7 GDPR)', key: 'consent' },
-    { name: 'Rapporti con responsabili (Art. 28 GDPR)', key: 'processors' },
-    { name: 'Garanzie per trasferimenti internazionali (Capo V GDPR)', key: 'transfers' }
-  ];
-  document.getElementById('compliance_other_container').innerHTML = other.map(o => complianceBlock(o.name, 'co_' + o.key)).join('');
-
-  // 2.3.d By design
-  document.getElementById('compliance_bydesign_container').innerHTML = complianceBlock('Protezione dei dati fin dalla progettazione e per impostazione predefinita (Art. 25 GDPR)', 'cbd_1') + complianceBlock('Ulteriori misure di privacy by design', 'cbd_2');
-
-  // 2.3.e Security
-  document.getElementById('compliance_security_container').innerHTML = complianceBlock('Sicurezza del trattamento (Art. 32 GDPR)', 'cse_1') + complianceBlock('Ulteriori misure di sicurezza', 'cse_2');
-}
-
-function complianceBlock(title, key) {
-  return `<div class="compliance-row">
-    <h4>${title}</h4>
-    <div class="field-group" style="margin-bottom:8px;">
-      <label style="font-size:0.75rem;">Misure adottate</label>
-      <textarea id="${key}_measures" placeholder="Elenco delle misure di supporto..." style="min-height:50px"></textarea>
-    </div>
-    <div class="field-group" style="margin-bottom:8px;">
-      <label style="font-size:0.75rem;">Valutazione di adeguatezza ed efficacia</label>
-      <textarea id="${key}_effectiveness" placeholder="Discussione di adeguatezza..." style="min-height:40px"></textarea>
-    </div>
-    <div class="impl-status">
-      <span style="font-size:0.72rem; font-weight:700; color:var(--text-muted); margin-right:8px;">Stato:</span>
-      <label><input type="radio" name="${key}_status" value="planned"> Pianificata</label>
-      <label><input type="radio" name="${key}_status" value="partial"> Parzialmente implementata</label>
-      <label><input type="radio" name="${key}_status" value="implemented"> Implementata</label>
-    </div>
-  </div>`;
-}
-
-// ===== LEGAL BASIS (2.1.a) =====
-function initLegalBasis() {
-  const container = document.getElementById('legal_basis_container');
-  container.innerHTML = `<div class="info-note" style="margin-bottom:12px;">Compilare una riga per ciascuna finalit&agrave; indicata nella sezione 1.1.b</div>
-    <table class="dyn-table" id="tbl_legal_basis">
-      <thead><tr><th>Finalit&agrave;/uso</th><th>Base giuridica (Art. 6(1) GDPR)</th><th>Giustificazione</th><th></th></tr></thead>
-      <tbody></tbody>
-    </table>
-    <button class="btn-add-row" onclick="addLegalBasisRow()">+ Aggiungi base giuridica</button>`;
-}
-
-function addLegalBasisRow(data) {
-  const tb = document.querySelector('#tbl_legal_basis tbody');
-  const tr = document.createElement('tr');
-  tr.innerHTML = `<td><input type="text" data-field="purpose" placeholder="Finalit&agrave;" value="${(data&&data.purpose)||''}"></td>
-    <td><select data-field="basis">
-      <option value="">— Selezionare —</option>
-      <option value="a" ${(data&&data.basis==='a')?'selected':''}>a) Consenso</option>
-      <option value="b" ${(data&&data.basis==='b')?'selected':''}>b) Esecuzione contratto</option>
-      <option value="c" ${(data&&data.basis==='c')?'selected':''}>c) Obbligo legale</option>
-      <option value="d" ${(data&&data.basis==='d')?'selected':''}>d) Interessi vitali</option>
-      <option value="e" ${(data&&data.basis==='e')?'selected':''}>e) Interesse pubblico</option>
-      <option value="f" ${(data&&data.basis==='f')?'selected':''}>f) Legittimo interesse</option>
-    </select></td>
-    <td><textarea data-field="justification" placeholder="Giustificazione (se lett. f, analisi bilanciamento)">${(data&&data.justification)||''}</textarea></td>
-    <td><button class="btn-remove-row" onclick="removeRow(this)">X</button></td>`;
-  tb.appendChild(tr);
-  wireAutoSave(tr);
-}
-
-// ===== ART 9(2) =====
-function initArt9() {
-  const container = document.getElementById('art9_container');
-  container.innerHTML = `<div class="info-note" style="margin-bottom:12px;">Compilare solo se sono trattati dati particolari (art. 9) indicati nella sezione 1.1.a</div>
-    <table class="dyn-table" id="tbl_art9">
-      <thead><tr><th>Dato particolare</th><th>Condizione ex art. 9(2) GDPR</th><th>Giustificazione</th><th></th></tr></thead>
-      <tbody></tbody>
-    </table>
-    <button class="btn-add-row" onclick="addArt9Row()">+ Aggiungi eccezione art. 9</button>`;
-}
-
-function addArt9Row(data) {
-  const tb = document.querySelector('#tbl_art9 tbody');
-  const tr = document.createElement('tr');
-  tr.innerHTML = `<td><input type="text" data-field="data" placeholder="Dato particolare" value="${(data&&data.data)||''}"></td>
-    <td><select data-field="exception">
-      <option value="">— Selezionare —</option>
-      <option value="a" ${(data&&data.exception==='a')?'selected':''}>a) Consenso esplicito</option>
-      <option value="b" ${(data&&data.exception==='b')?'selected':''}>b) Lavoro/sicurezza sociale</option>
-      <option value="c" ${(data&&data.exception==='c')?'selected':''}>c) Interessi vitali</option>
-      <option value="d" ${(data&&data.exception==='d')?'selected':''}>d) Fondazione/associazione</option>
-      <option value="e" ${(data&&data.exception==='e')?'selected':''}>e) Dati resi pubblici</option>
-      <option value="f" ${(data&&data.exception==='f')?'selected':''}>f) Azioni legali</option>
-      <option value="g" ${(data&&data.exception==='g')?'selected':''}>g) Interesse pubblico rilevante</option>
-      <option value="h" ${(data&&data.exception==='h')?'selected':''}>h) Medicina/sanit&agrave;</option>
-      <option value="i" ${(data&&data.exception==='i')?'selected':''}>i) Sanit&agrave; pubblica</option>
-      <option value="j" ${(data&&data.exception==='j')?'selected':''}>j) Archiviazione/ricerca/statistica</option>
-    </select></td>
-    <td><textarea data-field="justification" placeholder="Giustificazione">${(data&&data.justification)||''}</textarea></td>
-    <td><button class="btn-remove-row" onclick="removeRow(this)">X</button></td>`;
-  tb.appendChild(tr);
-  wireAutoSave(tr);
-}
-
-// ===== PRECHECK OUTCOME (from section 0.5 checkboxes) =====
+// ===== PRECHECK =====
 function computePrecheck() {
-  const a = document.getElementById('reason_35_3_a').checked;
-  const b = document.getElementById('reason_35_3_b').checked;
-  const c = document.getElementById('reason_35_3_c').checked;
-  const isObbligatoria = a || b || c;
-  const edpbIds = ['reason_edpb_1','reason_edpb_2','reason_edpb_3','reason_edpb_4','reason_edpb_5','reason_edpb_6','reason_edpb_7','reason_edpb_8','reason_edpb_9'];
-  const edpbCount = edpbIds.filter(id => document.getElementById(id).checked).length;
+  const obl = document.getElementById('r35a').checked || document.getElementById('r35b').checked || document.getElementById('r35c').checked;
+  const edpbCount = document.querySelectorAll('.edpb-check:checked').length;
   const box = document.getElementById('precheck-outcome');
-  let result;
-  if (isObbligatoria) {
-    result = { color: 'red', label: 'DPIA obbligatoria', msg: 'Il trattamento rientra in uno dei casi di DPIA obbligatoria ex art. 35 par. 3 GDPR.' };
-  } else if (edpbCount >= 2) {
-    result = { color: 'orange', label: 'DPIA fortemente raccomandata', msg: `Il trattamento soddisfa ${edpbCount} criteri EDPB di rischio elevato.` };
-  } else if (edpbCount === 1) {
-    result = { color: 'yellow', label: 'DPIA consigliata', msg: 'Il trattamento soddisfa 1 criterio EDPB.' };
-  } else {
-    box.innerHTML = '';
-    return;
-  }
-  box.innerHTML = `<div class="outcome-box ${result.color}" style="margin-top:16px;"><h3>${result.label}</h3><p>${result.msg}</p></div>`;
+  let r;
+  if (obl) r = { c: 'red', l: 'DPIA obbligatoria', m: 'Il trattamento rientra in uno dei casi di DPIA obbligatoria ex art. 35(3) GDPR.' };
+  else if (edpbCount >= 2) r = { c: 'orange', l: 'DPIA fortemente raccomandata', m: `Il trattamento soddisfa ${edpbCount} criteri EDPB di rischio elevato.` };
+  else if (edpbCount === 1) r = { c: 'yellow', l: 'DPIA consigliata', m: 'Il trattamento soddisfa 1 criterio EDPB.' };
+  else { box.innerHTML = ''; updateSidebar(); autoSave(); return; }
+  box.innerHTML = `<div class="outcome-box ${r.c}"><h3>${r.l}</h3><p>${r.m}</p></div>`;
+  updateSidebar(); autoSave();
 }
 
-// Wire precheck checkboxes
-function wirePrecheck() {
-  const ids = ['reason_35_3_a','reason_35_3_b','reason_35_3_c',
-    'reason_edpb_1','reason_edpb_2','reason_edpb_3','reason_edpb_4',
-    'reason_edpb_5','reason_edpb_6','reason_edpb_7','reason_edpb_8','reason_edpb_9'];
-  ids.forEach(id => {
-    const el = document.getElementById(id);
-    if (el) el.addEventListener('change', () => { computePrecheck(); autoSave(); });
+// ===== DYNAMIC ROWS =====
+function removeRow(btn) { btn.closest('tr').remove(); autoSave(); }
+function removeRisk(btn) { btn.closest('.risk-item').remove(); computeAggregate(); autoSave(); }
+
+function addDataRow(d) {
+  const tb = document.querySelector('#tbl_data tbody');
+  const tr = document.createElement('tr');
+  tr.innerHTML = `<td><input type="text" data-f="item" placeholder="Es: Nome, ISEE, diagnosi" value="${(d&&d.item)||''}"></td>
+    <td><input type="text" data-f="expl" placeholder="Tipo dato, interessati" value="${(d&&d.expl)||''}"></td>
+    <td><select data-f="special"><option value="no" ${(d&&d.special!=='yes')?'selected':''}>No</option><option value="yes" ${(d&&d.special==='yes')?'selected':''}>S&igrave; (art. 9/10)</option></select></td>
+    <td><button class="btn-remove-row" onclick="removeRow(this)">X</button></td>`;
+  tb.appendChild(tr); wireInputs(tr); autoSave();
+}
+
+function addMeasureRow(d) {
+  const tb = document.querySelector('#tbl_measures tbody');
+  const tr = document.createElement('tr');
+  tr.innerHTML = `<td><input type="text" data-f="measure" placeholder="Es: Pseudonimizzazione" value="${(d&&d.measure)||''}"></td>
+    <td><input type="text" data-f="risks" placeholder="Rischi mitigati" value="${(d&&d.risks)||''}"></td>
+    <td><select data-f="status"><option value="planned" ${(d&&d.status==='planned')?'selected':''}>Pianificata</option><option value="partial" ${(d&&d.status==='partial')?'selected':''}>Parziale</option><option value="done" ${(d&&d.status==='done')?'selected':''}>Implementata</option></select></td>
+    <td><button class="btn-remove-row" onclick="removeRow(this)">X</button></td>`;
+  tb.appendChild(tr); wireInputs(tr); autoSave();
+}
+
+let riskN = { inherent: 0, residual: 0 };
+function addRisk(type, d) {
+  riskN[type]++;
+  const id = type + '_' + riskN[type];
+  const container = document.getElementById(type + '-risks');
+  const div = document.createElement('div');
+  div.className = 'risk-item'; div.id = id;
+  const isRes = type === 'residual';
+  div.innerHTML = `
+    <div class="risk-item-header">
+      <input type="text" data-f="name" placeholder="${isRes ? 'Rischio rivalutato' : 'Nome del rischio'}" value="${(d&&d.name)||''}" style="flex:1; font-weight:700; border:1px solid var(--border); border-radius:4px; padding:6px 8px;">
+      <div class="risk-score-badge badge-low" id="badge_${id}">—</div>
+      <button class="btn-remove-row" onclick="removeRisk(this)" style="margin-left:8px">X</button>
+    </div>
+    ${isRes ? `<div style="margin:8px 0;"><input type="text" data-f="applied" placeholder="Misure applicate" value="${(d&&d.applied)||''}" style="width:100%; padding:6px 8px; border:1px solid var(--border); border-radius:4px; font-size:0.82rem;"></div>` : ''}
+    <div class="risk-controls">
+      <div class="risk-ctrl"><label>Probabilit&agrave;</label>
+        <select data-f="prob" onchange="updBadge('${id}')"><option value="">—</option><option value="1" ${(d&&d.prob==1)?'selected':''}>1 - Bassa</option><option value="2" ${(d&&d.prob==2)?'selected':''}>2 - Media</option><option value="3" ${(d&&d.prob==3)?'selected':''}>3 - Alta</option></select></div>
+      <div class="risk-ctrl"><label>Gravit&agrave;</label>
+        <select data-f="sev" onchange="updBadge('${id}')"><option value="">—</option><option value="1" ${(d&&d.sev==1)?'selected':''}>1 - Bassa</option><option value="2" ${(d&&d.sev==2)?'selected':''}>2 - Media</option><option value="3" ${(d&&d.sev==3)?'selected':''}>3 - Alta</option></select></div>
+    </div>
+    <div style="margin-top:8px;">
+      <select data-f="acceptable" style="padding:6px 8px; border:1px solid var(--border); border-radius:4px; font-size:0.82rem;">
+        <option value="">Accettabile?</option><option value="yes" ${(d&&d.acceptable==='yes')?'selected':''}>S&igrave;</option><option value="no" ${(d&&d.acceptable==='no')?'selected':''}>No</option>
+      </select>
+    </div>`;
+  container.appendChild(div); wireInputs(div);
+  if (d && d.prob && d.sev) updBadge(id);
+}
+
+function updBadge(id) {
+  const el = document.getElementById(id);
+  const p = el.querySelector('[data-f="prob"]').value;
+  const s = el.querySelector('[data-f="sev"]').value;
+  const b = document.getElementById('badge_' + id);
+  if (!p || !s) { b.textContent = '—'; b.className = 'risk-score-badge badge-low'; }
+  else {
+    const sc = p * s;
+    b.textContent = sc + '/9';
+    b.className = 'risk-score-badge ' + (sc >= 6 ? 'badge-high' : sc >= 3 ? 'badge-med' : 'badge-low');
+  }
+  computeAggregate(); autoSave();
+}
+
+function computeAggregate() {
+  const scores = [];
+  document.querySelectorAll('#inherent-risks .risk-item').forEach(item => {
+    const p = item.querySelector('[data-f="prob"]').value;
+    const s = item.querySelector('[data-f="sev"]').value;
+    if (p && s) scores.push(p * s);
   });
+  const box = document.getElementById('risk-aggregate');
+  if (!scores.length) { box.classList.add('hidden'); return; }
+  box.classList.remove('hidden');
+  const max = Math.max(...scores), avg = (scores.reduce((a, b) => a + b, 0) / scores.length).toFixed(1);
+  const high = scores.filter(s => s >= 6).length;
+  let c, l;
+  if (high >= 1) { c = 'red'; l = 'ELEVATO'; }
+  else if (scores.filter(s => s >= 3).length >= 2 || avg >= 4) { c = 'orange'; l = 'MEDIO-ALTO'; }
+  else if (avg >= 2) { c = 'yellow'; l = 'MEDIO'; }
+  else { c = 'green'; l = 'BASSO'; }
+  box.innerHTML = `<div class="outcome-box ${c}"><h3>Rischio aggregato: ${l}</h3><p>Media: ${avg}/9 &middot; Max: ${max}/9 &middot; Rischi alti: ${high}/${scores.length}</p></div>`;
 }
 
 // ===== DECISION =====
 function selectDecision(val) {
   state.decision = val;
   document.querySelectorAll('.decision-option').forEach(o => o.classList.remove('selected'));
-  const radio = document.querySelector(`input[name="final_decision"][value="${val}"]`);
-  if (radio) { radio.checked = true; radio.closest('.decision-option').classList.add('selected'); }
-  document.getElementById('consultation-details').classList.toggle('hidden', val !== 'consultation');
-  document.getElementById('conditions-details').classList.toggle('hidden', val !== 'conditional');
-  updateSidebar();
-  autoSave();
+  const r = document.querySelector(`input[name="decision"][value="${val}"]`);
+  if (r) { r.checked = true; r.closest('.decision-option').classList.add('selected'); }
+  document.getElementById('conditions-box').classList.toggle('hidden', val !== 'conditional');
+  updateSidebar(); autoSave();
 }
 
-// ===== NAVIGATION =====
-function navigate(dir) {
-  const next = state.current + dir;
-  if (next < 0 || next >= state.total) return;
-  goTo(next);
-}
-
+// ===== NAV =====
+function navigate(dir) { const n = state.current + dir; if (n >= 0 && n < state.total) goTo(n); }
 function goTo(idx) {
   document.getElementById('nav' + state.current).classList.remove('active');
   if (state.current < idx) document.getElementById('nav' + state.current).classList.add('completed');
@@ -1741,377 +714,198 @@ function goTo(idx) {
   const pct = Math.round(((idx + 1) / state.total) * 100);
   document.getElementById('progress-bar-fill').style.width = pct + '%';
   document.getElementById('progress-pct').textContent = pct + '%';
-  document.getElementById('progress-label').textContent = `Sezione ${idx} di ${state.total - 1}`;
+  document.getElementById('progress-label').textContent = `Sezione ${idx + 1} di ${state.total}`;
   document.getElementById('btn-back').style.visibility = idx === 0 ? 'hidden' : 'visible';
-  document.getElementById('btn-next').textContent = idx === state.total - 1 ? 'Genera Esito' : 'Avanti \u2192';
-  document.getElementById('nav-hint').textContent = idx === state.total - 1 ? 'Ultima sezione \u2014 genera il report finale' : '';
+  document.getElementById('btn-next').style.display = idx === state.total - 1 ? 'none' : '';
   window.scrollTo({ top: 0, behavior: 'smooth' });
   autoSave();
 }
 
-// ===== SIDEBAR UPDATE =====
+// ===== SIDEBAR =====
 function updateSidebar() {
   const chips = [];
-  const ctrl = document.getElementById('ctrl_name');
-  if (ctrl && ctrl.value) chips.push(`<span class="summary-chip chip-blue">${ctrl.value.substring(0, 25)}${ctrl.value.length > 25 ? '\u2026' : ''}</span>`);
-  const procName = document.getElementById('proc_name');
-  if (procName && procName.value) chips.push(`<span class="summary-chip chip-blue">${procName.value.substring(0, 30)}${procName.value.length > 30 ? '\u2026' : ''}</span>`);
+  const cn = document.getElementById('ctrl_name');
+  if (cn && cn.value) chips.push(`<span class="summary-chip chip-blue">${cn.value.substring(0, 25)}</span>`);
+  // precheck
+  const obl = document.getElementById('r35a').checked || document.getElementById('r35b').checked || document.getElementById('r35c').checked;
+  const ec = document.querySelectorAll('.edpb-check:checked').length;
+  if (obl) chips.push('<span class="summary-chip chip-red">DPIA obbligatoria</span>');
+  else if (ec >= 2) chips.push('<span class="summary-chip chip-yellow">DPIA raccomandata</span>');
   if (state.decision) {
-    const dMap = { rejected: ['chip-red', 'RESPINTO'], consultation: ['chip-yellow', 'CONSULTAZIONE'], approved: ['chip-green', 'APPROVATO'], conditional: ['chip-yellow', 'APPROVATO CON CONDIZIONI'] };
-    const d = dMap[state.decision];
+    const dm = { rejected: ['chip-red', 'RESPINTO'], consultation: ['chip-yellow', 'CONSULTAZIONE'], approved: ['chip-green', 'APPROVATO'], conditional: ['chip-yellow', 'CON CONDIZIONI'] };
+    const d = dm[state.decision];
     chips.push(`<span class="summary-chip ${d[0]}">${d[1]}</span>`);
   }
   const sc = document.getElementById('summary-content');
-  if (chips.length === 0) {
-    sc.innerHTML = '<div style="color:rgba(200,208,224,0.4); font-style:italic; font-size:0.75rem;">Compila le sezioni per vedere il riepilogo.</div>';
-  } else {
-    sc.innerHTML = chips.join('');
-  }
+  sc.innerHTML = chips.length ? chips.join('') : '<div style="color:rgba(200,208,224,0.4); font-style:italic; font-size:0.75rem;">Compila le sezioni per vedere il riepilogo.</div>';
 }
 
-// ===== REPORT GENERATION =====
+// ===== REPORT =====
 function generateReport() {
   const rs = document.getElementById('report-section');
   rs.style.display = 'block';
-  const val = id => { const el = document.getElementById(id); return el ? (el.value || '') : ''; };
+  const v = id => (document.getElementById(id) || {}).value || '';
   const today = new Date().toLocaleDateString('it-IT');
 
-  // Collect table data
-  function tableRows(tableId, fields) {
+  const dataRows = [];
+  document.querySelectorAll('#tbl_data tbody tr').forEach(tr => {
+    const item = tr.querySelector('[data-f="item"]').value;
+    const expl = tr.querySelector('[data-f="expl"]').value;
+    const spec = tr.querySelector('[data-f="special"]').value;
+    if (item) dataRows.push(`<tr><td>${item}</td><td>${expl}</td><td>${spec === 'yes' ? 'S\u00ec' : 'No'}</td></tr>`);
+  });
+
+  function collectRisks(containerId) {
     const rows = [];
-    document.querySelectorAll(`#${tableId} tbody tr`).forEach(tr => {
-      const row = {};
-      fields.forEach(f => {
-        const el = tr.querySelector(`[data-field="${f}"]`);
-        if (el) row[f] = el.value || '';
-      });
-      rows.push(row);
+    document.querySelectorAll(`#${containerId} .risk-item`).forEach(item => {
+      const n = (item.querySelector('[data-f="name"]') || {}).value || '';
+      const p = (item.querySelector('[data-f="prob"]') || {}).value || '';
+      const s = (item.querySelector('[data-f="sev"]') || {}).value || '';
+      const a = (item.querySelector('[data-f="acceptable"]') || {}).value || '';
+      if (n) rows.push(`<tr><td>${n}</td><td>${p}</td><td>${s}</td><td>${p && s ? p*s + '/9' : '—'}</td><td>${a === 'yes' ? 'S\u00ec' : a === 'no' ? 'No' : '—'}</td></tr>`);
     });
-    return rows;
+    return rows.join('');
   }
 
-  const dataItems = tableRows('tbl_data_items', ['item', 'explanation', 'special']);
-  const purposes = tableRows('tbl_purposes', ['purpose', 'data_involved']);
-  const processors = tableRows('tbl_processors', ['name', 'tasks']);
-  const legalBasis = tableRows('tbl_legal_basis', ['purpose', 'basis', 'justification']);
-  const addMeasures = tableRows('tbl_add_measures', ['measure', 'mitigated', 'effectiveness', 'status']);
-
-  // Collect inherent risks
-  const inherentRisks = [];
-  document.querySelectorAll('#inherent-risk-container .risk-item').forEach(item => {
-    const name = (item.querySelector('[data-field="name"]') || {}).value || '';
-    const l = (item.querySelector('[data-field="likelihood"]') || {}).value || '';
-    const s = (item.querySelector('[data-field="severity"]') || {}).value || '';
-    const acceptable = (item.querySelector('[data-field="acceptable"]') || {}).value || '';
-    if (name) inherentRisks.push({ name, likelihood: l, severity: s, score: l && s ? l * s : '', acceptable });
+  const measures = [];
+  document.querySelectorAll('#tbl_measures tbody tr').forEach(tr => {
+    const m = tr.querySelector('[data-f="measure"]').value;
+    const st = tr.querySelector('[data-f="status"]').value;
+    if (m) measures.push(`<li>${m} (${st === 'done' ? 'implementata' : st === 'partial' ? 'parziale' : 'pianificata'})</li>`);
   });
 
-  // Collect residual risks
-  const residualRisks = [];
-  document.querySelectorAll('#residual-risk-container .risk-item').forEach(item => {
-    const name = (item.querySelector('[data-field="name"]') || {}).value || '';
-    const l = (item.querySelector('[data-field="likelihood"]') || {}).value || '';
-    const s = (item.querySelector('[data-field="severity"]') || {}).value || '';
-    const measures = (item.querySelector('[data-field="measures_applied"]') || {}).value || '';
-    const acceptable = (item.querySelector('[data-field="acceptable"]') || {}).value || '';
-    if (name) residualRisks.push({ name, likelihood: l, severity: s, score: l && s ? l * s : '', measures, acceptable });
-  });
-
-  const decisionLabel = { rejected: 'RESPINTO', consultation: 'CONSULTAZIONE PREVENTIVA', approved: 'APPROVATO', conditional: 'APPROVATO CON CONDIZIONI' };
+  const dl = { rejected: 'RESPINTO', consultation: 'CONSULTAZIONE PREVENTIVA', approved: 'APPROVATO', conditional: 'APPROVATO CON CONDIZIONI' };
 
   document.getElementById('report-content').innerHTML = `
-    <h2>DPIA \u2014 Valutazione d'Impatto sulla Protezione dei Dati<br><small style="font-size:0.7em; font-weight:400">Template EDPB 2026 \u2014 Art. 35 Reg. (UE) 2016/679</small></h2>
-    <div class="report-meta">
-      Data di redazione: ${today} &nbsp;&middot;&nbsp; Generato da DPIA Template EDPB<br>
-      Stato: <strong>Bozza \u2014 da revisionare e validare dal titolare e dal DPO</strong>
-    </div>
+    <h2>DPIA — Template EDPB 2026<br><small style="font-size:0.7em; font-weight:400">Art. 35 Reg. (UE) 2016/679</small></h2>
+    <div style="font-size:0.78rem; color:var(--text-muted); margin-bottom:20px;">Data: ${today} · Bozza didattica — da revisionare e validare</div>
 
-    <h3>0. Panoramica del Trattamento</h3>
-    <p><strong>Titolare:</strong> ${val('ctrl_name')}</p>
-    <p><strong>DPO:</strong> ${val('ctrl_dpo')}</p>
-    <p><strong>Nome del trattamento:</strong> ${val('proc_name')}</p>
-    ${processors.length ? `<p><strong>Responsabili:</strong></p><ul>${processors.map(p => `<li>${p.name} \u2014 ${p.tasks}</li>`).join('')}</ul>` : ''}
+    <h3>1. Panoramica</h3>
+    <p><strong>Titolare:</strong> ${v('ctrl_name')}</p>
+    <p><strong>DPO:</strong> ${v('ctrl_dpo') || 'Non indicato'}</p>
+    <p><strong>Trattamento:</strong> ${v('proc_name')}</p>
 
-    <h3>1. Descrizione Sistematica</h3>
-    ${dataItems.length ? `<p><strong>Dati personali trattati:</strong></p><table><thead><tr><th>Dato</th><th>Spiegazione</th><th>Cat. particolare</th></tr></thead><tbody>${dataItems.map(d => `<tr><td>${d.item}</td><td>${d.explanation}</td><td>${d.special !== 'no' ? d.special : 'No'}</td></tr>`).join('')}</tbody></table>` : ''}
-    ${purposes.length ? `<p><strong>Finalit\u00e0:</strong></p><ul>${purposes.map(p => `<li>${p.purpose} \u2014 ${p.data_involved}</li>`).join('')}</ul>` : ''}
-    <p><strong>Natura:</strong> ${val('proc_nature')}</p>
-    <p><strong>Ambito:</strong> ${val('proc_scope')}</p>
-    <p><strong>Contesto:</strong> ${val('proc_context')}</p>
-
-    <h3>2. Analisi del Trattamento</h3>
-    ${legalBasis.length ? `<p><strong>Base giuridica:</strong></p><ul>${legalBasis.map(l => `<li>Art. 6(1)(${l.basis}) per: ${l.purpose} \u2014 ${l.justification}</li>`).join('')}</ul>` : ''}
+    <h3>2. Descrizione del Trattamento</h3>
+    ${dataRows.length ? `<table><thead><tr><th>Dato</th><th>Spiegazione</th><th>Art. 9</th></tr></thead><tbody>${dataRows.join('')}</tbody></table>` : ''}
+    <p><strong>Finalit\u00e0:</strong> ${v('purposes')}</p>
+    <p><strong>Contesto:</strong> ${v('context')}</p>
+    <p><strong>Base giuridica:</strong> Art. 6(1)(${v('legal_basis')}) — ${v('legal_justification')}</p>
 
     <h3>3. Necessit\u00e0 e Proporzionalit\u00e0</h3>
-    <p><strong>Necessit\u00e0:</strong> ${val('necessity_assessment')}</p>
-    <p><strong>Proporzionalit\u00e0:</strong> ${val('proportionality_assessment')}</p>
+    <p><strong>Necessit\u00e0:</strong> ${v('necessity')}</p>
+    <p><strong>Proporzionalit\u00e0:</strong> ${v('proportionality')}</p>
+    <p><strong>Misure di conformit\u00e0:</strong> ${v('compliance_measures')}</p>
 
-    <h3>4. Valutazione dei Rischi</h3>
-    ${inherentRisks.length ? `<p><strong>Rischio inerente:</strong></p><table><thead><tr><th>Rischio</th><th>P</th><th>G</th><th>Score</th><th>Accettabile?</th></tr></thead><tbody>${inherentRisks.map(r => `<tr><td>${r.name}</td><td>${r.likelihood}</td><td>${r.severity}</td><td>${r.score}/9</td><td>${r.acceptable === 'yes' ? 'S\u00ec' : r.acceptable === 'no' ? 'No' : '\u2014'}</td></tr>`).join('')}</tbody></table>` : ''}
-    ${addMeasures.length ? `<p><strong>Misure aggiuntive:</strong></p><ul>${addMeasures.map(m => `<li>${m.measure} (${m.status}) \u2014 ${m.effectiveness}</li>`).join('')}</ul>` : ''}
-    ${residualRisks.length ? `<p><strong>Rischio residuo:</strong></p><table><thead><tr><th>Rischio</th><th>P</th><th>G</th><th>Score</th><th>Accettabile?</th></tr></thead><tbody>${residualRisks.map(r => `<tr><td>${r.name}</td><td>${r.likelihood}</td><td>${r.severity}</td><td>${r.score}/9</td><td>${r.acceptable === 'yes' ? 'S\u00ec' : r.acceptable === 'no' ? 'No' : '\u2014'}</td></tr>`).join('')}</tbody></table>` : ''}
+    <h3>4. Rischi e Misure</h3>
+    <p><strong>Rischio inerente:</strong></p>
+    ${collectRisks('inherent-risks') ? `<table><thead><tr><th>Rischio</th><th>P</th><th>G</th><th>Score</th><th>Accettabile</th></tr></thead><tbody>${collectRisks('inherent-risks')}</tbody></table>` : '<p>Non compilato</p>'}
+    ${measures.length ? `<p><strong>Misure aggiuntive:</strong></p><ul>${measures.join('')}</ul>` : ''}
+    <p><strong>Rischio residuo:</strong></p>
+    ${collectRisks('residual-risks') ? `<table><thead><tr><th>Rischio</th><th>P</th><th>G</th><th>Score</th><th>Accettabile</th></tr></thead><tbody>${collectRisks('residual-risks')}</tbody></table>` : '<p>Non compilato</p>'}
 
-    <h3>5. Coinvolgimento Parti Interessate</h3>
-    <p><strong>Parere DPO:</strong> ${val('dpo_advice')}</p>
-    <p><strong>Opinione interessati:</strong> ${val('subjects_views')}</p>
+    <h3>5. Conclusione</h3>
+    <p><strong>DPO:</strong> ${v('dpo_advice') || 'Non indicato'}</p>
+    <p><strong>Interessati:</strong> ${v('subjects_views') || 'Non indicato'}</p>
+    <p><strong>Decisione: ${state.decision ? dl[state.decision] : 'Non presa'}</strong></p>
+    <p>${v('decision_justification')}</p>
 
-    <h3>6. Conclusione e Decisione</h3>
-    <p><strong>Decisione: ${state.decision ? decisionLabel[state.decision] : 'Non presa'}</strong></p>
-    <p>${val('decision_justification')}</p>
-
-    <div class="report-disclaimer">
-      Il presente documento \u00e8 una bozza generata automaticamente dal template DPIA EDPB 2026 a fini didattici. Deve essere revisionata e validata dal titolare del trattamento e dal DPO. Non costituisce consulenza legale. Clinica Legale AI & DPIA.
+    <div style="font-size:0.75rem; color:var(--text-muted); border-top:1px solid var(--border); padding-top:16px; margin-top:24px; font-style:italic;">
+      Bozza generata da DPIA Path a fini didattici. Da revisionare e validare dal titolare e dal DPO. Non costituisce consulenza legale. Clinica Legale AI & DPIA.
     </div>`;
-  rs.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  rs.scrollIntoView({ behavior: 'smooth' });
 }
 
 // ===== AUTOSAVE =====
-const SAVE_KEY = 'dpia_edpb_form_state';
-
-function wireAutoSave(container) {
-  container.querySelectorAll('input, textarea, select').forEach(el => {
-    el.addEventListener('input', () => { updateSidebar(); autoSave(); });
-    el.addEventListener('change', () => { updateSidebar(); autoSave(); });
+const SAVE_KEY = 'dpia_edpb_v2';
+function wireInputs(el) {
+  el.querySelectorAll('input,textarea,select').forEach(e => {
+    e.addEventListener('input', () => { updateSidebar(); autoSave(); });
+    e.addEventListener('change', () => { updateSidebar(); autoSave(); });
   });
 }
 
-function collectAllFields() {
-  const data = { current: state.current, decision: state.decision };
-  // Simple fields
-  const simpleIds = ['ctrl_name','ctrl_units','ctrl_contact','ctrl_dpo','proc_name','proc_version',
-    'plan_start','plan_end','dpia_version','dpia_team','dpia_refs','dpia_scope',
-    'dpia_completion_date','dpia_validation_date','dpia_publish_detail',
-    'reason_national_detail','reason_other_detail','reason_change_detail',
-    'proc_nature','proc_scope','proc_context','cross_border_detail','third_country_detail',
-    'necessity_assessment','proportionality_assessment','risk_method','action_plan',
-    'dpo_advice','dpo_implementation','subjects_views','subjects_participation',
-    'decision_justification','studente-name'];
-  data.fields = {};
-  simpleIds.forEach(id => {
+function collectAll() {
+  const d = { current: state.current, decision: state.decision, fields: {}, checks: {}, tables: {}, inherent: [], residual: [] };
+  ['ctrl_name','ctrl_dpo','proc_name','purposes','context','legal_basis','legal_justification','art9_exception','necessity','proportionality','compliance_measures','dpo_advice','subjects_views','decision_justification','conditions_text','studente-name'].forEach(id => {
     const el = document.getElementById(id);
-    if (el) data.fields[id] = el.value;
+    if (el) d.fields[id] = el.value;
   });
-  // Checkboxes
-  const checkIds = ['reason_35_3_a','reason_35_3_b','reason_35_3_c','reason_national',
-    'reason_edpb_1','reason_edpb_2','reason_edpb_3','reason_edpb_4','reason_edpb_5',
-    'reason_edpb_6','reason_edpb_7','reason_edpb_8','reason_edpb_9',
-    'reason_dpo_rec','reason_subjects_rec','reason_code','reason_other',
-    'reason_change_proc','reason_change_ctx','consult_high_risk','consult_national'];
-  data.checks = {};
-  checkIds.forEach(id => {
-    const el = document.getElementById(id);
-    if (el) data.checks[id] = el.checked;
-  });
-  // Radio groups
-  data.radios = {};
-  ['dpia_publish','cross_border','third_country','final_decision'].forEach(name => {
-    const sel = document.querySelector(`input[name="${name}"]:checked`);
-    data.radios[name] = sel ? sel.value : null;
-  });
-  // Dynamic tables
-  function collectTable(tableId, fields) {
+  ['r35a','r35b','r35c'].forEach(id => { d.checks[id] = document.getElementById(id).checked; });
+  d.checks.edpb = Array.from(document.querySelectorAll('.edpb-check')).map(e => e.checked);
+
+  function tblData(tblId, fields) {
     const rows = [];
-    document.querySelectorAll(`#${tableId} tbody tr`).forEach(tr => {
+    document.querySelectorAll(`#${tblId} tbody tr`).forEach(tr => {
       const row = {};
-      fields.forEach(f => {
-        const el = tr.querySelector(`[data-field="${f}"]`);
-        if (el) {
-          if (el.tagName === 'SELECT' && el.multiple) {
-            row[f] = Array.from(el.selectedOptions).map(o => o.value);
-          } else {
-            row[f] = el.value;
-          }
-        }
-      });
+      fields.forEach(f => { const el = tr.querySelector(`[data-f="${f}"]`); if (el) row[f] = el.value; });
       rows.push(row);
     });
     return rows;
   }
-  data.tables = {
-    processors: collectTable('tbl_processors', ['name','tasks']),
-    data_items: collectTable('tbl_data_items', ['item','explanation','special']),
-    purposes: collectTable('tbl_purposes', ['purpose','data_involved']),
-    secondary: collectTable('tbl_secondary', ['use','conditions']),
-    phases: collectTable('tbl_phases', ['phase','ops','explanation']),
-    means: collectTable('tbl_means', ['phase','means','explanation']),
-    codes: collectTable('tbl_codes', ['code','explanation']),
-    legal_basis: collectTable('tbl_legal_basis', ['purpose','basis','justification']),
-    art9: collectTable('tbl_art9', ['data','exception','justification']),
-    minimisation: collectTable('tbl_minimisation', ['data','justification','recipients','retention','ret_just']),
-    quality: collectTable('tbl_quality', ['data','metrics','justification']),
-    impacts: collectTable('tbl_impacts', ['threat','sources','impact']),
-    threats: collectTable('tbl_threats', ['threat','how','sources','impact']),
-    add_measures: collectTable('tbl_add_measures', ['measure','mitigated','effectiveness','status']),
-    conditions: collectTable('tbl_conditions', ['condition'])
-  };
-  // Inherent risks
-  data.inherentRisks = [];
-  document.querySelectorAll('#inherent-risk-container .risk-item').forEach(item => {
-    const row = {};
-    item.querySelectorAll('[data-field]').forEach(el => { row[el.dataset.field] = el.value; });
-    data.inherentRisks.push(row);
-  });
-  // Residual risks
-  data.residualRisks = [];
-  document.querySelectorAll('#residual-risk-container .risk-item').forEach(item => {
-    const row = {};
-    item.querySelectorAll('[data-field]').forEach(el => { row[el.dataset.field] = el.value; });
-    data.residualRisks.push(row);
-  });
-  // Compliance sections
-  data.compliance = {};
-  document.querySelectorAll('.compliance-row').forEach(row => {
-    const textareas = row.querySelectorAll('textarea');
-    const radio = row.querySelector('input[type="radio"]:checked');
-    textareas.forEach(ta => { if (ta.id) data.compliance[ta.id] = ta.value; });
-    if (radio) data.compliance[radio.name] = radio.value;
-  });
-  return data;
+  d.tables.data = tblData('tbl_data', ['item','expl','special']);
+  d.tables.measures = tblData('tbl_measures', ['measure','risks','status']);
+
+  function collectRiskCards(containerId) {
+    const items = [];
+    document.querySelectorAll(`#${containerId} .risk-item`).forEach(item => {
+      const row = {};
+      item.querySelectorAll('[data-f]').forEach(el => { row[el.dataset.f] = el.value; });
+      items.push(row);
+    });
+    return items;
+  }
+  d.inherent = collectRiskCards('inherent-risks');
+  d.residual = collectRiskCards('residual-risks');
+  return d;
 }
 
-function autoSave() {
-  try { localStorage.setItem(SAVE_KEY, JSON.stringify(collectAllFields())); } catch (e) {}
-}
+function autoSave() { try { localStorage.setItem(SAVE_KEY, JSON.stringify(collectAll())); } catch(e) {} }
 
 function autoRestore() {
-  let saved;
-  try { saved = JSON.parse(localStorage.getItem(SAVE_KEY)); } catch (e) { return; }
-  if (!saved) return;
-  // Simple fields
-  if (saved.fields) {
-    Object.entries(saved.fields).forEach(([id, val]) => {
-      const el = document.getElementById(id);
-      if (el && val) el.value = val;
-    });
+  let s; try { s = JSON.parse(localStorage.getItem(SAVE_KEY)); } catch(e) { return; } if (!s) return;
+  if (s.fields) Object.entries(s.fields).forEach(([id, val]) => { const el = document.getElementById(id); if (el && val) el.value = val; });
+  if (s.checks) {
+    ['r35a','r35b','r35c'].forEach(id => { if (s.checks[id]) document.getElementById(id).checked = true; });
+    if (s.checks.edpb) { const els = document.querySelectorAll('.edpb-check'); s.checks.edpb.forEach((v, i) => { if (els[i]) els[i].checked = v; }); }
   }
-  // Checkboxes
-  if (saved.checks) {
-    Object.entries(saved.checks).forEach(([id, checked]) => {
-      const el = document.getElementById(id);
-      if (el) el.checked = checked;
-    });
+  if (s.tables) {
+    if (s.tables.data) s.tables.data.forEach(r => addDataRow(r));
+    if (s.tables.measures) s.tables.measures.forEach(r => addMeasureRow(r));
   }
-  // Radios
-  if (saved.radios) {
-    Object.entries(saved.radios).forEach(([name, val]) => {
-      if (val) {
-        const el = document.querySelector(`input[name="${name}"][value="${val}"]`);
-        if (el) el.checked = true;
-      }
-    });
-  }
-  // Tables
-  if (saved.tables) {
-    const tableMap = {
-      processors: addProcessorRow,
-      data_items: addDataItemRow,
-      purposes: addPurposeRow,
-      secondary: addSecondaryRow,
-      phases: addPhaseRow,
-      means: addMeansRow,
-      codes: addCodeRow,
-      legal_basis: addLegalBasisRow,
-      art9: addArt9Row,
-      minimisation: addMinimisationRow,
-      quality: addQualityRow,
-      impacts: addImpactRow,
-      threats: addThreatRow,
-      add_measures: addAdditionalMeasureRow,
-      conditions: addConditionRow
-    };
-    Object.entries(saved.tables).forEach(([key, rows]) => {
-      const fn = tableMap[key];
-      if (fn && rows) rows.forEach(row => fn(row));
-    });
-  }
-  // Inherent risks
-  if (saved.inherentRisks) saved.inherentRisks.forEach(r => addInherentRiskRow(r));
-  // Residual risks
-  if (saved.residualRisks) saved.residualRisks.forEach(r => addResidualRiskRow(r));
-  // Compliance
-  if (saved.compliance) {
-    Object.entries(saved.compliance).forEach(([key, val]) => {
-      const el = document.getElementById(key);
-      if (el) { el.value = val; return; }
-      const radio = document.querySelector(`input[name="${key}"][value="${val}"]`);
-      if (radio) radio.checked = true;
-    });
-  }
-  // Decision
-  if (saved.decision) selectDecision(saved.decision);
-  // Navigate
-  if (saved.current && saved.current > 0) goTo(saved.current);
-  computePrecheck();
-  computeRiskAggregate();
-  updateSidebar();
+  if (s.inherent) s.inherent.forEach(r => addRisk('inherent', r));
+  if (s.residual) s.residual.forEach(r => addRisk('residual', r));
+  if (s.decision) selectDecision(s.decision);
+  if (s.current > 0) goTo(s.current);
+  computePrecheck(); computeAggregate(); updateSidebar();
 }
 
-// ===== SEND TO DASHBOARD =====
+// ===== SEND =====
 function sendToDocente() {
   const fb = document.getElementById('send-feedback');
-  const nameInput = document.getElementById('studente-name');
-  if (!nameInput.value.trim()) {
-    fb.style.display = 'block';
-    fb.innerHTML = '<span style="color:var(--red)">Inserisci il tuo nome o gruppo prima di inviare.</span>';
-    nameInput.focus();
-    return;
-  }
-  const data = collectAllFields();
-  data.id = 'sub-' + Date.now() + '-' + Math.random().toString(36).substr(2, 5);
-  data.studente = nameInput.value;
-  data.timestamp = new Date().toISOString();
-  data.finalDecision = state.decision || 'non_presa';
+  const name = document.getElementById('studente-name');
+  if (!name.value.trim()) { fb.style.display = 'block'; fb.innerHTML = '<span style="color:var(--red)">Inserisci il tuo nome prima di inviare.</span>'; name.focus(); return; }
+  const data = collectAll();
+  data.id = 'sub-' + Date.now(); data.studente = name.value; data.timestamp = new Date().toISOString();
   const url = DPIA_CONFIG.APPS_SCRIPT_URL;
-  if (!url) {
-    fb.style.display = 'block';
-    fb.innerHTML = '<span style="color:var(--red)">URL del server non configurato.</span>';
-    return;
-  }
-  fb.style.display = 'block';
-  fb.innerHTML = '<span style="color:var(--primary)">&#9203; Invio in corso...</span>';
+  if (!url) { fb.style.display = 'block'; fb.innerHTML = '<span style="color:var(--red)">URL non configurato.</span>'; return; }
+  fb.style.display = 'block'; fb.innerHTML = '<span style="color:var(--primary)">&#9203; Invio...</span>';
   try {
-    const iframeName = 'dpia_submit_' + Date.now();
-    const iframe = document.createElement('iframe');
-    iframe.name = iframeName;
-    iframe.style.display = 'none';
-    document.body.appendChild(iframe);
-    const form = document.createElement('form');
-    form.method = 'POST';
-    form.action = url;
-    form.target = iframeName;
-    form.style.display = 'none';
-    const input = document.createElement('input');
-    input.type = 'hidden';
-    input.name = 'payload';
-    input.value = JSON.stringify(data);
-    form.appendChild(input);
-    document.body.appendChild(form);
-    form.submit();
-    setTimeout(() => {
-      fb.innerHTML = '<span style="color:var(--green)">&#10004; <strong>Report inviato con successo!</strong></span>';
-      try { document.body.removeChild(iframe); } catch (e) {}
-      try { document.body.removeChild(form); } catch (e) {}
-    }, 3000);
-  } catch (e) {
-    fb.innerHTML = '<span style="color:var(--red)">Errore: ' + e.message + '</span>';
-  }
+    const ifr = document.createElement('iframe'); ifr.name = 'f' + Date.now(); ifr.style.display = 'none'; document.body.appendChild(ifr);
+    const form = document.createElement('form'); form.method = 'POST'; form.action = url; form.target = ifr.name; form.style.display = 'none';
+    const inp = document.createElement('input'); inp.type = 'hidden'; inp.name = 'payload'; inp.value = JSON.stringify(data);
+    form.appendChild(inp); document.body.appendChild(form); form.submit();
+    setTimeout(() => { fb.innerHTML = '<span style="color:var(--green)">&#10004; <strong>Inviato!</strong></span>'; try { document.body.removeChild(ifr); document.body.removeChild(form); } catch(e){} }, 3000);
+  } catch(e) { fb.innerHTML = '<span style="color:var(--red)">Errore: ' + e.message + '</span>'; }
 }
 
 // ===== INIT =====
 window.addEventListener('DOMContentLoaded', () => {
-  initComplianceSections();
-  initLegalBasis();
-  initArt9();
-  wirePrecheck();
-  // Wire autosave on all static fields
   document.querySelectorAll('#content input, #content textarea, #content select').forEach(el => {
     el.addEventListener('input', () => { updateSidebar(); autoSave(); });
     el.addEventListener('change', () => { updateSidebar(); autoSave(); });
   });
-  autoRestore();
-  updateSidebar();
+  autoRestore(); updateSidebar();
 });
 </script>
-
 </body>
 </html>
